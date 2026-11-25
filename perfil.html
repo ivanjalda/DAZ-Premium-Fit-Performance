@@ -34,6 +34,36 @@
       border-radius: 6px;
       font-size: 0.95rem;
     }
+    .auth-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .auth-tab {
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .auth-tab.active {
+      border-color: var(--border-gold);
+      color: #fff;
+      background: #131824;
+    }
+    .auth-box {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .auth-status {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
     .preview-box {
       background: #07090d;
       border: 1px solid var(--border-gold);
@@ -54,13 +84,47 @@
 <section class="daz-page-banner">
   <span class="kicker" data-i18n="profile_kicker">ÁREA DE ATLETA • CUENTA PERSONAL Y AUTOMATIZACIÓN</span>
   <h1 data-i18n="profile_title">Mi Perfil & Entrenamiento Diario en Telegram</h1>
-  <p data-i18n="profile_sub">Configura tus datos biométricos, elige tu división de entrenamiento e idioma (Español o English USA) y recibe cada mañana tu sesión exacta con series y tiempos de descanso.</p>
+  <p data-i18n="profile_sub">Crea tu cuenta con usuario/correo y contraseña o entra con Google, configura tus datos biométricos y recibe cada mañana tu sesión exacta con series y descansos.</p>
 </section>
 
 <main class="daz-container">
   <div class="profile-grid">
-    <!-- FORMULARIO DE CUENTA PERSONAL -->
+    <!-- FORMULARIO DE ACCESO/REGISTRO + CUENTA PERSONAL -->
     <div class="card">
+      <!-- UNIDAD DE ACCESO / REGISTRO (USUARIO-CONTRASEÑA + GOOGLE) -->
+      <div class="auth-box">
+        <span class="tag" data-i18n="auth_tag">ACCESO Y REGISTRO DE CUENTA</span>
+        <h3 style="margin-bottom:12px;" data-i18n="auth_h3">Usuario / Contraseña o Google</h3>
+
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" id="tab-register" onclick="switchAuthMode('register')" data-i18n="tab_register">Crear Cuenta</button>
+          <button type="button" class="auth-tab" id="tab-login" onclick="switchAuthMode('login')" data-i18n="tab_login">Iniciar Sesión</button>
+        </div>
+
+        <div class="form-grid" style="margin-bottom:12px;">
+          <div class="field" id="field-username">
+            <label data-i18n="lbl_username">Usuario / Handle</label>
+            <input type="text" id="auth-username" placeholder="Ej. atleta_daz" />
+          </div>
+          <div class="field">
+            <label data-i18n="lbl_email">Correo Electrónico / Email</label>
+            <input type="email" id="auth-email" placeholder="atleta@ejemplo.com" />
+          </div>
+          <div class="field">
+            <label data-i18n="lbl_password">Contraseña / Password</label>
+            <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" />
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" class="btn-primary" id="btn-auth-submit" onclick="handleEmailAuth()" data-i18n="btn_create_account">Crear Cuenta</button>
+          <button type="button" class="btn-outline" onclick="handleGoogleAuth()" data-i18n="btn_google_auth">Continuar con Google</button>
+          <button type="button" class="btn-outline" id="btn-logout" onclick="handleLogout()" style="display:none;" data-i18n="btn_logout">Cerrar Sesión</button>
+        </div>
+        <p id="auth-feedback" class="auth-status"></p>
+      </div>
+
+      <!-- FICHA DE BIOMETRÍA Y PROGRAMA -->
       <span class="tag" data-i18n="profile_card_tag">FICHA PERSONAL DEL ATLETA</span>
       <h3 style="margin-bottom:16px;" data-i18n="profile_card_h3">Datos Biométricos & Suscripción</h3>
 
@@ -110,7 +174,7 @@
       </div>
 
       <div style="display:flex; gap:12px; flex-wrap:wrap;">
-        <button class="btn-primary" onclick="saveUserProfile()" data-i18n="btn_save_profile">Guardar en Mi Cuenta</button>
+        <button type="button" class="btn-primary" onclick="saveUserProfile()" data-i18n="btn_save_profile">Guardar en Mi Cuenta</button>
         <a id="tg-bot-link" href="#" target="_blank" rel="noopener" class="btn-outline" style="padding:13px 20px;" data-i18n="btn_activate_tg">
           Activar Entrenamientos Diarios en Telegram ↗
         </a>
@@ -138,11 +202,126 @@
 </main>
 
 <script src="nav.js"></script>
-<script>
-  // Configura aquí el usuario de tu Bot de Telegram (creado en @BotFather)
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    signOut,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+  // 1. Sustituye estos valores por los de tu proyecto Firebase
+  const firebaseConfig = {
+    apiKey: "TU_FIREBASE_API_KEY",
+    authDomain: "TU_PROYECTO.firebaseapp.com",
+    projectId: "TU_PROYECTO",
+    storageBucket: "TU_PROYECTO.appspot.com",
+    messagingSenderId: "TU_SENDER_ID",
+    appId: "TU_APP_ID"
+  };
+
+  // 2. Usuario exacto de tu bot en Telegram (sin @)
   const TELEGRAM_BOT_USERNAME = "DAZPerformanceBot";
 
-  function loadUserProfile() {
+  const firebaseConfigured = !firebaseConfig.apiKey.startsWith("TU_");
+  let auth = null;
+  let googleProvider = null;
+  let authMode = "register";
+
+  if (firebaseConfigured) {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
+  }
+
+  function setAuthMessage(msg, isError = false) {
+    const el = document.getElementById("auth-feedback");
+    el.textContent = msg;
+    el.style.color = isError ? "#f87171" : "var(--green)";
+  }
+
+  window.switchAuthMode = function (mode) {
+    authMode = mode;
+    const isReg = mode === "register";
+    document.getElementById("tab-register").classList.toggle("active", isReg);
+    document.getElementById("tab-login").classList.toggle("active", !isReg);
+    document.getElementById("field-username").style.display = isReg ? "block" : "none";
+    document.getElementById("btn-auth-submit").textContent = isReg ? "Crear Cuenta" : "Iniciar Sesión";
+  };
+
+  window.handleEmailAuth = async function () {
+    const username = document.getElementById("auth-username").value.trim();
+    const email = document.getElementById("auth-email").value.trim();
+    const password = document.getElementById("auth-password").value;
+
+    if (!email || !password) {
+      setAuthMessage("Introduce correo electrónico y contraseña.", true);
+      return;
+    }
+
+    if (!firebaseConfigured || !auth) {
+      const localAccount = { username: username || email.split("@")[0], email, provider: "local" };
+      localStorage.setItem("daz_auth_session", JSON.stringify(localAccount));
+      if (!document.getElementById("u-name").value && localAccount.username) {
+        document.getElementById("u-name").value = localAccount.username;
+      }
+      document.getElementById("btn-logout").style.display = "inline-block";
+      setAuthMessage(`Sesión local iniciada como ${localAccount.username} (configura firebaseConfig para activar Firebase real).`);
+      return;
+    }
+
+    try {
+      if (authMode === "register") {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        if (username) {
+          await updateProfile(cred.user, { displayName: username });
+          document.getElementById("u-name").value = username;
+        }
+        setAuthMessage(`Cuenta creada para ${username || cred.user.email}.`);
+      } else {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        if (cred.user.displayName && !document.getElementById("u-name").value) {
+          document.getElementById("u-name").value = cred.user.displayName;
+        }
+        setAuthMessage(`Sesión iniciada como ${cred.user.displayName || cred.user.email}.`);
+      }
+    } catch (err) {
+      setAuthMessage(err.message || "Error al autenticar.", true);
+    }
+  };
+
+  window.handleGoogleAuth = async function () {
+    if (!firebaseConfigured || !auth || !googleProvider) {
+      setAuthMessage("Añade primero tu firebaseConfig real para habilitar el acceso con Google.", true);
+      return;
+    }
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      if (user.displayName) {
+        document.getElementById("u-name").value = user.displayName;
+      }
+      setAuthMessage(`Conectado con Google: ${user.displayName || user.email}.`);
+    } catch (err) {
+      setAuthMessage(err.message || "Error al iniciar sesión con Google.", true);
+    }
+  };
+
+  window.handleLogout = async function () {
+    localStorage.removeItem("daz_auth_session");
+    if (firebaseConfigured && auth) {
+      await signOut(auth);
+    }
+    document.getElementById("btn-logout").style.display = "none";
+    setAuthMessage("Sesión cerrada.");
+  };
+
+  window.loadUserProfile = function () {
     const saved = JSON.parse(localStorage.getItem("daz_athlete_profile") || "null");
     const globalLang = localStorage.getItem("daz_lang") || "es";
 
@@ -158,9 +337,9 @@
       document.getElementById("u-lang").value = globalLang;
     }
     updateTelegramLinks();
-  }
+  };
 
-  function saveUserProfile() {
+  window.saveUserProfile = function () {
     const profile = {
       name: document.getElementById("u-name").value.trim() || "Atleta DAZ",
       lang: document.getElementById("u-lang").value,
@@ -179,15 +358,14 @@
       ? "✓ Profile saved. Click 'Activate Daily Workouts on Telegram' to sync your morning schedule."
       : "✓ Perfil guardado en tu cuenta. Pulsa 'Activar Entrenamientos Diarios en Telegram' para sincronizar tus envíos matinales.";
     updateTelegramLinks();
-  }
+  };
 
-  function updateTelegramLinks() {
+  window.updateTelegramLinks = function () {
     const lang = document.getElementById("u-lang").value;
     const split = document.getElementById("u-split").value;
     const weight = document.getElementById("u-weight").value || 88;
     const goal = document.getElementById("u-goal").value;
 
-    // Deep-link directo al bot con parámetros codificados: lang_split_weight_goal
     const startPayload = `${lang}_${split}_${weight}_${goal}`;
     document.getElementById("tg-bot-link").href = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${startPayload}`;
 
@@ -200,15 +378,15 @@
 ⏱️ Estimated Duration: 58 min
 
 1️⃣ Incline Dumbbell Press (30°)
-   • Sets: 4 x 8-10 reps | Rest: 120s between sets
+- Sets: 4 x 8-10 reps | Rest: 120s between sets
 2️⃣ Flat Barbell Bench Press
-   • Sets: 4 x 6-8 reps | Rest: 150s between sets
+- Sets: 4 x 6-8 reps | Rest: 150s between sets
 3️⃣ Cable Lateral Raises
-   • Sets: 4 x 12-15 reps | Rest: 60s between sets
+- Sets: 4 x 12-15 reps | Rest: 60s between sets
 4️⃣ High-to-Low Cable Flyes
-   • Sets: 3 x 12-15 reps | Rest: 75s between sets
+- Sets: 3 x 12-15 reps | Rest: 75s between sets
 5️⃣ Overhead Cable Triceps Extension
-   • Sets: 4 x 10-12 reps | Rest: 75s between sets
+- Sets: 4 x 10-12 reps | Rest: 75s between sets
 
 💊 Daily Creatine (${(weight * 0.1).toFixed(1)}g) + Whey Isolate
 🛒 Gear & Supplements: dazpremiumfit.com`;
@@ -220,19 +398,34 @@
 ⏱️ Duración Estimada: 58 min
 
 1️⃣ Press Inclinado con Mancuernas (30°)
-   • Series: 4 x 8-10 reps | Descanso: 120s entre series
+- Series: 4 x 8-10 reps | Descanso: 120s entre series
 2️⃣ Press Banca Plano con Barra
-   • Series: 4 x 6-8 reps | Descanso: 150s entre series
+- Series: 4 x 6-8 reps | Descanso: 150s entre series
 3️⃣ Elevaciones Laterales en Polea
-   • Series: 4 x 12-15 reps | Descanso: 60s entre series
+- Series: 4 x 12-15 reps | Descanso: 60s entre series
 4️⃣ Cruces en Polea Alta a Baja
-   • Series: 3 x 12-15 reps | Descanso: 75s entre series
+- Series: 3 x 12-15 reps | Descanso: 75s entre series
 5️⃣ Extensión de Tríceps en Polea Alta
-   • Series: 4 x 10-12 reps | Descanso: 75s entre series
+- Series: 4 x 10-12 reps | Descanso: 75s entre series
 
 💊 Dosis Creatina hoy (${(weight * 0.1).toFixed(1)}g) + Whey Isolate
 🛒 Equipamiento y Suplementos: dazpremiumfit.com`;
     }
+  };
+
+  if (firebaseConfigured && auth) {
+    onAuthStateChanged(auth, (user) => {
+      const logoutBtn = document.getElementById("btn-logout");
+      if (user) {
+        logoutBtn.style.display = "inline-block";
+        if (user.displayName && !document.getElementById("u-name").value) {
+          document.getElementById("u-name").value = user.displayName;
+        }
+        setAuthMessage(`Cuenta activa: ${user.displayName || user.email}`);
+      } else {
+        logoutBtn.style.display = "none";
+      }
+    });
   }
 
   loadUserProfile();
