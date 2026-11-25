@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciencia, Investigación & Blog | DAZ Premium Fit Performance</title>
+</head>
+<body>
+
+<section class="daz-page-banner">
+  <span class="kicker">MÓDULO 04 • DIVULGACIÓN CIENTÍFICA DIARIA</span>
+  <h1>Bitácora de Hipertrofia, Fisiología & Rendimiento</h1>
+  <p>Artículos técnicos, revisiones de estudios clínicos y protocolos avanzados actualizados diariamente por el motor autónomo de DAZ Premium Fit Performance.</p>
+</section>
+
+<main class="daz-container">
+  <div class="grid-2" id="ciencia-posts-grid"></div>
+</main>
+
+<script src="nav.js"></script>
+<script>
+  fetch("data/blog_posts.json")
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById("ciencia-posts-grid").innerHTML = data.posts.map(p => `
+        <article class="card">
+          <span class="tag">${p.category} • ${p.date} • ${p.read_time}</span>
+          <h3 style="font-size:1.3rem; margin-bottom:10px;">${p.title}</h3>
+          <p style="font-size:0.95rem; color:var(--gold); margin-bottom:10px;">${p.summary}</p>
+          <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">${p.content}</p>
+        </article>
+      `).join("");
+    });
+</script>
+</body>
+</html>
