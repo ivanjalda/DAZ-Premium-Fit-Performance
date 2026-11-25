@@ -1,10 +1,10 @@
 {
-  "fecha_utc": "2026-11-25 19:56 UTC",
+  "fecha_utc": "2026-11-25 19:59 UTC",
   "estado": "OK",
   "archivos_verificados": 5,
   "paginas_verificadas": 6,
   "cambios_detectados": [
-    "entrenamiento.html"
+    "nutricion.html"
   ],
   "errores": []
 }
