@@ -19,77 +19,14 @@ def get_daily_index(total_items):
     return (today - epoch).days % total_items
 
 
-def build_nutrition_matrix():
+def ex(name, sets, rest, cue, steps, mistake):
     return {
-        "updated_at": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        "elite_foods": {
-            "proteins": [
-                {"name": "Pechuga de Pollo / Pavo", "macros_100g": "23g Prot | 0g Carb | 1.5g Grasa", "benefit": "Perfil completo de aminoácidos esenciales y máxima digestibilidad sin grasa saturada."},
-                {"name": "Ternera Magra (Solomillo / Babilla)", "macros_100g": "21g Prot | 0g Carb | 4g Grasa", "benefit": "Rica en hierro hemo, zinc, vitamina B12 y creatina natural endógena."},
-                {"name": "Huevos Enteros + Claras", "macros_100g": "13g Prot | 1g Carb | 10g Grasa", "benefit": "Valor biológico 100 (patrón oro); la yema aporta colina y colesterol precursor hormonal."},
-                {"name": "Salmón Salvaje / Caballa", "macros_100g": "20g Prot | 0g Carb | 13g Grasa", "benefit": "Fuente primaria de ácidos grasos Omega-3 (EPA/DHA) antiinflamatorios."},
-                {"name": "Pescado Blanco (Merluza / Bacalao)", "macros_100g": "18g Prot | 0g Carb | 0.8g Grasa", "benefit": "Digestión ultrarrápida y densidad calórica mínima, ideal en fases de definición."},
-                {"name": "Whey Protein Isolate", "macros_100g": "88g Prot | 1g Carb | 1g Grasa", "benefit": "Máxima concentración de L-Leucina para disparar la síntesis proteica post-entreno."}
-            ],
-            "carbs": [
-                {"name": "Arroz Basmati / Jazmín", "macros_100g": "7g Prot | 78g Carb | 0.6g Grasa", "benefit": "Almidón de fácil asimilación sin gluten; recarga glucógeno muscular sin pesadez."},
-                {"name": "Copos de Avena Integral", "macros_100g": "13g Prot | 60g Carb | 7g Grasa", "benefit": "Energía sostenida, betaglucanos cardiovasculares y control glucémico."},
-                {"name": "Patata / Boniato Asado", "macros_100g": "2g Prot | 20g Carb | 0.1g Grasa", "benefit": "Índice de saciedad altísimo y aporte masivo de potasio intracelular para bombeo."},
-                {"name": "Crema de Arroz (Cream of Rice)", "macros_100g": "6g Prot | 80g Carb | 0.5g Grasa", "benefit": "Digestión inmediata pre-entreno para rendir al 100% sin distensión abdominal."},
-                {"name": "Frutos Rojos (Arándanos / Fresas)", "macros_100g": "1g Prot | 10g Carb | 0.3g Grasa", "benefit": "Polifenoles y antioxidantes de bajo impacto glucémico."}
-            ],
-            "fats": [
-                {"name": "Aceite de Oliva Virgen Extra (AOVE)", "macros_100g": "0g Prot | 0g Carb | 100g Grasa", "benefit": "Ácido oleico monoinsaturado y polifenoles cardioprotectores."},
-                {"name": "Aguacate Hass", "macros_100g": "2g Prot | 8g Carb | 15g Grasa", "benefit": "Grasas monoinsaturadas, fibra prebiótica y potasio."},
-                {"name": "Nueces / Almendras Crudas", "macros_100g": "15g Prot | 14g Carb | 55g Grasa", "benefit": "Magnesio, vitamina E y ácidos grasos esenciales para el entorno hormonal."}
-            ]
-        },
-        "specialized_diets": [
-            {
-                "id": "keto",
-                "name": "Dieta Cetogénica (Keto Clínico / Rendimiento)",
-                "macros_split": "70% Grasas | 25% Proteínas | 5% Carbohidratos (<30g netos/día)",
-                "mechanism": "Agota el glucógeno hepático en 48-72h forzando la producción de cuerpos cetónicos (beta-hidroxibutirato) como combustible cerebral y muscular altamente eficiente.",
-                "rules": [
-                    "Mantener carbohidratos netos por debajo de 25-30g diarios (solo vegetales fibrosos verdes).",
-                    "Suplementar electrolitos obligatoriamente: 4-5g Sodio, 3-4g Potasio y 400mg Magnesio.",
-                    "Mejora la sensibilidad a la insulina, la claridad mental y el control del apetito."
-                ],
-                "sample_day": [
-                    "Desayuno: 4 Huevos enteros revueltos con 30g de aguacate y café solo con 10g de aceite MCT.",
-                    "Almuerzo: 220g Salmón a la plancha con espárragos trigueros y 15ml de AOVE.",
-                    "Cena: 220g Entrecot de ternera con ensalada de espinacas y 25g de nueces."
-                ]
-            },
-            {
-                "id": "carb_cycling",
-                "name": "Ciclado de Carbohidratos (Carb Cycling)",
-                "macros_split": "Días Altos (Pierna/Espalda) | Días Medios (Torso) | Días Bajos (Descanso)",
-                "mechanism": "Manipula insulina y leptina semanalmente: aporta glucosa máxima en días de alta demanda mecánica y maximiza la lipólisis en días de descanso.",
-                "rules": [
-                    "Días Altos: 4-5g Carbohidratos/kg peso | Grasas bajas (0.5g/kg).",
-                    "Días Bajos: 1-1.5g Carbohidratos/kg peso | Grasas moderadas (1g/kg).",
-                    "Proteína fija todos los días en 2.2 - 2.4g/kg de peso corporal."
-                ],
-                "sample_day": [
-                    "Día Alto: 350g Arroz cocido repartido pre y post entreno + 200g Pollo por comida.",
-                    "Día Bajo: Solo proteínas magras, verduras verdes, huevos enteros y aguacate."
-                ]
-            },
-            {
-                "id": "volumen_limpio",
-                "name": "Hipertrofia Controlada (Lean Bulk)",
-                "macros_split": "Superávit +350 kcal | Proteína 2.1g/kg | Grasas 0.85g/kg | Resto Carbos",
-                "mechanism": "Maximiza la señalización anabólica (mTOR) y la síntesis proteica manteniendo el porcentaje graso bajo control.",
-                "rules": [
-                    "Subida de peso objetivo: entre 0.25% y 0.5% del peso corporal por semana.",
-                    "Concentrar el 45% de los carbohidratos diarios peri-entreno."
-                ],
-                "sample_day": [
-                    "4 a 5 comidas sólidas + batido Whey Isolate post-entreno con Creatina."
-                ]
-            }
-        ]
+        "name": name,
+        "sets": sets,
+        "rest": rest,
+        "cue": cue,
+        "steps": steps,
+        "mistake": mistake
     }
 
 
@@ -97,125 +34,124 @@ def build_training_system():
     return {
         "updated_at": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
         "by_days": [
-            {
-                "days": "3 Días (Full Body Pesado)",
-                "level": "Intermedio / Agenda Exigente",
-                "schedule": "Lunes - Miércoles - Viernes",
-                "focus": "Tensión mecánica global y progresión de cargas en básicos multiarticulares.",
-                "sessions": [
-                    "Día 1: Sentadilla Barra (4x6), Press Banca Plano (4x6), Remo con Barra (4x8), Curl Barra Z (3x10)",
-                    "Día 2: Peso Muerto Rumano (4x8), Press Militar Barra (4x6), Jalón al Pecho (4x10), Fondos Lastrados (3x8)",
-                    "Día 3: Prensa 45° (4x10), Press Inclinado Mancuernas (4x8), Remo Polea Baja (4x10), Elevaciones Laterales (4x15)"
-                ]
-            },
-            {
-                "days": "4 Días (Torso / Pierna Potencia-Hipertrofia)",
-                "level": "Intermedio - Avanzado",
-                "schedule": "Lunes, Martes, Jueves, Viernes",
-                "focus": "Frecuencia 2 real por grupo muscular con recuperación neural óptima.",
-                "sessions": [
-                    "Día 1 (Torso Fuerza): Press Banca (4x5), Remo Pendlay (4x6), Press Militar (3x8), Dominadas (3x8)",
-                    "Día 2 (Pierna Fuerza): Sentadilla Libre (4x6), Peso Muerto Rumano (4x8), Prensa (3x10), Gemelo Pie (4x12)",
-                    "Día 3 (Torso Hipertrofia): Press Inclinado (4x10), Jalón Neutro (4x10), Elevaciones Laterales (4x15), Superserie Brazo (3x12)",
-                    "Día 4 (Pierna Hipertrofia): Sentadilla Hack (4x10), Hip Thrust (4x10), Curl Femoral Tumbado (4x12), Extensión Cuádriceps (3x15)"
-                ]
-            },
-            {
-                "days": "5 Días (PHAT / Híbrido Élite)",
-                "level": "Avanzado",
-                "schedule": "Lunes a Viernes (Sábado y Domingo Descanso)",
-                "focus": "Combina dos días de fuerza pesada con tres días de volumen metabólico y detalle muscular.",
-                "sessions": [
-                    "Día 1: Torso Pesado (Press Banca, Remo Barra, Press Hombro)",
-                    "Día 2: Pierna Pesada (Sentadilla, Peso Muerto Rumano, Gemelo)",
-                    "Día 3: Espalda y Hombros Hipertrofia (12-15 reps controladas)",
-                    "Día 4: Pierna y Glúteo Hipertrofia (Hack, Hip Thrust, Aislamientos)",
-                    "Día 5: Pecho y Brazos Bombo Máximo (Inclinado, Cruces, Bíceps/Tríceps)"
-                ]
-            },
-            {
-                "days": "6 Días (Push Pull Legs x2)",
-                "level": "Atleta Avanzado",
-                "schedule": "6 Días Activos / 1 Descanso Total",
-                "focus": "Máximo estímulo semanal repartido sin fatiga excesiva por sesión.",
-                "sessions": [
-                    "Lunes / Jueves (Push): Pecho, Deltoides Anterior/Lateral, Tríceps",
-                    "Martes / Viernes (Pull): Dorsal, Trapecio, Deltoides Posterior, Bíceps",
-                    "Miércoles / Sábado (Legs): Cuádriceps, Isquiosurales, Glúteo, Gemelo"
-                ]
-            }
+            {"days": "Rutina 01 • 3 Días Full Body Fuerza-Hipertrofia", "level": "Intermedio / Agenda Ocupada", "schedule": "Lunes - Miércoles - Viernes", "focus": "Básicos multiarticulares pesados con frecuencia 3 global.", "sessions": ["Día 1: Sentadilla Barra (4x6), Press Banca (4x6), Remo Barra (4x8), Curl Barra Z (3x10)", "Día 2: Peso Muerto Rumano (4x8), Press Militar (4x6), Jalón Pecho (4x10), Fondos (3x10)", "Día 3: Prensa 45° (4x10), Press Inclinado (4x8), Remo Polea (4x10), Elevaciones Laterales (4x15)"]},
+            {"days": "Rutina 02 • 3 Días Empuje / Tracción / Pierna", "level": "Principiante - Intermedio", "schedule": "Lunes - Miércoles - Viernes", "focus": "Sesiones limpias de 55 minutos sin fatiga acumulada.", "sessions": ["Día 1 (Push): Press Inclinado (4x8), Press Militar (3x8), Cruces Polea (3x12), Tríceps Cuerda (3x12)", "Día 2 (Pull): Jalón Neutro (4x8), Remo Mancuerna (3x10), Face Pull (3x15), Curl Inclinado (3x10)", "Día 3 (Legs): Hack Squat (4x8), Curl Femoral (4x10), Hip Thrust (3x10), Gemelo Pie (4x15)"]},
+            {"days": "Rutina 03 • 4 Días Torso / Pierna Potencia-Hipertrofia", "level": "Intermedio - Avanzado", "schedule": "Lunes, Martes, Jueves, Viernes", "focus": "Frecuencia 2 real por grupo muscular combinando cargas altas y volumen.", "sessions": ["Día 1 (Torso Fuerza): Press Banca (4x5), Remo Pendlay (4x6), Press Hombro (3x8), Dominadas (3x8)", "Día 2 (Pierna Fuerza): Sentadilla (4x6), Peso Muerto Rumano (4x8), Prensa (3x10), Gemelo (4x12)", "Día 3 (Torso Bombo): Press Inclinado (4x10), Jalón Pecho (4x10), Laterales (4x15), Brazo (3x12)", "Día 4 (Pierna Bombo): Hack Squat (4x10), Hip Thrust (4x10), Femoral Sentado (4x12), Extensión (3x15)"]},
+            {"days": "Rutina 04 • 4 Días Empuje / Tracción (Upper/Lower Split)", "level": "Intermedio", "schedule": "Lunes, Martes, Jueves, Viernes", "focus": "Ideal para mejorar postura, espalda y densidad de tren superior.", "sessions": ["Día 1: Pecho + Hombro Anterior/Lateral + Tríceps", "Día 2: Cuádriceps + Isquios + Gemelo", "Día 3: Espalda + Deltoides Posterior + Bíceps", "Día 4: Glúteo + Femoral + Cuádriceps Unilateral"]},
+            {"days": "Rutina 05 • 4 Días Arnold Split Compacto", "level": "Intermedio - Avanzado", "schedule": "Lunes, Martes, Jueves, Viernes", "focus": "Pecho/Espalda antagonista y Hombros/Brazos con máximo bombeo.", "sessions": ["Día 1: Pecho y Espalda (Superseries antagonistas)", "Día 2: Hombros y Brazos Completos", "Día 3: Pierna Completa Pesada", "Día 4: Torso Estético (Enfoque clavicular y amplitud)"]},
+            {"days": "Rutina 06 • 5 Días PHAT (Power Hypertrophy Adaptive)", "level": "Avanzado", "schedule": "Lunes a Viernes (Fin de semana libre)", "focus": "Dos días de fuerza máxima + tres días de hipertrofia pura.", "sessions": ["Día 1: Torso Fuerza", "Día 2: Pierna Fuerza", "Día 3: Espalda y Hombros Hipertrofia", "Día 4: Pierna y Glúteo Hipertrofia", "Día 5: Pecho y Brazos Bombo Máximo"]},
+            {"days": "Rutina 07 • 5 Días Push / Pull / Legs + Upper / Lower", "level": "Avanzado", "schedule": "Lunes a Viernes", "focus": "Frecuencia 2 completa en 5 días dejando sábado y domingo de descanso.", "sessions": ["Día 1: Push", "Día 2: Pull", "Día 3: Legs", "Día 4: Torso Completo", "Día 5: Pierna Completa"]},
+            {"days": "Rutina 08 • 5 Días Classic Physique Estética V-Taper", "level": "Avanzado", "schedule": "Lunes a Viernes", "focus": "Prioridad total en deltoides lateral, dorsal ancho, pectoral superior y pierna.", "sessions": ["Día 1: Pecho Superior y Deltoides Lateral", "Día 2: Espalda Amplitud y Deltoides Posterior", "Día 3: Cuádriceps y Gemelo", "Día 4: Brazos Completos y Hombro 3D", "Día 5: Isquios, Glúteo y Espalda Grosor"]},
+            {"days": "Rutina 09 • 6 Días Push / Pull / Legs Frecuencia 2", "level": "Atleta Avanzado", "schedule": "6 Días Activos / 1 Descanso", "focus": "Estándar de oro para hipertrofia máxima repartiendo el volumen semanal.", "sessions": ["Lunes/Jueves: Pecho, Hombro y Tríceps", "Martes/Viernes: Espalda, Deltoides Posterior y Bíceps", "Miércoles/Sábado: Cuádriceps, Isquios, Glúteo y Gemelo"]},
+            {"days": "Rutina 10 • 6 Días Arnold Split Clásico x2", "level": "Atleta Avanzado", "schedule": "6 Días Activos / 1 Descanso", "focus": "Frecuencia 2 con días dedicados exclusivamente a hombros y brazos.", "sessions": ["Lunes/Jueves: Pecho y Espalda", "Martes/Viernes: Hombros y Brazos", "Miércoles/Sábado: Piernas Completas"]}
         ],
         "by_muscle_group": [
             {
                 "id": "pecho",
                 "muscle": "Pectoral (Estética y Densidad)",
                 "svg_type": "bench_press",
-                "biomechanics": "Aducción horizontal del húmero. Priorizar ángulo clavicular (30°) para estética superior.",
+                "biomechanics": "Aducción horizontal y flexión del húmero. Priorizar el haz clavicular (inclinación 30°) construye un pecho alto y estético.",
                 "exercises": [
-                    {"name": "Press Inclinado con Mancuernas (30°)", "sets": "4 x 8-10", "rest": "120s", "cue": "Retracción escapular firme, baja hasta estirar el pectoral sin perder tensión."},
-                    {"name": "Press Banca Plano con Barra", "sets": "4 x 6-8", "rest": "150s", "cue": "Codos a 45° respecto al torso, empuje explosivo."},
-                    {"name": "Cruces en Polea Alta a Baja", "sets": "3 x 12-15", "rest": "75s", "cue": "Contracción pico de 1 segundo juntando muñecas."},
-                    {"name": "Fondos en Paralelas Lastrados", "sets": "3 x 8-10", "rest": "90s", "cue": "Inclina el torso 20° hacia delante para enfatizar pectoral inferior."}
+                    ex("Press Inclinado con Mancuernas (30°)", "4 x 8-10", "120s", "Retracción escapular firme y estiramiento profundo abajo.", ["1. Ajusta el banco exactamente a 30 grados (un punto por encima del plano).", "2. Junta los omóplatos contra el respaldo y saca el pecho.", "3. Baja las mancuernas en 3 segundos hasta que queden a la altura del pecho exterior.", "4. Empuja hacia arriba y ligeramente hacia dentro sin chocar las mancuernas."], "Poner el banco a 45° o más, lo que traslada todo el trabajo al deltoides anterior."),
+                    ex("Press Banca Plano con Barra Olímpica", "4 x 6-8", "150s", "Codos a 45° respecto al torso, empuje explosivo.", ["1. Agarra la barra ligeramente más ancho que tus hombros.", "2. Mantén glúteos, espalda alta y pies firmemente apoyados.", "3. Desciende la barra hasta tocar suavemente la línea media del esternón.", "4. Extiende los codos con potencia manteniendo los hombros atrás."], "Abrir los codos a 90° en forma de T, lo que compromete el manguito rotador."),
+                    ex("Press Inclinado en Máquina Convergente", "3 x 10-12", "90s", "Máxima estabilidad para llevar las series cerca del fallo.", ["1. Regula el asiento para que los agarres queden a la altura de la parte superior del pecho.", "2. Mantén los codos alineados con las muñecas.", "3. Empuja hasta la convergencia máxima y sostén 1 segundo la contracción."], "Despegar la espalda del respaldo en las últimas repeticiones."),
+                    ex("Cruces en Polea Alta a Baja", "3 x 12-15", "75s", "Tensión constante en fibras esternales e inferiores.", ["1. Da un paso al frente para estabilizar el torso e inclínate ligeramente.", "2. Con codos semiflexionados fijos, junta las manos frente a la cadera.", "3. Abre los brazos de forma controlada hasta sentir estiramiento pectoral."], "Flexionar y extender los codos convirtiendo el ejercicio en un press."),
+                    ex("Aperturas en Máquina Contractora (Pec Deck)", "3 x 12-15", "75s", "Aislamiento puro de aducción horizontal sin fatiga estabilizadora.", ["1. Ajusta los brazos de la máquina para permitir un estiramiento cómodo atrás.", "2. Mantén el pecho alto y los hombros lejos de las orejas.", "3. Junta los brazos al frente apretando el pectoral durante 1 segundo."], "Encoger los trapecios hacia arriba al cerrar los brazos."),
+                    ex("Fondos en Paralelas Lastrados", "3 x 8-10", "120s", "Inclinación frontal de 20° para enfatizar pectoral inferior.", ["1. Sujeta las paralelas e inclina el torso hacia delante.", "2. Baja hasta que el hombro quede ligeramente por debajo del codo.", "3. Empuja hacia arriba sin bloquear violentamente los codos."], "Mantener el torso totalmente vertical, lo que enfoca el tríceps en lugar del pecho."),
+                    ex("Press Plano con Mancuernas", "3 x 8-10", "120s", "Mayor rango de recorrido y libertad articular que la barra.", ["1. Túmbate con retracción escapular y pies anclados al suelo.", "2. Baja las mancuernas abriendo ligeramente los codos hasta estirar el pectoral.", "3. Sube siguiendo un arco natural hasta alinear sobre los hombros."], "Dejar caer los codos demasiado rápido perdiendo tensión en la parte baja."),
+                    ex("Cruces en Polea Baja a Alta (Haz Clavicular)", "3 x 12-15", "60s", "Trayectoria ascendente siguiendo las fibras superiores.", ["1. Coloca las poleas en la posición más baja.", "2. Eleva los brazos hacia delante y arriba hasta la altura de la barbilla.", "3. Controla el descenso resistiendo la carga."], "Usar impulso de cadera para subir los cables."),
+                    ex("Press Declinado con Barra o Máquina", "3 x 8-10", "90s", "Alta activación del pectoral esternal con menor estrés en hombro.", ["1. Asegura las piernas en los rodillos y retrae escápulas.", "2. Baja la barra hacia la parte baja del esternón.", "3. Empuja en línea recta hacia arriba."], "Rebotar la barra sobre las costillas inferiores."),
+                    ex("Flexiones Lastradas con Déficit (Push-Ups)", "3 x al fallo RIR 1", "60s", "Finalizador metabólico con estiramiento extra.", ["1. Coloca las manos sobre dos discos o agarraderas para bajar más profundo.", "2. Mantén el abdomen y glúteos en bloque rígido.", "3. Baja hasta que el pecho pase la línea de las manos y empuja."], "Dejar caer la cadera arqueando la zona lumbar.")
                 ]
             },
             {
                 "id": "espalda",
                 "muscle": "Espalda (Amplitud en V y Grosor)",
                 "svg_type": "lat_pulldown",
-                "biomechanics": "Extensión y aducción del hombro en plano frontal para amplitud; retracción escapular en plano sagital para grosor.",
+                "biomechanics": "Aducción en plano frontal para amplitud dorsal; tracción horizontal y retracción escapular para densidad central.",
                 "exercises": [
-                    {"name": "Jalón al Pecho Agarre Neutro/Mag", "sets": "4 x 8-10", "rest": "120s", "cue": "Inicia el movimiento deprimiendo los hombros, lleva los codos a la cadera."},
-                    {"name": "Remo con Barra Inclinado", "sets": "4 x 6-8", "rest": "150s", "cue": "Torso a 45°, tira hacia el ombligo manteniendo lumbar neutra."},
-                    {"name": "Remo Unilateral en Polea Baja", "sets": "3 x 10-12", "rest": "90s", "cue": "Estira completamente el dorsal en la fase excéntrica de 3 segundos."},
-                    {"name": "Pull-Over en Polea Alta con Cuerda", "sets": "3 x 12-15", "rest": "75s", "cue": "Brazos semirrígidos, aísla el dorsal sin intervención del bíceps."}
+                    ex("Jalón al Pecho Agarre Neutro / Mag", "4 x 8-10", "120s", "Inicia deprimiendo los hombros y lleva los codos a la cadera.", ["1. Sujeta el agarre neutro y bloquea las rodillas bajo los rodillos.", "2. Saca el pecho ligeramente hacia arriba sin balancearte atrás.", "3. Tira de los codos hacia abajo hasta que el agarre toque la clavícula."], "Tirar con los bíceps encorvando los hombros hacia delante al final."),
+                    ex("Remo con Barra Inclinado", "4 x 6-8", "150s", "Torso a 45°, tracción dirigida hacia el ombligo.", ["1. Flexiona ligeramente rodillas e inclina el torso con espalda neutra.", "2. Tira de la barra hacia la parte baja del abdomen.", "3. Aprieta las escápulas arriba y baja en 2 segundos."], "Levantar el torso en cada repetición usando impulso lumbar."),
+                    ex("Dominadas Lastradas Pronas", "4 x 6-8", "150s", "Rey de la amplitud dorsal y fuerza relativa.", ["1. Agarra la barra un poco más ancho que los hombros.", "2. Inicia subiendo el pecho hacia la barra mientras bajas los hombros.", "3. Desciende hasta extender completamente los brazos."], "Hacer medias repeticiones sin bajar hasta la extensión completa."),
+                    ex("Remo Unilateral en Polea Baja", "3 x 10-12", "90s", "Estiramiento completo del dorsal en cada repetición.", ["1. Siéntate erguido con un agarre individual.", "2. Deja que el hombro avance ligeramente al estirar para elongar el dorsal.", "3. Tira del codo pegado al costado hasta pasarlo detrás del torso."], "Rotar excesivamente la columna para ganar recorrido artificial."),
+                    ex("Remo en Punta (T-Bar Row) con Apoyo", "4 x 8-10", "120s", "Densidad brutal de espalda media y trapecio sin fatiga lumbar.", ["1. Apoya el pecho firmemente sobre la almohadilla.", "2. Agarra las asas anchas y tira llevando los codos hacia atrás.", "3. Mantén 1 segundo la contracción escapular arriba."], "Despegar el pecho del soporte durante el tirón."),
+                    ex("Pull-Over en Polea Alta con Cuerda", "3 x 12-15", "75s", "Aislamiento puro del dorsal ancho sin intervención del bíceps.", ["1. Inclina el torso 30° hacia delante con brazos semirrígidos.", "2. Lleva la cuerda en arco hasta los muslos apretando los dorsales.", "3. Sube controladamente hasta estirar por encima de la cabeza."], "Doblar los codos convirtiendo el ejercicio en extensión de tríceps."),
+                    ex("Remo con Mancuerna a una Mano en Banco", "3 x 8-10 / lado", "90s", "Permite mover cargas pesadas con recorrido completo.", ["1. Apoya rodilla y mano del mismo lado sobre un banco plano.", "2. Tira de la mancuerna en diagonal hacia la cadera, no hacia el pecho.", "3. Baja controlando el peso hasta estirar el dorsal."], "Girar el hombro hacia arriba al levantar la mancuerna."),
+                    ex("Jalón Unilateral en Polea Alta", "3 x 10-12 / lado", "75s", "Corrige asimetrías y alinea perfectamente las fibras dorsales.", ["1. Arrodíllate o siéntate lateral a la polea alta.", "2. Tira del maneral llevando el codo pegado al costado.", "3. Acompaña el retorno hasta el estiramiento completo."], "Inclinarse lateralmente para bajar el peso."),
+                    ex("Remo Gironda Agarre Estrecho Neutro", "3 x 10-12", "90s", "Trabajo equilibrado de dorsal bajo y romboides.", ["1. Mantén el torso vertical con ligera extensión torácica.", "2. Lleva el triángulo hasta el abdomen bajo.", "3. Extiende los brazos hacia delante sin redondear la lumbar."], "Balancearse como un péndulo hacia delante y atrás."),
+                    ex("Encogimientos de Trapecio con Mancuernas", "4 x 12-15", "60s", "Construye el yugo superior de espalda y cuello.", ["1. Sujeta dos mancuernas pesadas a los lados con torso ligeramente inclinado.", "2. Eleva los hombros hacia las orejas y ligeramente hacia atrás.", "3. Sostén 2 segundos arriba antes de bajar."], "Rotar los hombros en círculos, lo cual irrita la articulación.")
                 ]
             },
             {
                 "id": "pierna",
                 "muscle": "Pierna Completa (Cuádriceps e Isquios)",
                 "svg_type": "squat",
-                "biomechanics": "Máxima flexión de rodilla bajo carga para vastos del cuádriceps; bisagra de cadera para isquiosurales.",
+                "biomechanics": "Máxima flexión de rodilla bajo carga para vastos del cuádriceps; bisagra de cadera y flexión de rodilla para isquiosurales.",
                 "exercises": [
-                    {"name": "Sentadilla Libre o Hack Squat", "sets": "4 x 6-8", "rest": "180s", "cue": "Rodillas siguen la línea de la punta del pie, profundidad paralela o superior."},
-                    {"name": "Peso Muerto Rumano con Barra", "sets": "4 x 8-10", "rest": "150s", "cue": "Empuja la cadera atrás hasta notar tensión máxima en el isquio; barra pegada a tibias."},
-                    {"name": "Prensa Inclinada 45° (Pies Bajos)", "sets": "3 x 10-12", "rest": "120s", "cue": "No despegues el sacro del respaldo al bajar."},
-                    {"name": "Curl Femoral Sentado + Extensión Cuádriceps", "sets": "3 x 12-15", "rest": "90s", "cue": "Control excéntrico estricto de 3 segundos en cada repetición."}
+                    ex("Sentadilla Libre con Barra Trasera", "4 x 6-8", "180s", "Profundidad paralela o superior con core presurizado.", ["1. Coloca la barra sobre los trapecios y toma aire bloqueando el abdomen.", "2. Inicia bajando cadera y rodillas simultáneamente.", "3. Rompe el paralelo manteniendo el peso repartido en todo el pie.", "4. Sube empujando el suelo con fuerza."], "Dejar que las rodillas colapsen hacia dentro (valgo) al subir."),
+                    ex("Peso Muerto Rumano con Barra (RDL)", "4 x 8-10", "150s", "Bisagra de cadera pura para isquiosurales y glúteo.", ["1. Con rodillas semirrígidas (15° flexión), empuja la cadera hacia atrás.", "2. Mantén la barra pegada a los muslos y tibias en todo momento.", "3. Baja hasta que tu cadera deje de retroceder (máximo estiramiento isquio).", "4. Extiende la cadera con potencia hasta quedar erguido."], "Bajar más redondeando la espalda baja una vez que la cadera ya no retrocede."),
+                    ex("Sentadilla Hack en Máquina", "4 x 8-10", "150s", "Estabilidad total para llevar los cuádriceps al límite.", ["1. Coloca los pies en la zona media-baja de la plataforma.", "2. Baja hasta que los isquios toquen los gemelos.", "3. Empuja sin despegar la zona lumbar del respaldo."], "Despegar los talones de la plataforma en el fondo."),
+                    ex("Prensa Inclinada 45°", "3 x 10-12", "120s", "Carga alta en tren inferior sin estrés axial en columna.", ["1. Apoya toda la planta del pie a la anchura de hombros.", "2. Desciende la plataforma controladamente sin levantar el sacro.", "3. Extiende las piernas dejando una microflexión de rodilla arriba."], "Bloquear completamente las rodillas en hiperextensión arriba."),
+                    ex("Curl Femoral Sentado en Máquina", "4 x 10-12", "90s", "Trabaja el isquio en posición estirada (mayor hipertrofia).", ["1. Ajusta el rodillo sobre los tobillos y fija bien el soporte de muslos.", "2. Flexiona las rodillas llevando los talones debajo del asiento.", "3. Regresa en 3 segundos resistiendo el peso."], "Levantar los glúteos del asiento al iniciar la flexión."),
+                    ex("Extensión de Cuádriceps en Máquina", "4 x 12-15", "75s", "Aísla el recto femoral y vastos con pico de contracción.", ["1. Alinea el eje de la máquina exactamente con tu rodilla.", "2. Extiende hasta bloquear arriba y sostén 1 segundo.", "3. Baja de forma controlada sin que las placas choquen."], "Dar patadas bruscas usando inercia."),
+                    ex("Zancadas Caminando con Mancuernas", "3 x 12 pasos / pierna", "90s", "Estímulo unilateral completo de cuádriceps y glúteo.", ["1. Da un paso amplio manteniendo el torso erguido.", "2. Baja hasta que la rodilla trasera roce el suelo.", "3. Impúlsate con el talón de la pierna delantera."], "Cruzar los pies en línea recta perdiendo el equilibrio."),
+                    ex("Curl Femoral Tumbado", "3 x 10-12", "90s", "Énfasis en la porción corta del bíceps femoral.", ["1. Mantén la cadera pegada al banco durante todo el recorrido.", "2. Lleva los talones hacia los glúteos.", "3. Desciende lentamente."], "Arquear la zona lumbar levantando la pelvis al subir."),
+                    ex("Elevación de Talones de Pie (Gemelo)", "4 x 12-15", "60s", "Pausa de 2 segundos abajo para eliminar el rebote del tendón de Aquiles.", ["1. Baja los talones todo lo posible y mantén 2 segundos estirado.", "2. Sube hasta quedar sobre la punta de los dedos.", "3. Sostén 1 segundo arriba."], "Rebotar rápido arriba y abajo sin pausa."),
+                    ex("Gemelo Sentado en Máquina", "3 x 15-20", "60s", "Enfocado específicamente en el sóleo.", ["1. Coloca la almohadilla sobre los muslos cerca de las rodillas.", "2. Realiza recorrido completo desde estiramiento máximo hasta contracción."], "Hacer repeticiones cortas sin llegar al estiramiento inferior.")
                 ]
             },
             {
                 "id": "gluteo",
                 "muscle": "Glúteo (Potencia y Proyección)",
                 "svg_type": "hip_thrust",
-                "biomechanics": "Extensión de cadera con pico de tensión en acortamiento máximo y abducción.",
+                "biomechanics": "Extensión de cadera con pico de tensión en acortamiento (Hip Thrust) combinada con estiramiento bajo carga (Búlgara) y abducción.",
                 "exercises": [
-                    {"name": "Hip Thrust con Barra Olímpica", "sets": "4 x 8-10", "rest": "150s", "cue": "Mirada al frente, retroversión pélvica arriba, pausa de 2 segundos en contracción."},
-                    {"name": "Sentadilla Búlgara con Mancuernas", "sets": "3 x 8-10 / lado", "rest": "90s", "cue": "Paso largo e inclinación ligera del torso para maximizar elongación del glúteo mayor."},
-                    {"name": "Patada de Glúteo en Polea Baja", "sets": "3 x 12-15 / lado", "rest": "60s", "cue": "Extiende en diagonal (30° hacia fuera) siguiendo las fibras del glúteo."},
-                    {"name": "Abducción de Cadera en Máquina", "sets": "3 x 15-20", "rest": "60s", "cue": "Torso ligeramente inclinado hacia delante para activar glúteo medio."}
+                    ex("Hip Thrust con Barra Olímpica", "4 x 8-10", "150s", "Retroversión pélvica arriba y pausa de 2 segundos.", ["1. Apoya el borde inferior de las escápulas en el banco.", "2. Coloca las espinillas verticales cuando la cadera esté arriba.", "3. Empuja con los talones manteniendo la barbilla pegada al pecho.", "4. Contrae los glúteos al máximo arriba durante 2 segundos."], "Mirar hacia el techo hiperextendiendo la zona lumbar."),
+                    ex("Sentadilla Búlgara con Mancuernas", "3 x 8-10 / lado", "90s", "Paso largo e inclinación leve del torso para glúteo mayor.", ["1. Apoya el empeine trasero en un banco bajo.", "2. Inclina el torso 15° hacia delante y baja profundo.", "3. Sube empujando exclusivamente con la pierna delantera."], "Empujar con el pie de atrás en lugar del delantero."),
+                    ex("Peso Muerto Rumano con Mancuernas", "4 x 10", "120s", "Elongación máxima de fibras inferiores del glúteo.", ["1. Empuja la cadera hacia atrás manteniendo espinillas verticales.", "2. Baja hasta la mitad de la espinilla con espalda plana.", "3. Sube contrayendo glúteos sin hiperextender la espalda."], "Flexionar demasiado las rodillas convirtiéndolo en sentadilla."),
+                    ex("Patada de Glúteo en Polea Baja", "3 x 12-15 / lado", "60s", "Extensión diagonal a 30° siguiendo las fibras del glúteo.", ["1. Coloca la tobillera e inclina ligeramente el torso apoyado en la estructura.", "2. Extiende la pierna hacia atrás y ligeramente hacia fuera.", "3. Regresa sin perder tensión en el cable."], "Arquear la espalda baja para levantar más la pierna."),
+                    ex("Abducción de Cadera en Máquina", "4 x 15-20", "60s", "Construye el glúteo medio y la redondez lateral.", ["1. Siéntate inclinando el torso ligeramente hacia delante.", "2. Abre las piernas con fuerza y mantén 1 segundo abierto.", "3. Cierra de forma controlada."], "Usar impulso del torso para abrir las almohadillas."),
+                    ex("Hiperextensiones 45° Enfoque Glúteo", "3 x 12-15", "75s", "Pies ligeramente rotados hacia fuera y espalda alta redondeada.", ["1. Ajusta el soporte por debajo de la cadera.", "2. Baja con la espalda alta ligeramente redondeada para desactivar lumbares.", "3. Sube contrayendo únicamente los glúteos."], "Subir arqueando excesivamente la zona lumbar."),
+                    ex("Step-Up Alto en Cajón (Subida al Banco)", "3 x 10 / lado", "75s", "Máxima flexión de cadera con control excéntrico lento.", ["1. Coloca un pie completo sobre un cajón a la altura de la rodilla.", "2. Sube sin impulsarte con la pierna del suelo.", "3. Baja en 3 segundos controlados."], "Saltar con el pie de apoyo inferior."),
+                    ex("Puente de Glúteo en Máquina (Glute Drive)", "3 x 10-12", "120s", "Tensión constante y comodidad lumbar.", ["1. Abrocha el cinturón firmemente sobre la pelvis.", "2. Empuja con los talones hasta alinear rodillas, cadera y hombros.", "3. Pausa de 1 segundo arriba."], "Colocar los pies demasiado cerca o demasiado lejos."),
+                    ex("Abducción en Polea Baja de Pie", "3 x 15 / lado", "60s", "Estabilidad pélvica y trabajo profundo de glúteo medio.", ["1. Sujétate a la columna de la polea.", "2. Eleva la pierna lateralmente unos 45° sin inclinar el torso.", "3. Baja despacio."], "Inclinar el tronco hacia el lado contrario."),
+                    ex("Pull-Through en Polea Baja con Cuerda", "3 x 12-15", "75s", "Patrón de bisagra con resistencia horizontal continua.", ["1. Da dos pasos hacia delante de espaldas a la polea baja.", "2. Lleva la cuerda entre las piernas empujando la cadera atrás.", "3. Extiende la cadera con fuerza apretando glúteos."], "Tirar de la cuerda con los brazos.")
                 ]
             },
             {
                 "id": "brazo",
                 "muscle": "Brazo Completo (Bíceps, Tríceps y Braquial)",
                 "svg_type": "bicep_curl",
-                "biomechanics": "El tríceps representa 2/3 del volumen del brazo; trabajar en estiramiento (cabeza larga) y acortamiento.",
+                "biomechanics": "El tríceps supone dos tercios del perímetro del brazo. Combinar estiramiento (cabeza larga) y acortamiento maximiza el tamaño.",
                 "exercises": [
-                    {"name": "Curl en Banco Inclinado 45° con Mancuernas", "sets": "4 x 8-10", "rest": "90s", "cue": "Codos detrás del torso para estirar la cabeza larga del bíceps."},
-                    {"name": "Press Francés con Barra Z o Mancuernas", "sets": "4 x 8-10", "rest": "90s", "cue": "Lleva la barra detrás de la cabeza para tensión constante en cabeza larga del tríceps."},
-                    {"name": "Curl Martillo en Polea con Cuerda", "sets": "3 x 10-12", "rest": "75s", "cue": "Enfocado en braquial anterior y braquiorradial para grosor lateral."},
-                    {"name": "Extensión de Tríceps en Polea Alta (Barra V)", "sets": "3 x 12-15", "rest": "75s", "cue": "Codos bloqueados a los costados, extensión completa."}
+                    ex("Curl en Banco Inclinado 45° con Mancuernas", "4 x 8-10", "90s", "Estira la cabeza larga del bíceps detrás del torso.", ["1. Apoya la espalda en un banco a 45-60° dejando colgar los brazos.", "2. Supina las muñecas al subir sin adelantar los codos.", "3. Baja hasta la extensión completa en 3 segundos."], "Adelantar los codos hacia delante al subir las mancuernas."),
+                    ex("Press Francés con Barra Z en Banco", "4 x 8-10", "90s", "Lleva la barra detrás de la cabeza para tensión continua en tríceps.", ["1. Túmbate y lleva los brazos ligeramente inclinados hacia atrás.", "2. Flexiona los codos bajando la barra detrás de la coronilla.", "3. Extiende los brazos manteniendo los codos apuntando al techo."], "Abrir los codos hacia los lados al bajar."),
+                    ex("Curl con Barra Recta o Barra Z de Pie", "4 x 8-10", "90s", "Sobrecarga progresiva directa sobre ambas cabezas del bíceps.", ["1. Sujeta la barra a la anchura de hombros con codos pegados al costado.", "2. Sube la barra contrayendo el bíceps sin balancear el torso.", "3. Desciende controladamente."], "Usar impulso lumbar echando el cuerpo hacia atrás."),
+                    ex("Extensión de Tríceps en Polea Alta (Barra V)", "4 x 10-12", "75s", "Bloqueo de codos a los costados y extensión completa.", ["1. Inclínate ligeramente hacia delante con los codos pegados a las costillas.", "2. Empuja la barra hacia abajo hasta bloquear los tríceps.", "3. Sube hasta formar un ángulo de 90° en el codo."], "Dejar que los codos se desplacen hacia delante al subir."),
+                    ex("Curl Martillo en Polea con Cuerda", "3 x 10-12", "75s", "Desarrolla el braquial anterior y braquiorradial (grosor lateral).", ["1. Sujeta la cuerda con agarre neutro (palmas enfrentadas).", "2. Sube las manos hacia los hombros separando ligeramente la cuerda arriba.", "3. Baja resistiendo el cable."], "Girar las muñecas perdiendo el agarre neutro."),
+                    ex("Extensión de Tríceps Sobre la Cabeza en Polea", "3 x 12-15", "75s", "Máximo estiramiento de la cabeza larga del tríceps.", ["1. De espaldas a la polea, lleva los brazos por encima de la cabeza.", "2. Extiende completamente los codos hacia delante y arriba.", "3. Flexiona detrás de la cabeza sintiendo el estiramiento."], "Arquear la zona lumbar durante el empuje."),
+                    ex("Curl Predicador (Banco Scott) Unilateral", "3 x 10-12 / lado", "75s", "Elimina cualquier trampa y ataca la porción corta del bíceps.", ["1. Apoya toda la parte posterior del brazo sobre el pupitre.", "2. Baja hasta casi extender el brazo sin golpear el codo.", "3. Sube hasta la vertical."], "Despegar el codo del apoyo acolchado."),
+                    ex("Fondos entre Bancos o Máquina de Tríceps", "3 x 10-12", "90s", "Gran densidad en las tres cabezas del tríceps.", ["1. Mantén el torso erguido y los codos apuntando hacia atrás.", "2. Baja hasta 90° y extiende con fuerza."], "Adelantar demasiado los hombros estresando la cápsula anterior."),
+                    ex("Curl Araña (Spider Curl) en Banco Inclinado", "3 x 12", "60s", "Pico de contracción máximo en acortamiento.", ["1. Apoya el pecho sobre un banco inclinado dejando brazos verticales.", "2. Sube las mancuernas apretando 1 segundo arriba."], "Balancear los brazos como un péndulo."),
+                    ex("Curl Invertido con Barra Z (Antebrazo)", "3 x 12-15", "60s", "Fortalece braquiorradial y extensores de muñeca.", ["1. Agarra la barra en pronación (palmas hacia abajo).", "2. Sube manteniendo las muñecas rectas y firmes."], "Doblar las muñecas hacia abajo al subir.")
                 ]
             },
             {
                 "id": "hombro",
                 "muscle": "Deltoides 3D (Estética Classic Physique)",
                 "svg_type": "lateral_raise",
-                "biomechanics": "El deltoides lateral crea la ilusión óptica de cintura estrecha y amplitud clavicular.",
+                "biomechanics": "El deltoides lateral crea la amplitud clavicular y el aspecto 3D; el posterior equilibra la postura escapular.",
                 "exercises": [
-                    {"name": "Press Militar Sentado con Mancuernas", "sets": "4 x 6-8", "rest": "120s", "cue": "Codos en plano escapular (30° hacia delante), sin arquear lumbar."},
-                    {"name": "Elevaciones Laterales en Polea a la Altura de Muñeca", "sets": "4 x 12-15", "rest": "60s", "cue": "Tensión continua desde el inicio del recorrido; lidera con los codos."},
-                    {"name": "Pájaros en Máquina Contractora Inversa", "sets": "4 x 12-15", "rest": "60s", "cue": "Empuja hacia los lados sin juntar en exceso las escápulas."},
-                    {"name": "Remo al Mentón Agarre Ancho con Barra Z", "sets": "3 x 10-12", "rest": "75s", "cue": "Sube hasta la línea del pecho para proteger el manguito rotador."}
+                    ex("Press Militar Sentado con Mancuernas", "4 x 6-8", "120s", "Codos en plano escapular (30° hacia delante).", ["1. Coloca el respaldo a 80-85° y apoya firmemente la espalda.", "2. Lleva los codos ligeramente adelantados respecto al torso.", "3. Empuja hasta que las mancuernas queden sobre la cabeza sin chocarlas."], "Abrir los codos completamente en línea recta con las orejas."),
+                    ex("Elevaciones Laterales en Polea a la Altura de Muñeca", "4 x 12-15", "60s", "Tensión continua desde el primer grado de abducción.", ["1. Coloca la polea a la altura de tu muñeca.", "2. Eleva el brazo hacia el lado liderando con el codo hasta la altura del hombro.", "3. Baja en 3 segundos sin dejar caer el peso."], "Encoger el trapecio hacia el cuello al subir."),
+                    ex("Elevaciones Laterales con Mancuernas Sentado", "4 x 12-15", "60s", "Elimina el impulso de piernas para aislar el deltoides medio.", ["1. Siéntate al borde del banco con leve inclinación frontal.", "2. Sube las mancuernas hacia los lados como si vertieras dos jarras.", "3. Detente a la altura de los hombros y baja despacio."], "Balancear el tronco hacia atrás para lanzar las mancuernas."),
+                    ex("Pájaros en Máquina Contractora Inversa", "4 x 12-15", "60s", "Aísla el deltoides posterior sin retracción escapular excesiva.", ["1. Ajusta el asiento para que los brazos queden paralelos al suelo.", "2. Empuja hacia los lados pensando en alejar las manos del cuerpo.", "3. Controla el regreso sin juntar las placas."], "Juntar demasiado las escápulas, lo que traslada el trabajo al romboides."),
+                    ex("Face Pull en Polea Alta con Cuerda", "4 x 15", "60s", "Salud del manguito rotador y densidad posterior.", ["1. Agarra la cuerda con pulgares apuntando hacia atrás.", "2. Tira hacia la frente separando las manos y rotando externamente.", "3. Sostén 1 segundo atrás."], "Tirar hacia el pecho en lugar de hacia la frente."),
+                    ex("Press Militar de Pie con Barra Olímpica", "4 x 6-8", "150s", "Fuerza estructural de hombro y estabilidad de core.", ["1. Aprieta glúteos y abdomen para evitar arquear la lumbar.", "2. Empuja la barra en línea recta pasando cerca de la barbilla.", "3. Mete ligeramente la cabeza al pasar la barra."], "Convertir el ejercicio en un press inclinado arqueando la espalda."),
+                    ex("Remo al Mentón Agarre Ancho con Barra Z", "3 x 10-12", "75s", "Sube solo hasta la línea del pecho liderando con los codos.", ["1. Sujeta la barra Z a una anchura ligeramente superior a los hombros.", "2. Eleva los codos hacia los lados hasta la altura del pecho.", "3. Baja controladamente."], "Subir la barra hasta la barbilla con agarre muy estrecho."),
+                    ex("Elevaciones Laterales Unilaterales Inclinado", "3 x 12-15 / lado", "60s", "Maximiza la tensión en el tramo más difícil del movimiento.", ["1. Sujétate a un poste con una mano e inclina el cuerpo 20°.", "2. Eleva la mancuerna hasta la horizontal."], "Usar un peso que obligue a doblar excesivamente el codo."),
+                    ex("Pájaros con Mancuernas Pecho Apoyado", "3 x 12-15", "60s", "Cero impulso lumbar y aislamiento posterior total.", ["1. Apoya el pecho en un banco inclinado a 30°.", "2. Abre los brazos hacia los lados con codos semiflexionados."], "Subir las mancuernas hacia atrás pegadas al cuerpo."),
+                    ex("Press Arnold con Mancuernas", "3 x 10-12", "90s", "Recorrido amplio que activa deltoides anterior y lateral.", ["1. Inicia con las palmas mirando hacia ti frente a los hombros.", "2. Rota las muñecas hacia fuera mientras empujas arriba."], "Hacer la rotación demasiado brusca con exceso de peso.")
                 ]
             }
         ],
@@ -223,327 +159,21 @@ def build_training_system():
             "title": "Protocolo Americano Push / Pull / Legs (PPL)",
             "description": "Sistema estándar en culturismo moderno. Agrupa músculos por patrón biomecánico sinérgico, permitiendo alta intensidad y recuperación limpia.",
             "blocks": [
-                {
-                    "tag": "PUSH (Empuje)",
-                    "muscles": "Pectoral + Deltoides Anterior/Lateral + Tríceps",
-                    "routine": [
-                        "1. Press Inclinado Barra/Multipower: 4 x 6-8",
-                        "2. Press Plano Mancuernas: 3 x 8-10",
-                        "3. Elevaciones Laterales Mancuernas: 4 x 12-15",
-                        "4. Cruces en Polea: 3 x 12-15",
-                        "5. Extensión Tríceps Polea Alta: 4 x 10-12"
-                    ]
-                },
-                {
-                    "tag": "PULL (Tracción)",
-                    "muscles": "Dorsal Ancho + Trapecio + Deltoides Posterior + Bíceps",
-                    "routine": [
-                        "1. Dominadas Lastradas o Jalón Pecho: 4 x 6-8",
-                        "2. Remo en Punta (T-Bar) o Barra: 4 x 8-10",
-                        "3. Remo Gironda Agarre Estrecho: 3 x 10-12",
-                        "4. Face Pull en Polea Alta: 4 x 15",
-                        "5. Curl Bíceps Barra Recta + Curl Predicador: 3 x 10"
-                    ]
-                },
-                {
-                    "tag": "LEGS (Tren Inferior)",
-                    "muscles": "Cuádriceps + Isquiosurales + Glúteo + Gemelo",
-                    "routine": [
-                        "1. Sentadilla Libre / Hack: 4 x 6-8",
-                        "2. Peso Muerto Rumano: 4 x 8-10",
-                        "3. Prensa 45°: 3 x 10-12",
-                        "4. Curl Femoral Tumbado: 3 x 12",
-                        "5. Elevación de Talones de Pie: 4 x 12-15"
-                    ]
-                }
+                {"tag": "PUSH (Empuje)", "muscles": "Pectoral + Deltoides Anterior/Lateral + Tríceps", "routine": ["1. Press Inclinado Mancuernas (30°): 4 x 8-10 (Descanso 120s)", "2. Press Banca Plano con Barra: 4 x 6-8 (Descanso 150s)", "3. Elevaciones Laterales en Polea: 4 x 12-15 (Descanso 60s)", "4. Cruces en Polea Alta a Baja: 3 x 12-15 (Descanso 75s)", "5. Extensión de Tríceps en Polea Alta: 4 x 10-12 (Descanso 75s)"]},
+                {"tag": "PULL (Tracción)", "muscles": "Dorsal Ancho + Trapecio + Deltoides Posterior + Bíceps", "routine": ["1. Dominadas Lastradas o Jalón Pecho: 4 x 6-8 (Descanso 120s)", "2. Remo con Barra Inclinado: 4 x 8-10 (Descanso 150s)", "3. Remo Unilateral en Polea Baja: 3 x 10-12 (Descanso 90s)", "4. Face Pull en Polea Alta: 4 x 15 (Descanso 60s)", "5. Curl Bíceps Banco Inclinado 45°: 4 x 8-10 (Descanso 75s)"]},
+                {"tag": "LEGS (Tren Inferior)", "muscles": "Cuádriceps + Isquiosurales + Glúteo + Gemelo", "routine": ["1. Sentadilla Libre o Hack Squat: 4 x 6-8 (Descanso 180s)", "2. Peso Muerto Rumano con Barra: 4 x 8-10 (Descanso 150s)", "3. Prensa Inclinada 45°: 3 x 10-12 (Descanso 120s)", "4. Curl Femoral Tumbado: 3 x 12 (Descanso 75s)", "5. Elevación de Talones de Pie: 4 x 12-15 (Descanso 60s)"]}
             ]
         },
         "frequency_specialization": [
-            {
-                "name": "Frecuencia 2 Global (Equilibrio Total)",
-                "split": "Torso / Pierna / Descanso / Push / Pull / Legs",
-                "weekly_sets": "14-16 series efectivas por grupo muscular",
-                "ideal_for": "Atletas naturales que buscan hipertrofia simétrica sin saturar el sistema nervioso."
-            },
-            {
-                "name": "Especialización Frecuencia 3 en Brazos",
-                "split": "Día 1: Brazos + Hombro | Día 2: Pierna | Día 3: Pecho/Espalda + Bíceps | Día 4: Descanso | Día 5: Brazos + Hombro | Día 6: Pierna",
-                "weekly_sets": "20-22 series semanales para Bíceps y Tríceps; mantenimiento (8 series) en torso/pierna.",
-                "ideal_for": "Romper estancamientos de perímetro de brazo en bloques de 6 a 8 semanas."
-            },
-            {
-                "name": "Especialización Frecuencia 3 en Pierna y Glúteo",
-                "split": "Día 1: Cuádriceps Dominante | Día 2: Torso Completo | Día 3: Glúteo e Isquios | Día 4: Descanso | Día 5: Pierna Completa | Día 6: Torso Bombo",
-                "weekly_sets": "22 series semanales en tren inferior; mantenimiento en tren superior.",
-                "ideal_for": "Maximizar densidad en cuádriceps, femorales y proyección glútea."
-            },
-            {
-                "name": "Especialización Amplitud V-Taper (Hombro + Dorsal)",
-                "split": "Frecuencia 3 en Deltoides Lateral y Dorsal; Frecuencia 1.5 en Pecho/Pierna",
-                "weekly_sets": "20 series en deltoides lateral y dorsal.",
-                "ideal_for": "Estética Classic Physique y proporción cintura-hombro."
-            }
+            {"name": "Bloque 01 • Frecuencia 2 Global (Equilibrio Simétrico)", "split": "Torso / Pierna / Descanso / Push / Pull / Legs", "weekly_sets": "14-16 series efectivas por grupo muscular", "ideal_for": "Hipertrofia equilibrada en todo el cuerpo sin fatiga excesiva del SNC."},
+            {"name": "Bloque 02 • Especialización Frecuencia 3 en Brazos", "split": "Día 1: Brazos+Hombro | Día 2: Pierna | Día 3: Torso+Bíceps | Día 4: Descanso | Día 5: Brazos+Hombro | Día 6: Pierna", "weekly_sets": "20-22 series semanales en Bíceps y Tríceps; 8 series de mantenimiento en el resto.", "ideal_for": "Aumentar el perímetro de brazo en ciclos de 6 a 8 semanas."},
+            {"name": "Bloque 03 • Especialización Frecuencia 3 en Pierna y Glúteo", "split": "Día 1: Cuádriceps | Día 2: Torso | Día 3: Glúteo e Isquios | Día 4: Descanso | Día 5: Pierna Completa | Día 6: Torso", "weekly_sets": "22 series semanales en tren inferior; mantenimiento en tren superior.", "ideal_for": "Densidad máxima de cuádriceps, femorales y proyección glútea."},
+            {"name": "Bloque 04 • Especialización Amplitud V-Taper (Hombro + Dorsal)", "split": "Frecuencia 3 en Deltoides Lateral y Dorsal; Frecuencia 1.5 en Pecho/Pierna", "weekly_sets": "20 series en deltoides lateral y dorsal.", "ideal_for": "Crear cintura visualmente estrecha y hombros 3D."},
+            {"name": "Bloque 05 • Especialización Pectoral Superior (Clavicular)", "split": "Lunes: Pecho Inclinado | Miércoles: Pecho Poleas/Mancuernas | Viernes: Torso Completo", "weekly_sets": "18-20 series semanales en pectoral.", "ideal_for": "Rellenar la parte alta del pecho bajo las clavículas."},
+            {"name": "Bloque 06 • Especialización Espalda Densidad y Grosor", "split": "3 sesiones semanales alternando tracciones verticales y remos pesados", "weekly_sets": "20 series semanales en dorsal, trapecio y romboides.", "ideal_for": "Lograr profundidad muscular en la espalda vista de perfil."},
+            {"name": "Bloque 07 • Especialización Glúteo Estético", "split": "Lunes: Empuje de cadera pesado | Miércoles: Unilateral | Viernes: Abducción y metabólico", "weekly_sets": "18-22 series semanales directas en glúteo.", "ideal_for": "Maximizar fuerza y forma en glúteo mayor y medio."},
+            {"name": "Bloque 08 • Bloque de Fuerza Pura (Básicos)", "split": "4 días centrados en progresión lineal 5x5 en Sentadilla, Banca y Peso Muerto", "weekly_sets": "12-15 series pesadas al 80-87% 1RM.", "ideal_for": "Elevar los techos de fuerza antes de una fase de volumen."},
+            {"name": "Bloque 09 • Definición (Mantenimiento de Carga Pesada)", "split": "Torso / Pierna 4 días manteniendo pesos altos y reduciendo volumen un 20%", "weekly_sets": "10-12 series muy intensas por grupo muscular.", "ideal_for": "Retener el 100% de la masa muscular en déficit calórico."},
+            {"name": "Bloque 10 • Descarga Estratégica (Deload Week)", "split": "3-4 días al 60% del volumen habitual y RIR 3-4", "weekly_sets": "6-8 series por grupo muscular.", "ideal_for": "Disipar fatiga acumulada cada 8-10 semanas y supercompensar."}
         ]
     }
-
-
-def build_supplements_matrix():
-    return {
-        "updated_at": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        "categories": {
-            "masa_muscular": [
-                {
-                    "name": "Creatina Monohidrato Pura (200 Mesh)",
-                    "grade": "Grado A • Evidencia Máxima",
-                    "how_to_take": "0.1g por kg de peso corporal al día (ej. 8-9g diarios), todos los días con agua o comida.",
-                    "mechanism": "Satura la fosfocreatina intramuscular, eleva la fuerza máxima, resíntesis de ATP e hidratación celular.",
-                    "featured_store": True
-                },
-                {
-                    "name": "Proteína Whey Isolate (Aislado de Suero)",
-                    "grade": "Grado A • Evidencia Máxima",
-                    "how_to_take": "30g - 40g inmediatamente tras entrenar o para completar requerimientos proteicos.",
-                    "mechanism": "Aporta >3g de L-Leucina pura de rápida absorción para disparar la síntesis proteica vía mTOR.",
-                    "featured_store": True
-                },
-                {
-                    "name": "L-Citrulina Malato 2:1 + Beta-Alanina",
-                    "grade": "Grado A • Rendimiento y Bombeo",
-                    "how_to_take": "6-8g de Citrulina + 3.2g de Beta-Alanina 30 minutos antes del entrenamiento.",
-                    "mechanism": "Aumenta el óxido nítrico, vasodilatación periférica y tampona el ácido láctico en series largas.",
-                    "featured_store": True
-                },
-                {
-                    "name": "EAA (Aminoácidos Esenciales) + Ciclodextrina",
-                    "grade": "Grado B+ • Intra-Entreno",
-                    "how_to_take": "12g EAA + 30g Ciclodextrina disueltos en 1L de agua durante sesiones de +75 minutos.",
-                    "mechanism": "Frena el catabolismo inducido por cortisol y mantiene la glucemia estable durante el entrenamiento.",
-                    "featured_store": False
-                }
-            ],
-            "perdida_peso": [
-                {
-                    "name": "Cafeína Anhidra + Extracto de Té Verde (EGCG)",
-                    "grade": "Grado A • Termogénesis y Lipólisis",
-                    "how_to_take": "200mg Cafeína + 400mg EGCG 30 minutos antes del cardio o entrenamiento de fuerza.",
-                    "mechanism": "Eleva las catecolaminas (adrenalina/noradrenalina) movilizando ácidos grasos libres de los adipocitos.",
-                    "featured_store": True
-                },
-                {
-                    "name": "L-Carnitina L-Tartrato",
-                    "grade": "Grado B • Transporte Mitocondrial",
-                    "how_to_take": "2g - 3g diarios acompañados de una comida con carbohidratos o insulina para su captación muscular.",
-                    "mechanism": "Facilita el transporte de ácidos grasos de cadena larga hacia la mitocondria y acelera la recuperación.",
-                    "featured_store": False
-                },
-                {
-                    "name": "Berberina HCL (500mg)",
-                    "grade": "Grado A • Sensibilidad a la Insulina",
-                    "how_to_take": "500mg 15 minutos antes de las dos comidas principales con carbohidratos.",
-                    "mechanism": "Activa la enzima AMPK, mejorando la captación de glucosa muscular y reduciendo picos de insulina.",
-                    "featured_store": False
-                },
-                {
-                    "name": "Glucomanano / Psyllium Husk",
-                    "grade": "Grado A • Saciedad en Déficit",
-                    "how_to_take": "3g con 400ml de agua 20 minutos antes de la comida más abundante.",
-                    "mechanism": "Fibra soluble viscosa que retrasa el vaciado gástrico y bloquea el hambre en déficit calórico.",
-                    "featured_store": False
-                }
-            ],
-            "salud": [
-                {
-                    "name": "Omega-3 Ultra Puro (EPA / DHA)",
-                    "grade": "Grado A • Cardiovascular y Cerebral",
-                    "how_to_take": "2.5g - 3g combinados de EPA+DHA al día junto a comidas con grasa.",
-                    "mechanism": "Reduce triglicéridos, mejora la flexibilidad arterial, protege la función cognitiva y regula inflamación.",
-                    "featured_store": True
-                },
-                {
-                    "name": "Vitamina D3 (4000 UI) + K2 (MK-7 100mcg)",
-                    "grade": "Grado A • Sistema Inmune y Óseo",
-                    "how_to_take": "1 cápsula diaria con el desayuno (requiere grasa para absorberse).",
-                    "mechanism": "La D3 optimiza testosterona e inmunidad; la K2 dirige el calcio al hueso evitando calcificación arterial.",
-                    "featured_store": True
-                },
-                {
-                    "name": "Magnesio Bisglicinato + Zinc Quelado",
-                    "grade": "Grado A • Descanso y Entorno Hormonal",
-                    "how_to_take": "400mg Magnesio + 15mg Zinc 45 minutos antes de dormir.",
-                    "mechanism": "Cofactor en más de 300 reacciones enzimáticas; mejora el sueño profundo y la recuperación del SNC.",
-                    "featured_store": True
-                },
-                {
-                    "name": "Coenzima Q10 (Ubiquinol 100mg) + NAC",
-                    "grade": "Grado B+ • Protección Hepática y Mitocondrial",
-                    "how_to_take": "100mg Ubiquinol + 600mg N-Acetilcisteína por la mañana.",
-                    "mechanism": "Eleva el glutatión intracelular (antioxidante maestro) y protege el miocardio.",
-                    "featured_store": False
-                }
-            ],
-            "alivio": [
-                {
-                    "name": "Colágeno Hidrolizado Tipo I y II + Vitamina C",
-                    "grade": "Grado B+ • Tendones y Cartílago",
-                    "how_to_take": "15g de Colágeno + 100mg de Vitamina C 45 minutos antes de entrenar o antes de dormir.",
-                    "mechanism": "Estimula la síntesis de matriz extracelular en tendones, ligamentos y articulaciones sometidas a carga.",
-                    "featured_store": True
-                },
-                {
-                    "name": "Cúrcuma Fitosomada (Curcumina + Piperina)",
-                    "grade": "Grado A • Antiinflamatorio Natural",
-                    "how_to_take": "500mg - 1000mg diarios repartidos en comidas.",
-                    "mechanism": "Inhibe citoquinas proinflamatorias (NF-kB y COX-2) aliviando molestias articulares sin dañar el estómago.",
-                    "featured_store": False
-                },
-                {
-                    "name": "Ashwagandha KSM-66 (600mg)",
-                    "grade": "Grado A • Control de Cortisol y Estrés",
-                    "how_to_take": "300mg por la mañana y 300mg por la tarde/noche.",
-                    "mechanism": "Adaptógeno clínico que reduce el cortisol sérico hasta un 27%, mejorando la calma y el descanso.",
-                    "featured_store": False
-                },
-                {
-                    "name": "Glucosamina Sulfato + Condroitina + MSM",
-                    "grade": "Grado B+ • Lubricación Articular",
-                    "how_to_take": "1500mg Glucosamina + 1200mg Condroitina + 2000mg MSM al día.",
-                    "mechanism": "Mantiene la viscosidad del líquido sinovial y amortigua el impacto articular en sentadillas y presses.",
-                    "featured_store": False
-                }
-            ],
-            "cabello": [
-                {
-                    "name": "Saw Palmetto (Serenoa Repens 320mg) + Semilla de Calabaza",
-                    "grade": "Grado B+ • Inhibidor Natural 5-Alfa Reductasa",
-                    "how_to_take": "320mg extracto estandarizado al 85-95% de ácidos grasos diarios con comida.",
-                    "mechanism": "Ayuda a modular la conversión de testosterona en DHT en el folículo piloso de forma natural.",
-                    "featured_store": False
-                },
-                {
-                    "name": "Biotina (5000mcg) + Zinc + L-Cisteína",
-                    "grade": "Grado A • Estructura de Queratina",
-                    "how_to_take": "1 dosis diaria con el desayuno.",
-                    "mechanism": "Aporta los aminoácidos azufrados y coenzimas indispensables para el grosor y resistencia del tallo capilar.",
-                    "featured_store": True
-                },
-                {
-                    "name": "Colágeno Marino + Silicio Orgánico",
-                    "grade": "Grado B+ • Irrigación y Anclaje Folicular",
-                    "how_to_take": "10g Colágeno + 50mg Silicio al día.",
-                    "mechanism": "Mejora la microcirculación del cuero cabelludo y fortalece la dermis donde se ancla el folículo.",
-                    "featured_store": True
-                }
-            ]
-        }
-    }
-
-
-def build_marketing_showcase():
-    campaigns = [
-        {
-            "badge": "DIVISIÓN CIENTÍFICA • DAZ PREMIUM FIT PERFORMANCE",
-            "headline": "INGENIERÍA TEXTIL Y CIENCIA PARA EL FÍSICO DE ÉLITE",
-            "subheadline": "Cortes anatómicos diseñados para resaltar la proporción hombro-cintura, tejidos de alto gramaje y suplementación clínica respaldada por datos reales.",
-            "cta_text": "EXPLORAR TIENDA OFICIAL DAZ PREMIUM FIT",
-            "cta_url": STORE_DPF,
-            "featured_items": [
-                {"title": "Oversized Heavyweight Pump Tee", "tag": "Corte Culturismo • Algodón 280 GSM", "url": STORE_DPF},
-                {"title": "Compression Pro Stringer & Tank", "tag": "Ajuste Anatómico • Secado Rápido", "url": STORE_DPF},
-                {"title": "The Blueprint Series: Pack Rendimiento", "tag": "Whey Isolate + Creatina 200 Mesh", "url": f"{STORE_DPF}/collections/supplements"}
-            ]
-        },
-        {
-            "badge": "ALTO RENDIMIENTO • MARCA REGISTRADA EN EE. UU.",
-            "headline": "DEL LABORATORIO A LA TARIMA Y AL HIERRO",
-            "subheadline": "Sin rellenos ocultos ni fórmulas infradosificadas. Equipamiento deportivo y protocolos diseñados para atletas que exigen resultados medibles.",
-            "cta_text": "ACCEDER AL CATÁLOGO OFICIAL",
-            "cta_url": STORE_DPF,
-            "featured_items": [
-                {"title": "The Prestige Protocol: Biometric Mastery®", "tag": "Suplementación de Precisión", "url": f"{STORE_DPF}/collections/supplements"},
-                {"title": "DAZMOND® Urban Luxury Footwear", "tag": "Colección Exclusiva Fuera del Gym", "url": STORE_DAZMOND},
-                {"title": "Valmont & Co. Capital Protocol", "tag": "Academia de Inversión y Mercados", "url": STORE_VALMONT}
-            ]
-        }
-    ]
-    idx = get_daily_index(len(campaigns))
-    selected = campaigns[idx]
-    selected["updated_at"] = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    return selected
-
-
-def build_blog_posts():
-    today_str = datetime.date.today().strftime("%d/%m/%Y")
-    articles = [
-        {
-            "id": "hipertrofia-tension-mecanica",
-            "category": "BIOMECÁNICA E HIPERTROFIA",
-            "date": today_str,
-            "read_time": "4 min",
-            "title": "Tensión Mecánica vs. Estrés Metabólico: Qué construye tejido contráctil real",
-            "summary": "Las últimas 5 repeticiones efectivas cerca del fallo muscular reclutan las unidades motoras de alto umbral responsables de la hipertrofia miofibrilar.",
-            "content": "Acumular series sin intensidad real solo genera fatiga del sistema nervioso. Para maximizar el crecimiento, prioriza ejercicios estables donde puedas aplicar sobrecarga progresiva entre 6 y 12 repeticiones, manteniendo un RIR (repeticiones en recámara) de 1 a 2 y controlando la fase excéntrica durante 2-3 segundos."
-        },
-        {
-            "id": "creatina-dosis-real",
-            "category": "NUTRICIÓN CLÍNICA",
-            "date": today_str,
-            "read_time": "3 min",
-            "title": "Por qué la dosis estándar de 5g de Creatina se queda corta en atletas de +85 kg",
-            "summary": "El cálculo científico basado en peso corporal (0.1g/kg) optimiza la saturación muscular y cognitiva frente a la recomendación genérica.",
-            "content": "La mayoría de fabricantes imprimen 5 gramos como dosis universal. Sin embargo, los estudios farmacocinéticos demuestran que un atleta de 90 kg requiere entre 8 y 9 gramos diarios de creatina monohidrato pura para mantener los depósitos de fosfocreatina al 100%, acelerando la resíntesis de ATP entre series pesadas."
-        },
-        {
-            "id": "frecuencia-entrenamiento-natural",
-            "category": "PROGRAMACIÓN",
-            "date": today_str,
-            "read_time": "5 min",
-            "title": "Frecuencia 2 vs. Weider Clásica: Cómo gestionar la síntesis proteica en atletas naturales",
-            "summary": "La síntesis de proteínas musculares regresa a niveles basales entre 36 y 48 horas después de entrenar. Dividir el volumen semanal duplica las ventanas de crecimiento.",
-            "content": "Hacer 20 series de pecho el lunes provoca daño muscular excesivo cuya recuperación consume recursos sin aportar hipertrofia extra. Dividir ese trabajo en 10 series el lunes y 10 series el jueves permite entrenar con cargas más altas y mayor calidad técnica en cada sesión."
-        },
-        {
-            "id": "keto-vs-carbohidratos-rendimiento",
-            "category": "METABOLISMO",
-            "date": today_str,
-            "read_time": "5 min",
-            "title": "Dieta Cetogénica vs. Alta en Carbohidratos: Cuándo usar cada estrategia según tu fisiología",
-            "summary": "Mientras la glucosa domina en esfuerzos glucolíticos de alta intensidad, la cetosis ofrece una herramienta superior para flexibilidad metabólica y control insulínico.",
-            "content": "No existe una dieta única para todo el año. Utilizar bloques cetogénicos controlados mejora la sensibilidad a la insulina y reduce la inflamación sistémica, preparando el terreno hormonal para que, al reintroducir carbohidratos en fase de volumen, la partición calórica se dirija hacia el músculo y no al tejido adiposo."
-        },
-        {
-            "id": "salud-capilar-atleta",
-            "category": "LONGEVIDAD Y ESTÉTICA",
-            "date": today_str,
-            "read_time": "4 min",
-            "title": "Cómo proteger la salud capilar y articular bajo entrenamiento de alta intensidad",
-            "summary": "El estrés oxidativo, los déficits de zinc/hierro y la inflamación crónica impactan directamente en el folículo piloso y los tendones.",
-            "content": "El entrenamiento intenso incrementa la demanda de micronutrientes clave. Asegurar niveles óptimos de Vitamina D3, Zinc, Biotina, Colágeno con Vitamina C y ácidos grasos Omega-3 protege simultáneamente la integridad de los tejidos conectivos y el ciclo anágeno del cabello."
-        }
-    ]
-
-    rot = get_daily_index(len(articles))
-    ordered = articles[rot:] + articles[:rot]
-    return {
-        "updated_at": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        "posts": ordered
-    }
-
-
-def main():
-    ensure_dir(DATA_DIR)
-    files_map = {
-        "nutrition_matrix.json": build_nutrition_matrix(),
-        "fitness_plans.json": build_training_system(),
-        "supplement_analysis.json": build_supplements_matrix(),
-        "marketing_showcase.json": build_marketing_showcase(),
-        "blog_posts.json": build_blog_posts()
-    }
-    for filename, payload in files_map.items():
-        filepath = os.path.join(DATA_DIR, filename)
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
-        print(f"[ENGINE OK] {filepath}")
-
-
-if __name__ == "__main__":
-    main()
