@@ -89,9 +89,7 @@
 
 <main class="daz-container">
   <div class="profile-grid">
-    <!-- FORMULARIO DE ACCESO/REGISTRO + CUENTA PERSONAL -->
     <div class="card">
-      <!-- UNIDAD DE ACCESO / REGISTRO (USUARIO-CONTRASEÑA + GOOGLE) -->
       <div class="auth-box">
         <span class="tag" data-i18n="auth_tag">ACCESO Y REGISTRO DE CUENTA</span>
         <h3 style="margin-bottom:12px;" data-i18n="auth_h3">Usuario / Contraseña o Google</h3>
@@ -124,7 +122,6 @@
         <p id="auth-feedback" class="auth-status"></p>
       </div>
 
-      <!-- FICHA DE BIOMETRÍA Y PROGRAMA -->
       <span class="tag" data-i18n="profile_card_tag">FICHA PERSONAL DEL ATLETA</span>
       <h3 style="margin-bottom:16px;" data-i18n="profile_card_h3">Datos Biométricos & Suscripción</h3>
 
@@ -182,7 +179,6 @@
       <p id="save-feedback" style="color:var(--green); font-size:0.85rem; margin-top:10px; display:none;"></p>
     </div>
 
-    <!-- VISTA PREVIA DEL MENSAJE DIARIO Y CANAL OFICIAL POR IDIOMA -->
     <div class="card">
       <span class="tag tag-green" data-i18n="preview_tag">VISTA PREVIA • ENVÍO AUTOMÁTICO 06:00 AM</span>
       <h3 style="margin-bottom:12px;" data-i18n="preview_h3">Ejemplo de Sesión que Recibirás el Lunes</h3>
@@ -215,29 +211,21 @@
     updateProfile
   } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-  // 1. Sustituye estos valores por los de tu proyecto Firebase
   const firebaseConfig = {
-    apiKey: "TU_FIREBASE_API_KEY",
-    authDomain: "TU_PROYECTO.firebaseapp.com",
-    projectId: "TU_PROYECTO",
-    storageBucket: "TU_PROYECTO.appspot.com",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyDIGNjv6wBM6kfc3Ptq_MVqp62C_KI",
+    authDomain: "daz-performance.firebaseapp.com",
+    projectId: "daz-performance",
+    storageBucket: "daz-performance.firebasestorage.app",
+    messagingSenderId: "1064119043322",
+    appId: "1:1064119043322:web:d33f5ffae6817309cad43"
   };
 
-  // 2. Usuario exacto de tu bot en Telegram (sin @)
   const TELEGRAM_BOT_USERNAME = "DAZPerformanceBot";
 
-  const firebaseConfigured = !firebaseConfig.apiKey.startsWith("TU_");
-  let auth = null;
-  let googleProvider = null;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
   let authMode = "register";
-
-  if (firebaseConfigured) {
-    const app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    googleProvider = new GoogleAuthProvider();
-  }
 
   function setAuthMessage(msg, isError = false) {
     const el = document.getElementById("auth-feedback");
@@ -264,17 +252,6 @@
       return;
     }
 
-    if (!firebaseConfigured || !auth) {
-      const localAccount = { username: username || email.split("@")[0], email, provider: "local" };
-      localStorage.setItem("daz_auth_session", JSON.stringify(localAccount));
-      if (!document.getElementById("u-name").value && localAccount.username) {
-        document.getElementById("u-name").value = localAccount.username;
-      }
-      document.getElementById("btn-logout").style.display = "inline-block";
-      setAuthMessage(`Sesión local iniciada como ${localAccount.username} (configura firebaseConfig para activar Firebase real).`);
-      return;
-    }
-
     try {
       if (authMode === "register") {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -296,10 +273,6 @@
   };
 
   window.handleGoogleAuth = async function () {
-    if (!firebaseConfigured || !auth || !googleProvider) {
-      setAuthMessage("Añade primero tu firebaseConfig real para habilitar el acceso con Google.", true);
-      return;
-    }
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
@@ -313,10 +286,7 @@
   };
 
   window.handleLogout = async function () {
-    localStorage.removeItem("daz_auth_session");
-    if (firebaseConfigured && auth) {
-      await signOut(auth);
-    }
+    await signOut(auth);
     document.getElementById("btn-logout").style.display = "none";
     setAuthMessage("Sesión cerrada.");
   };
@@ -413,20 +383,18 @@
     }
   };
 
-  if (firebaseConfigured && auth) {
-    onAuthStateChanged(auth, (user) => {
-      const logoutBtn = document.getElementById("btn-logout");
-      if (user) {
-        logoutBtn.style.display = "inline-block";
-        if (user.displayName && !document.getElementById("u-name").value) {
-          document.getElementById("u-name").value = user.displayName;
-        }
-        setAuthMessage(`Cuenta activa: ${user.displayName || user.email}`);
-      } else {
-        logoutBtn.style.display = "none";
+  onAuthStateChanged(auth, (user) => {
+    const logoutBtn = document.getElementById("btn-logout");
+    if (user) {
+      logoutBtn.style.display = "inline-block";
+      if (user.displayName && !document.getElementById("u-name").value) {
+        document.getElementById("u-name").value = user.displayName;
       }
-    });
-  }
+      setAuthMessage(`Cuenta activa: ${user.displayName || user.email}`);
+    } else {
+      logoutBtn.style.display = "none";
+    }
+  });
 
   loadUserProfile();
 </script>
