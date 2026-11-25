@@ -1,0 +1,36 @@
+name: DAZ Logo, Iconos y Google
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'scripts/brand_assets.py'
+
+permissions:
+  contents: write
+
+jobs:
+  brand:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Pillow
+        run: pip install pillow
+
+      - name: Generar logo, iconos, sitemap y datos para Google
+        run: python scripts/brand_assets.py
+
+      - name: Guardar cambios
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "DAZ Brand Bot"
+          git add -A
+          git diff --staged --quiet || (git commit -m "Logo DAZ en la web, iconos, sitemap y datos para Google" && git push)
