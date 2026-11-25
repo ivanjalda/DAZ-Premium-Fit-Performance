@@ -3,240 +3,536 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nutrición Clínica & Báscula Exacta | DAZ Premium Fit Performance</title>
+  <title>Nutrición por Objetivos & Calculadora de Gramos | DAZ Premium Fit Performance</title>
   <style>
-    .sub-nav {
+    .nutri-tabs {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 26px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
     }
-    .sub-btn {
-      background: var(--bg-card);
+    .n-tab {
+      background: #0b0e14;
       border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 11px 20px;
+      color: var(--text-muted);
+      padding: 10px 18px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 800;
       font-size: 0.86rem;
     }
-    .sub-btn.active { background: var(--gold); color: #060709; border-color: var(--gold); }
-
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
+    .n-tab.active {
+      background: var(--gold);
+      color: #060709;
+      border-color: var(--gold);
     }
-    .field label {
+    .calc-grid, .diet-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .calc-inputs, .diet-form {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .diet-form {
+      grid-template-columns: 1fr 1fr;
+    }
+    .n-field label {
       display: block;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 800;
-      color: var(--text-muted);
       text-transform: uppercase;
+      color: var(--text-muted);
       margin-bottom: 6px;
     }
-    .field input, .field select {
+    .n-field input, .n-field select {
       width: 100%;
-      background: #060709;
+      background: #06080c;
       border: 1px solid var(--border);
       color: #fff;
-      padding: 11px 12px;
-      border-radius: 6px;
-      font-size: 0.95rem;
+      padding: 10px 12px;
+      border-radius: 7px;
+      font-size: 0.94rem;
     }
-    .food-box {
-      padding: 14px 16px;
-      background: #0b0d10;
+    .food-ref {
+      background: #080b10;
       border: 1px solid var(--border);
       border-radius: 8px;
-      margin-bottom: 10px;
+      padding: 12px 14px;
+      font-size: 0.84rem;
+      color: #d1d5db;
+      margin-bottom: 16px;
     }
-    .food-top {
+    .totals-grid, .macros-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .total-card, .macro-box {
+      background: #080b10;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px;
+      text-align: center;
+    }
+    .total-card strong, .macro-box strong {
+      display: block;
+      font-size: 1.22rem;
+      color: var(--gold);
+    }
+    .total-card span, .macro-box span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .dist-box {
+      background: #080b10;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+    .macro-bar {
+      display: flex;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #141822;
+      margin: 10px 0 14px;
+    }
+    .bar-p { background: #ef4444; }
+    .bar-c { background: #d4af37; }
+    .bar-f { background: #38bdf8; }
+    .dist-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 5px;
+      font-size: 0.88rem;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .food-top strong { color: var(--gold); }
-    .food-macros { font-family: monospace; font-size: 0.8rem; color: #6ee7b7; }
+    .dist-row:last-child { border-bottom: none; }
+    .food-log-item, .meal-card {
+      background: #090c11;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+    }
+    .food-log-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-remove {
+      background: transparent;
+      border: 1px solid rgba(248,113,113,0.4);
+      color: #f87171;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.78rem;
+    }
+    @media (max-width: 920px) {
+      .calc-grid, .diet-layout { grid-template-columns: 1fr; }
+      .totals-grid, .macros-strip { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .calc-inputs, .diet-form { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
 <section class="daz-page-banner">
-  <span class="kicker">MÓDULO 02 • NUTRICIÓN CLÍNICA Y PRECISIÓN</span>
-  <h1>Nutrición por Peso, Alimentos de Élite & Keto</h1>
-  <p>Calcula exactamente cuántos gramos en crudo debes pesar de cada alimento según tu peso corporal y meta física, consulta los mejores alimentos anabólicos y domina protocolos avanzados.</p>
+  <span class="kicker">NUTRICIÓN APLICADA • MACROS, GRAMOS Y OBJETIVOS</span>
+  <h1>Nutrición por Objetivos & Calculadora en Gramos</h1>
+  <p>Calcula las calorías consumidas y la distribución de macros por gramos, o arma tu plan diario según tu objetivo, trabajo, peso y altura.</p>
 </section>
 
 <main class="daz-container">
-  <div class="sub-nav">
-    <button class="sub-btn active" onclick="showNutTab('scale', this)">Calculadora de Alimentos en Gramos</button>
-    <button class="sub-btn" onclick="showNutTab('foods', this)">Alimentos Buenos (Matriz Nutricional)</button>
-    <button class="sub-btn" onclick="showNutTab('diets', this)">Dieta Keto, Ciclado & Volumen</button>
+  <div class="nutri-tabs">
+    <button type="button" class="n-tab active" id="tab-calc" onclick="switchNutriTab('calc')">Calculadora de Alimentos en Gramos</button>
+    <button type="button" class="n-tab" id="tab-goal" onclick="switchNutriTab('goal')">Dieta por Objetivos</button>
   </div>
 
-  <!-- 1. BÁSCULA EXACTA -->
-  <div id="nview-scale" class="n-view">
-    <div class="card" style="margin-bottom:22px;">
-      <span class="tag">PRECISIÓN EN BÁSCULA • PESO EN CRUDO</span>
-      <h3 style="margin-bottom:14px;">Introduce tu peso y objetivo para obtener el gramaje exacto</h3>
-      <div class="calc-grid">
-        <div class="field">
-          <label>Tu Peso Corporal (kg)</label>
-          <input type="number" id="f-weight" value="92" min="40" max="180" />
-        </div>
-        <div class="field">
-          <label>Objetivo Físico</label>
-          <select id="f-goal">
-            <option value="volumen">Ganar Masa Muscular (Volumen Limpio)</option>
-            <option value="definicion">Perder Grasa (Definición)</option>
-            <option value="recomposicion">Recomposición Corporal</option>
-            <option value="keto">Dieta Cetogénica (Keto Estricto)</option>
+  <!-- CALCULADORA DE ALIMENTOS EN GRAMOS -->
+  <div id="panel-calc" class="calc-grid">
+    <div class="card">
+      <span class="tag">AÑADIR ALIMENTO</span>
+      <h3 style="margin-bottom:14px;">Selecciona Gramos Consumidos</h3>
+
+      <div class="calc-inputs">
+        <div class="n-field">
+          <label>Alimento (base por 100 g)</label>
+          <select id="food-select" onchange="renderFoodPreview()">
+            <option value="chicken_breast">Pechuga de pollo (cruda)</option>
+            <option value="turkey_breast">Pechuga de pavo (cruda)</option>
+            <option value="lean_beef">Ternera magra (cruda)</option>
+            <option value="salmon">Salmón fresco</option>
+            <option value="hake">Merluza / pescado blanco</option>
+            <option value="whole_eggs">Huevos enteros</option>
+            <option value="egg_whites">Claras de huevo</option>
+            <option value="white_rice_raw">Arroz blanco (crudo)</option>
+            <option value="oats_raw">Copos de avena</option>
+            <option value="potato_boiled">Patata cocida</option>
+            <option value="greek_yogurt_0">Yogur griego natural 0%</option>
+            <option value="olive_oil">Aceite de oliva virgen extra (AOVE)</option>
+            <option value="whey_isolate">Proteína Whey / Isolate</option>
           </select>
         </div>
-        <div class="field">
-          <label>Comidas al Día</label>
-          <select id="f-meals">
-            <option value="3">3 Comidas Principales</option>
-            <option value="4" selected>4 Comidas Estructuradas</option>
-            <option value="5">5 Comidas (Atleta)</option>
-          </select>
+        <div class="n-field">
+          <label>Gramos</label>
+          <input type="number" id="food-grams" value="150" min="1" max="2000" oninput="renderFoodPreview()" />
         </div>
       </div>
-      <button class="btn-primary" onclick="calcFoodScale()">CALCULAR GRAMOS DE ALIMENTOS</button>
+
+      <div class="food-ref" id="food-preview"></div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button type="button" class="btn-primary" onclick="addFoodEntry()">Añadir al Día</button>
+        <button type="button" class="btn-outline" onclick="clearFoods()">Vaciar</button>
+      </div>
     </div>
-    <div id="scale-result" class="grid-2"></div>
+
+    <div class="card">
+      <span class="tag">CALORÍAS Y DISTRIBUCIÓN DE MACROS</span>
+      <h3 style="margin-bottom:14px;">Resumen de lo que Consumes</h3>
+
+      <div class="totals-grid">
+        <div class="total-card">
+          <strong id="tot-kcal">0</strong>
+          <span>Calorías (kcal)</span>
+        </div>
+        <div class="total-card">
+          <strong id="tot-p">0 g</strong>
+          <span>Proteínas</span>
+        </div>
+        <div class="total-card">
+          <strong id="tot-c">0 g</strong>
+          <span>Carbohidratos</span>
+        </div>
+        <div class="total-card">
+          <strong id="tot-f">0 g</strong>
+          <span>Grasas</span>
+        </div>
+      </div>
+
+      <div class="dist-box">
+        <strong style="color:var(--gold); font-size:0.86rem; text-transform:uppercase;">Distribución de Macros sobre tus Calorías</strong>
+        <div class="macro-bar">
+          <div class="bar-p" id="bar-p" style="width:33%;"></div>
+          <div class="bar-c" id="bar-c" style="width:34%;"></div>
+          <div class="bar-f" id="bar-f" style="width:33%;"></div>
+        </div>
+        <div class="dist-row">
+          <span>🔴 <strong>Proteínas</strong> (4 kcal/g)</span>
+          <span id="dist-p-text">0 g • 0 kcal • 0%</span>
+        </div>
+        <div class="dist-row">
+          <span>🟡 <strong>Carbohidratos</strong> (4 kcal/g)</span>
+          <span id="dist-c-text">0 g • 0 kcal • 0%</span>
+        </div>
+        <div class="dist-row">
+          <span>🔵 <strong>Grasas</strong> (9 kcal/g)</span>
+          <span id="dist-f-text">0 g • 0 kcal • 0%</span>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:10px; font-size:0.95rem;">Alimentos registrados:</h4>
+      <div id="food-log"></div>
+
+      <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <span style="font-size:0.85rem; color:var(--text-muted);">Suplementos y ropa de entrenamiento:</span>
+        <a href="https://dazpremiumfit.com" target="_blank" rel="noopener" class="btn-outline">Ver DAZ Premium Fit ↗</a>
+      </div>
+    </div>
   </div>
 
-  <!-- 2. ALIMENTOS BUENOS -->
-  <div id="nview-foods" class="n-view grid-3" style="display:none;"></div>
+  <!-- DIETA POR OBJETIVOS -->
+  <div id="panel-goal" class="diet-layout" style="display:none;">
+    <div class="card">
+      <span class="tag">PARÁMETROS DEL ATLETA</span>
+      <h3 style="margin-bottom:14px;">Configura tu Plan por Objetivo</h3>
 
-  <!-- 3. PROTOCOLOS KETO Y ESPECIALES -->
-  <div id="nview-diets" class="n-view grid-3" style="display:none;"></div>
+      <div class="diet-form">
+        <div class="n-field">
+          <label>Objetivo</label>
+          <select id="d-goal">
+            <option value="bulk">Subir de masa muscular</option>
+            <option value="cut">Definición</option>
+            <option value="lose">Adelgazar</option>
+          </select>
+        </div>
+        <div class="n-field">
+          <label>Actividad en tu trabajo</label>
+          <select id="d-work">
+            <option value="active">Trabajo moviéndome (de pie / físico / turnos)</option>
+            <option value="sedentary">Trabajo sin moverme (sentado / oficina / coche)</option>
+          </select>
+        </div>
+        <div class="n-field">
+          <label>Peso (kg)</label>
+          <input type="number" id="d-weight" value="88" min="45" max="180" />
+        </div>
+        <div class="n-field">
+          <label>Altura (cm)</label>
+          <input type="number" id="d-height" value="178" min="145" max="215" />
+        </div>
+        <div class="n-field">
+          <label>Sexo fisiológico</label>
+          <select id="d-sex">
+            <option value="male">Hombre</option>
+            <option value="female">Mujer</option>
+          </select>
+        </div>
+        <div class="n-field">
+          <label>Edad</label>
+          <input type="number" id="d-age" value="30" min="16" max="80" />
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" style="width:100%;" onclick="calculateDiet()">
+        Calcular Macros y Menú Diario
+      </button>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+        <strong style="color:var(--gold); font-size:0.85rem; display:block; margin-bottom:6px;">RECOMENDACIONES:</strong>
+        <ul class="clean-list" id="d-recommendations"></ul>
+      </div>
+    </div>
+
+    <div class="card" id="d-output"></div>
+  </div>
 </main>
 
 <script src="nav.js"></script>
 <script>
-  fetch("data/nutrition_matrix.json")
-    .then(r => r.json())
-    .then(data => {
-      const ef = data.elite_foods;
-      document.getElementById("nview-foods").innerHTML = `
-        <div class="card">
-          <span class="tag">SÍNTESIS PROTEICA</span>
-          <h3>Proteínas Limpias de Élite</h3>
-          ${ef.proteins.map(f => `
-            <div class="food-box">
-              <div class="food-top"><strong>${f.name}</strong><span class="food-macros">${f.macros_100g}</span></div>
-              <div style="font-size:0.86rem; color:var(--text-muted);">${f.benefit}</div>
-            </div>
-          `).join("")}
-        </div>
-        <div class="card">
-          <span class="tag">GLUCÓGENO Y RENDIMIENTO</span>
-          <h3>Carbohidratos Estratégicos</h3>
-          ${ef.carbs.map(f => `
-            <div class="food-box">
-              <div class="food-top"><strong>${f.name}</strong><span class="food-macros">${f.macros_100g}</span></div>
-              <div style="font-size:0.86rem; color:var(--text-muted);">${f.benefit}</div>
-            </div>
-          `).join("")}
-        </div>
-        <div class="card">
-          <span class="tag">HORMONAS Y SALUD</span>
-          <h3>Grasas Esenciales</h3>
-          ${ef.fats.map(f => `
-            <div class="food-box">
-              <div class="food-top"><strong>${f.name}</strong><span class="food-macros">${f.macros_100g}</span></div>
-              <div style="font-size:0.86rem; color:var(--text-muted);">${f.benefit}</div>
-            </div>
-          `).join("")}
-        </div>
-      `;
+  const FOODS_100G = {
+    chicken_breast: { name: "Pechuga de pollo (cruda)", p: 22.5, c: 0, f: 1.8 },
+    turkey_breast:  { name: "Pechuga de pavo (cruda)", p: 22.0, c: 0, f: 1.2 },
+    lean_beef:      { name: "Ternera magra (cruda)", p: 20.5, c: 0, f: 5.5 },
+    salmon:         { name: "Salmón fresco", p: 20.0, c: 0, f: 13.0 },
+    hake:           { name: "Merluza / pescado blanco", p: 17.5, c: 0, f: 1.5 },
+    whole_eggs:     { name: "Huevos enteros", p: 12.6, c: 0.7, f: 10.0 },
+    egg_whites:     { name: "Claras de huevo", p: 10.8, c: 0.7, f: 0.0 },
+    white_rice_raw: { name: "Arroz blanco (crudo)", p: 7.0, c: 78.0, f: 0.7 },
+    oats_raw:       { name: "Copos de avena", p: 13.5, c: 60.0, f: 7.0 },
+    potato_boiled:  { name: "Patata cocida", p: 2.0, c: 17.5, f: 0.1 },
+    greek_yogurt_0: { name: "Yogur griego natural 0%", p: 10.0, c: 4.0, f: 0.2 },
+    olive_oil:      { name: "Aceite de oliva virgen extra", p: 0.0, c: 0.0, f: 100.0 },
+    whey_isolate:   { name: "Proteína Whey / Isolate", p: 82.0, c: 4.0, f: 2.0 }
+  };
 
-      document.getElementById("nview-diets").innerHTML = data.specialized_diets.map(d => `
-        <div class="card">
-          <span class="tag tag-red">${d.macros_split}</span>
-          <h3>${d.name}</h3>
-          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">${d.mechanism}</p>
-          <ul class="clean-list">${d.rules.map(r => `<li>• ${r}</li>`).join("")}</ul>
-          <div style="margin-top:12px; padding-top:10px; border-top:1px solid var(--border);">
-            <strong style="color:var(--gold); font-size:0.82rem;">MENÚ EJEMPLO:</strong>
-            <ul class="clean-list">${d.sample_day.map(s => `<li>${s}</li>`).join("")}</ul>
+  let entries = [
+    { key: "chicken_breast", grams: 200 },
+    { key: "white_rice_raw", grams: 100 },
+    { key: "olive_oil", grams: 10 }
+  ];
+
+  function switchNutriTab(tab) {
+    document.getElementById("tab-calc").classList.toggle("active", tab === "calc");
+    document.getElementById("tab-goal").classList.toggle("active", tab === "goal");
+    document.getElementById("panel-calc").style.display = tab === "calc" ? "grid" : "none";
+    document.getElementById("panel-goal").style.display = tab === "goal" ? "grid" : "none";
+  }
+
+  function calcMacrosForGrams(foodKey, grams) {
+    const base = FOODS_100G[foodKey];
+    const factor = Math.max(0, grams) / 100;
+    const p = +(base.p * factor).toFixed(1);
+    const c = +(base.c * factor).toFixed(1);
+    const f = +(base.f * factor).toFixed(1);
+    const kcal = Math.round((p * 4) + (c * 4) + (f * 9));
+    return { p, c, f, kcal };
+  }
+
+  function renderFoodPreview() {
+    const key = document.getElementById("food-select").value;
+    const grams = Math.max(0, Number(document.getElementById("food-grams").value) || 0);
+    const m = calcMacrosForGrams(key, grams);
+    document.getElementById("food-preview").innerHTML =
+      `Para <strong>${grams} g</strong> de <strong>${FOODS_100G[key].name}</strong>: ` +
+      `<strong>${m.kcal} kcal</strong> • P: <strong>${m.p} g</strong> • C: <strong>${m.c} g</strong> • G: <strong>${m.f} g</strong>`;
+  }
+
+  function addFoodEntry() {
+    const key = document.getElementById("food-select").value;
+    const grams = Math.max(1, Number(document.getElementById("food-grams").value) || 0);
+    entries.push({ key, grams });
+    renderAll();
+  }
+
+  function removeFoodEntry(index) {
+    entries.splice(index, 1);
+    renderAll();
+  }
+
+  function clearFoods() {
+    entries = [];
+    renderAll();
+  }
+
+  function renderAll() {
+    renderFoodPreview();
+
+    let sumP = 0, sumC = 0, sumF = 0;
+    const logEl = document.getElementById("food-log");
+
+    if (!entries.length) {
+      logEl.innerHTML = `<p style="color:var(--text-muted); font-size:0.88rem;">Aún no has añadido alimentos hoy.</p>`;
+    } else {
+      logEl.innerHTML = entries.map((item, idx) => {
+        const m = calcMacrosForGrams(item.key, item.grams);
+        sumP += m.p;
+        sumC += m.c;
+        sumF += m.f;
+        return `
+          <div class="food-log-item">
+            <div>
+              <strong>${FOODS_100G[item.key].name} (${item.grams} g)</strong><br/>
+              <span style="color:var(--text-muted); font-size:0.8rem;">P: ${m.p} g | C: ${m.c} g | G: ${m.f} g</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <strong style="color:var(--gold);">${m.kcal} kcal</strong>
+              <button type="button" class="btn-remove" onclick="removeFoodEntry(${idx})">Quitar</button>
+            </div>
           </div>
-        </div>
-      `).join("");
-    });
+        `;
+      }).join("");
+    }
 
-  function calcFoodScale() {
-    const w = parseFloat(document.getElementById("f-weight").value) || 92;
-    const goal = document.getElementById("f-goal").value;
-    const meals = parseInt(document.getElementById("f-meals").value) || 4;
+    const kcalP = Math.round(sumP * 4);
+    const kcalC = Math.round(sumC * 4);
+    const kcalF = Math.round(sumF * 9);
+    const totalKcal = kcalP + kcalC + kcalF;
 
-    let pKg = 2.1, cKg = 4.5, fKg = 0.85;
-    if (goal === "definicion") { pKg = 2.4; cKg = 2.2; fKg = 0.7; }
-    else if (goal === "recomposicion") { pKg = 2.2; cKg = 3.2; fKg = 0.8; }
-    else if (goal === "keto") { pKg = 2.0; cKg = 0.3; fKg = 2.1; }
+    const pctP = totalKcal > 0 ? Math.round((kcalP / totalKcal) * 100) : 0;
+    const pctC = totalKcal > 0 ? Math.round((kcalC / totalKcal) * 100) : 0;
+    const pctF = totalKcal > 0 ? Math.max(0, 100 - pctP - pctC) : 0;
 
-    const totP = Math.round(w * pKg);
-    const totC = Math.round(w * cKg);
-    const totF = Math.round(w * fKg);
+    document.getElementById("tot-kcal").textContent = `${totalKcal}`;
+    document.getElementById("tot-p").textContent = `${sumP.toFixed(1)} g`;
+    document.getElementById("tot-c").textContent = `${sumC.toFixed(1)} g`;
+    document.getElementById("tot-f").textContent = `${sumF.toFixed(1)} g`;
 
-    const pMeal = Math.round(totP / meals);
-    const cMeal = Math.round(totC / meals);
-    const fMeal = Math.round(totF / meals);
+    document.getElementById("bar-p").style.width = `${pctP}%`;
+    document.getElementById("bar-c").style.width = `${pctC}%`;
+    document.getElementById("bar-f").style.width = `${pctF}%`;
 
-    const gChicken = Math.round((pMeal / 23) * 100);
-    const gBeef = Math.round((pMeal / 21) * 100);
-    const gWhey = Math.round((pMeal / 88) * 100);
-    const gRice = goal === "keto" ? 0 : Math.round((cMeal / 78) * 100);
-    const gOats = goal === "keto" ? 0 : Math.round((cMeal / 60) * 100);
-    const gPotato = goal === "keto" ? 0 : Math.round((cMeal / 20) * 100);
-    const mlOil = Math.max(5, fMeal);
-    const gAvocado = Math.round((fMeal / 15) * 100);
+    document.getElementById("dist-p-text").textContent = `${sumP.toFixed(1)} g • ${kcalP} kcal • ${pctP}%`;
+    document.getElementById("dist-c-text").textContent = `${sumC.toFixed(1)} g • ${kcalC} kcal • ${pctC}%`;
+    document.getElementById("dist-f-text").textContent = `${sumF.toFixed(1)} g • ${kcalF} kcal • ${pctF}%`;
+  }
 
-    document.getElementById("scale-result").innerHTML = `
-      <div class="card">
-        <span class="tag">PESO EXACTO EN CRUDO POR COMIDA (${meals} TOMAS)</span>
-        <h3>Equivalencias en Báscula</h3>
-        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
-          Requerimiento diario total: <strong>${totP}g Proteína</strong> • <strong>${totC}g Carbohidratos</strong> • <strong>${totF}g Grasas</strong>
-        </p>
-        <ul class="clean-list">
-          <li><strong>Proteína (Elige 1 por comida):</strong> ${gChicken}g Pechuga de Pollo/Pavo OR ${gBeef}g Ternera Magra OR ${gWhey}g Whey Isolate.</li>
-          <li><strong>Carbohidrato (Elige 1 por comida):</strong> ${goal === "keto" ? "0g (Modo Keto: solo 150g brócoli/espinacas)" : `${gRice}g Arroz Basmati en crudo OR ${gOats}g Avena OR ${gPotato}g Patata.`}</li>
-          <li><strong>Grasas Saludables (Por comida):</strong> ${mlOil}ml Aceite de Oliva Virgen Extra OR ${gAvocado}g Aguacate OR ${Math.round((fMeal/55)*100)}g Nueces.</li>
-        </ul>
+  function calculateDiet() {
+    const goal = document.getElementById("d-goal").value;
+    const work = document.getElementById("d-work").value;
+    const weight = Math.max(45, Number(document.getElementById("d-weight").value) || 80);
+    const height = Math.max(145, Number(document.getElementById("d-height").value) || 175);
+    const sex = document.getElementById("d-sex").value;
+    const age = Math.max(16, Number(document.getElementById("d-age").value) || 30);
+
+    const sexOffset = sex === "male" ? 5 : -161;
+    const bmr = (10 * weight) + (6.25 * height) - (5 * age) + sexOffset;
+    const activityMult = work === "active" ? 1.62 : 1.42;
+    const tdee = bmr * activityMult;
+
+    let targetKcal = tdee;
+    let proteinPerKg = 2.0;
+    let fatPerKg = 0.85;
+    let goalLabel = "Subir de masa muscular";
+    let suppTitle = "Apoyo para Volumen y Rendimiento";
+    let suppText = "Creatina monohidrato diaria, proteína para completar requerimientos y ropa técnica cómoda para sesiones pesadas.";
+
+    if (goal === "bulk") {
+      targetKcal = tdee * 1.12;
+      proteinPerKg = 2.0;
+      fatPerKg = 0.9;
+      goalLabel = "Subir de masa muscular";
+      suppTitle = "Creatina + Proteína + Equipamiento de Entreno";
+      suppText = "En superávit calórico mantén la creatina diaria, proteína de fácil digestión y prendas/accesorios resistentes para tus sesiones.";
+    } else if (goal === "cut") {
+      targetKcal = tdee * 0.84;
+      proteinPerKg = 2.2;
+      fatPerKg = 0.75;
+      goalLabel = "Definición";
+      suppTitle = "Alta Proteína + Apoyo en Déficit y Ropa Técnica";
+      suppText = "Sube ligeramente la proteína (2.2 g/kg) para proteger masa magra en déficit, hidrátate bien y usa ropa transpirable.";
+    } else {
+      targetKcal = tdee * 0.78;
+      proteinPerKg = 2.1;
+      fatPerKg = 0.75;
+      goalLabel = "Adelgazar";
+      suppTitle = "Saciedad, Proteína y Constancia Diaria";
+      suppText = "Prioriza alimentos con alta saciedad y volumen (verduras, carnes/pescados magros, patata/arroz medidos) y apóyate en DAZ Premium Fit.";
+    }
+
+    const kcal = Math.round(targetKcal);
+    const proteinG = Math.round(weight * proteinPerKg);
+    const fatG = Math.round(weight * fatPerKg);
+    const carbsG = Math.max(60, Math.round((kcal - (proteinG * 4) - (fatG * 9)) / 4));
+
+    const carbScale = carbsG / 260;
+    const protMeal = Math.round(proteinG / 4);
+    const riceRaw = Math.max(50, Math.round(90 * carbScale));
+    const oatsRaw = Math.max(40, Math.round(70 * carbScale));
+    const potatoCooked = Math.max(120, Math.round(220 * carbScale));
+    const oilGrams = Math.max(8, Math.round((fatG * 1000) / 4 / 9));
+
+    document.getElementById("d-recommendations").innerHTML = `
+      <li><strong>Proteína diaria:</strong> ${proteinG} g (${proteinPerKg.toFixed(1)} g/kg), repartida en 3–4 tomas de ~${protMeal} g.</li>
+      <li><strong>Grasas esenciales:</strong> ${fatG} g/día (AOVE, yemas, frutos secos o pescado azul).</li>
+      <li><strong>Carbohidratos:</strong> ${carbsG} g/día ajustados a tu entreno y a tu ${work === "active" ? "trabajo activo" : "jornada sedentaria"}.</li>
+      <li><strong>Hidratación:</strong> 35–40 ml de agua por kg de peso al día.</li>
+    `;
+
+    document.getElementById("d-output").innerHTML = `
+      <span class="tag">${goalLabel.toUpperCase()} • ${work === "active" ? "TRABAJO ACTIVO" : "TRABAJO SEDENTARIO"}</span>
+      <h3 style="margin:6px 0 14px;">Tu Plan Diario Estimado</h3>
+
+      <div class="macros-strip">
+        <div class="macro-box"><strong>${kcal}</strong><span>Calorías / día</span></div>
+        <div class="macro-box"><strong>${proteinG} g</strong><span>Proteína</span></div>
+        <div class="macro-box"><strong>${carbsG} g</strong><span>Carbohidratos</span></div>
+        <div class="macro-box"><strong>${fatG} g</strong><span>Grasas</span></div>
       </div>
-      <div class="card">
-        <span class="tag tag-green">PLAN DIARIO LISTO PARA COCINAR</span>
-        <h3>Distribución para ${w} kg (${goal.toUpperCase()})</h3>
-        <ul class="clean-list">
-          <li><strong>Comida 1:</strong> ${goal === "keto" ? "4 Huevos enteros + 30g Aguacate + Café solo" : `${gOats}g Avena + ${gWhey}g Whey Isolate + ${Math.round(fMeal)}g Almendras.`}</li>
-          <li><strong>Comida 2:</strong> ${gChicken}g Pechuga de Pollo + ${goal === "keto" ? "Ensalada verde + 15ml AOVE" : `${gRice}g Arroz Basmati + 10ml AOVE.`}</li>
-          <li><strong>Comida 3:</strong> ${gBeef}g Ternera Magra + ${goal === "keto" ? "200g Espárragos + 15g Mantequilla" : `${gPotato}g Patata asada + Verduras.`}</li>
-          <li><strong>Comida 4:</strong> ${Math.round((pMeal/20)*100)}g Salmón o Merluza + Verduras + ${mlOil}ml AOVE.</li>
-        </ul>
+
+      <div class="meal-card">
+        <strong>Comida 1 — Desayuno (~${protMeal} g proteína)</strong>
+        <p>${oatsRaw} g de copos de avena + 3 huevos enteros + 150–200 g de claras (o batido de proteína) + fruta/canela.</p>
+      </div>
+      <div class="meal-card">
+        <strong>Comida 2 — Comida principal (~${protMeal} g proteína)</strong>
+        <p>${Math.round(protMeal * 4.2)} g de pechuga de pollo o pavo (en crudo) + ${riceRaw} g de arroz (en crudo) + verdura + ${oilGrams} g de AOVE.</p>
+      </div>
+      <div class="meal-card">
+        <strong>Comida 3 — Pre / Post-entreno o merienda (~${protMeal} g proteína)</strong>
+        <p>${Math.round(protMeal * 4.5)} g de merluza, salmón o carne magra + ${potatoCooked} g de patata cocida o pan integral + verdura.</p>
+      </div>
+      <div class="meal-card">
+        <strong>Comida 4 — Cena (~${protMeal} g proteína)</strong>
+        <p>${Math.round(protMeal * 4.2)} g de carne magra, pescado blanco o huevos + ensalada/verdura + ${oilGrams} g de AOVE.</p>
+      </div>
+
+      <div style="margin-top:18px; padding:16px; border-radius:10px; background:#080b10; border:1px solid var(--border-gold);">
+        <strong style="color:var(--gold); display:block; margin-bottom:4px;">${suppTitle}</strong>
+        <p style="font-size:0.88rem; color:#d1d5db; margin-bottom:12px;">${suppText}</p>
+        <a href="https://dazpremiumfit.com" target="_blank" rel="noopener" class="btn-primary">
+          Ver Suplementos y Ropa en DAZ Premium Fit ↗
+        </a>
       </div>
     `;
   }
 
-  function showNutTab(tab, btn) {
-    document.querySelectorAll(".sub-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    document.querySelectorAll(".n-view").forEach(v => v.style.display = "none");
-    const target = document.getElementById("nview-" + tab);
-    target.style.display = (tab === "scale") ? "block" : "grid";
-  }
-
-  calcFoodScale();
+  renderAll();
+  calculateDiet();
 </script>
 </body>
 </html>
