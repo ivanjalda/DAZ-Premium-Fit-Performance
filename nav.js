@@ -108,6 +108,8 @@
       letter-spacing: 1.6px;
       text-transform: uppercase;
     }
+    .daz-brand { display: inline-flex; align-items: center; gap: 10px; }
+    .daz-brand-logo { width: 38px; height: 38px; border-radius: 8px; object-fit: cover; }
     .daz-brand span.gold { color: var(--gold); }
     .daz-brand span.badge-perf {
       background: var(--crimson);
@@ -350,7 +352,7 @@
       </div>
     </div>
     <header class="daz-header">
-      <a href="index.html" class="daz-brand">
+      <a href="index.html" class="daz-brand"><img class="daz-brand-logo" src="assets/logo-192.png" alt="DAZ Premium Fit" width="38" height="38" />
         <span>DAZ <span class="gold">PREMIUM FIT</span></span>
         <span class="badge-perf">PERFORMANCE</span>
       </a>
