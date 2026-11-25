@@ -1,0 +1,97 @@
+name: DAZ Auto-Audit & Repair Engine
+
+on:
+  schedule:
+    - cron: "0 */4 * * *" # Cada 4 horas
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit-and-repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run auto-audit and safe repairs
+        id: audit
+        shell: python3
+        run: |
+          import glob, os, re
+
+          html_files = sorted(glob.glob("*.html"))
+          fixes = []
+          warnings = []
+
+          for path in html_files:
+              with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                  original = f.read()
+              content = original
+
+              # 1. Corregir dominios inexistentes o erróneos
+              if "dazshopping.com" in content:
+                  content = content.replace("dazshopping.com", "dazpremiumfit.com")
+                  fixes.append(f"{path}: corregido dazshopping.com -> dazpremiumfit.com")
+
+              # 2. Asegurar meta description básica si falta
+              if "<head" in content.lower() and 'name="description"' not in content.lower():
+                  meta_tag = '  <meta name="description" content="DAZ Premium Fit Performance — Entrenamientos por objetivos, nutrición, macros y planificación atlética." />\n'
+                  content = re.sub(r"(</head>)", meta_tag + r"\1", content, count=1, flags=re.IGNORECASE)
+                  fixes.append(f"{path}: añadida meta description")
+
+              # 3. Asegurar que self-heal.js esté incluido antes de </body>
+              if "</body>" in content.lower() and "self-heal.js" not in content:
+                  heal_tag = '  <script src="self-heal.js"></script>\n'
+                  content = re.sub(r"(</body>)", heal_tag + r"\1", content, count=1, flags=re.IGNORECASE)
+                  fixes.append(f"{path}: incluido self-heal.js")
+
+              # 4. Comprobaciones de integridad (aviso si algo requiere revisión manual)
+              if content.count("<script") != content.count("</script>"):
+                  warnings.append(f"{path}: desajuste de etiquetas <script> / </script>")
+              if content.count("<div") != content.count("</div>"):
+                  warnings.append(f"{path}: diferencia en conteo <div> / </div> (revisar cierre de bloques)")
+
+              if content != original:
+                  with open(path, "w", encoding="utf-8") as f:
+                      f.write(content)
+
+          # Comprobar existencia de archivos core
+          for req in ["index.html", "entrenamiento.html", "nutricion.html", "perfil.html", "nav.js"]:
+              if not os.path.exists(req):
+                  warnings.append(f"Falta archivo core esperado: {req}")
+
+          with open("audit_report.txt", "w", encoding="utf-8") as out:
+              out.write("FIXES:\n" + ("\n".join(fixes) if fixes else "Ninguno") + "\n\n")
+              out.write("WARNINGS:\n" + ("\n".join(warnings) if warnings else "Ninguno") + "\n")
+
+          has_changes = "true" if fixes else "false"
+          has_warnings = "true" if warnings else "false"
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as gh:
+              gh.write(f"has_changes={has_changes}\n")
+              gh.write(f"has_warnings={has_warnings}\n")
+
+      - name: Commit automatic fixes
+        if: steps.audit.outputs.has_changes == 'true'
+        run: |
+          git config user.name "DAZ Auto-Repair Bot"
+          git config user.email "bot@dazperformance.com"
+          git add -A
+          git commit -m "chore(auto-heal): correcciones automaticas de integridad y SEO"
+          git push
+
+      - name: Notify via Telegram if fixes or warnings occurred
+        if: steps.audit.outputs.has_changes == 'true' || steps.audit.outputs.has_warnings == 'true'
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -n "$BOT_TOKEN" ] && [ -n "$CHAT_ID" ]; then
+            REPORT=$(cat audit_report.txt)
+            MSG="🛠 *DAZ Performance Auto-Motor (cada 4h)*%0A%0A$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(open("audit_report.txt").read()[:3500]))')"
+            curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+              -d "chat_id=${CHAT_ID}" \
+              -d "text=${MSG}" \
+              -d "parse_mode=Markdown" > /dev/null
+          fi
