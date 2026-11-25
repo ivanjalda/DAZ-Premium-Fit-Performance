@@ -3,436 +3,626 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Entrenamiento Élite & Biomecánica | DAZ Premium Fit Performance</title>
+  <title>Entrenamientos por Objetivos | DAZ Premium Fit Performance</title>
   <style>
-    .sub-nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 26px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
+    .goal-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
     }
-    .sub-btn {
-      background: var(--bg-card);
+    .goal-btn {
+      background: #0b0e14;
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 11px 20px;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border-radius: 10px;
       cursor: pointer;
-      font-weight: 800;
-      font-size: 0.86rem;
+      text-align: left;
       transition: all 0.2s;
     }
-    .sub-btn.active { background: var(--gold); color: #060709; border-color: var(--gold); }
-
-    .muscle-pills {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-    .m-pill {
-      background: #0b0d10;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 9px 18px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-    .m-pill.active {
-      border-color: var(--crimson-bright);
+    .goal-btn strong {
+      display: block;
+      font-size: 0.98rem;
+      margin-bottom: 4px;
       color: #fff;
-      background: rgba(185, 28, 28, 0.25);
     }
-    .biomech-grid {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 28px;
-      align-items: start;
+    .goal-btn span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
-    .svg-box {
-      position: sticky;
-      top: 90px;
-      background: radial-gradient(circle at center, #161922 0%, #07080b 100%);
-      border: 1px solid var(--border-gold);
-      border-radius: 12px;
-      padding: 22px;
-      text-align: center;
+    .goal-btn.active {
+      border-color: var(--gold);
+      background: #141822;
     }
-    .svg-box svg { width: 100%; max-width: 270px; height: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.65)); }
+    .goal-btn.active strong {
+      color: var(--gold);
+    }
 
-    .ex-item {
-      padding: 16px 20px;
-      background: #0b0d10;
+    .routine-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .routine-card {
+      background: #090c11;
       border: 1px solid var(--border);
-      border-radius: 9px;
-      margin-bottom: 12px;
+      border-radius: 10px;
+      padding: 16px;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .ex-item:hover {
+    .routine-card:hover, .routine-card.active {
       border-color: var(--gold);
-      background: #121620;
-      transform: translateX(4px);
+      background: #101520;
     }
-    .ex-head {
+    .routine-card h4 {
+      margin: 6px 0 6px;
+      font-size: 1.05rem;
+      color: #fff;
+    }
+    .routine-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .ex-row {
+      background: #090b0f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+    .ex-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
-    .ex-head strong { color: var(--gold); font-size: 1.05rem; }
-    .ex-meta { font-family: monospace; font-size: 0.84rem; color: #fca5a5; }
-    .ex-cue { font-size: 0.9rem; color: var(--text-muted); }
-    .ex-click-hint {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: var(--gold-light);
-      letter-spacing: 0.5px;
+    .ex-top strong {
+      color: var(--gold);
+      font-size: 1.04rem;
     }
-
-    /* MODAL DETALLE DE EJERCICIO */
-    .ex-modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 4, 6, 0.88);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
+    .ex-badge {
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: #fca5a5;
+      background: rgba(185, 28, 28, 0.16);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .ex-steps {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #d1d5db;
+      font-size: 0.9rem;
+    }
+    .ex-steps li { margin-bottom: 5px; }
+    .ex-mistake {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 7px;
+      background: rgba(212, 175, 55, 0.08);
+      border-left: 3px solid var(--gold);
+      font-size: 0.85rem;
+      color: #e5e7eb;
+    }
+    .science-box {
+      margin-top: 24px;
+      background: #0a0d13;
+      border: 1px solid var(--border);
+      border-radius: 12px;
       padding: 20px;
     }
-    .ex-modal {
-      background: #0e1118;
-      border: 1px solid var(--gold);
-      border-radius: 14px;
-      max-width: 780px;
-      width: 100%;
-      padding: 30px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-    .ex-modal-close {
-      position: absolute;
-      top: 18px;
-      right: 20px;
-      background: #1b202c;
-      border: 1px solid var(--border);
-      color: #fff;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      font-weight: 900;
-      cursor: pointer;
-    }
-    .modal-body-grid {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 24px;
-      align-items: center;
-      margin-top: 16px;
-    }
-
     @media (max-width: 900px) {
-      .biomech-grid, .modal-body-grid { grid-template-columns: 1fr; }
-      .svg-box { position: static; }
+      .goal-tabs { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .goal-tabs { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
 <section class="daz-page-banner">
-  <span class="kicker">MÓDULO 01 • BIOMECÁNICA E HIPERTROFIA</span>
-  <h1>Arquitectura de Entrenamiento Personal</h1>
-  <p>Selecciona cualquier grupo muscular para ver su anatomía y pulsa sobre cualquier ejercicio para abrir su guía paso a paso, ejecución biomecánica, tiempos de descanso y errores a evitar.</p>
+  <span class="kicker">PROGRAMACIÓN BASADA EN EVIDENCIA • FUERZA E HIPERTROFIA</span>
+  <h1>Entrenamientos por Objetivos</h1>
+  <p>Elige tu objetivo principal, selecciona la estructura de entrenamiento que más te motive y aplica series, descansos y técnica con criterio fisiológico.</p>
 </section>
 
 <main class="daz-container">
-  <div class="sub-nav">
-    <button class="sub-btn active" onclick="showTrainTab('muscles', this)">10 Ejercicios por Grupo Muscular</button>
-    <button class="sub-btn" onclick="showTrainTab('days', this)">10 Rutinas por Días (3 a 6 Días)</button>
-    <button class="sub-btn" onclick="showTrainTab('ppl', this)">Estilo Americano (Push / Pull / Legs)</button>
-    <button class="sub-btn" onclick="showTrainTab('freq', this)">10 Bloques de Especialización</button>
+  <div class="goal-tabs" id="goal-tabs">
+    <button type="button" class="goal-btn active" data-goal="grow_muscle" onclick="selectGoal('grow_muscle')">
+      <strong>1. Crecer Músculo</strong>
+      <span>Hipertrofia global y tensión mecánica</span>
+    </button>
+    <button type="button" class="goal-btn" data-goal="define_muscle" onclick="selectGoal('define_muscle')">
+      <strong>2. Definir Músculo</strong>
+      <span>Retención de masa y densidad muscular</span>
+    </button>
+    <button type="button" class="goal-btn" data-goal="grow_arms" onclick="selectGoal('grow_arms')">
+      <strong>3. Crecer Brazo</strong>
+      <span>Bíceps, tríceps y deltoide lateral</span>
+    </button>
+    <button type="button" class="goal-btn" data-goal="grow_legs" onclick="selectGoal('grow_legs')">
+      <strong>4. Crecer Pierna</strong>
+      <span>Cuádriceps, isquiosurales y glúteo</span>
+    </button>
   </div>
 
-  <div id="view-muscles" class="t-view">
-    <div class="muscle-pills" id="muscle-pills"></div>
-    <div class="card" id="muscle-card"></div>
-  </div>
+  <h3 style="margin-bottom:12px;">Elige la rutina que más te guste dentro de este objetivo:</h3>
+  <div class="routine-picker" id="routine-picker"></div>
 
-  <div id="view-days" class="t-view grid-2" style="display:none;"></div>
-  <div id="view-ppl" class="t-view" style="display:none;"></div>
-  <div id="view-freq" class="t-view grid-2" style="display:none;"></div>
+  <div class="card" id="routine-detail"></div>
+
+  <div class="science-box">
+    <span class="tag">CRITERIOS TÉCNICOS Y DE CAMPO</span>
+    <h3 style="margin-bottom:10px;">Por qué entrenamos así (sin modas vacías)</h3>
+    <ul class="clean-list">
+      <li><strong>Tensión mecánica y esfuerzo real:</strong> las series efectivas se trabajan cerca del fallo técnico (RIR 1–2 en básicos, RIR 0–1 controlado en aislamientos) con recorrido completo y sin rebotes descontrolados.</li>
+      <li><strong>Descansos según exigencia:</strong> 2 a 3 minutos en multiarticulares pesados para recuperar el sistema nervioso y el ATP; 60 a 90 segundos en analíticos y poleas para acumular estímulo sin degradar la técnica.</li>
+      <li><strong>Frecuencia y recuperación:</strong> repartir el volumen semanal en 2 estímulos por grupo muscular suele dar mayor calidad de series que hacer maratones de un solo día.</li>
+      <li><strong>Coherencia con la nutrición:</strong> crecer exige superávit calórico controlado y proteína suficiente; definir exige déficit moderado manteniendo cargas altas para enviar señal de retención muscular.</li>
+    </ul>
+  </div>
 </main>
-
-<!-- MODAL INTERACTIVO DE EJERCICIO -->
-<div class="ex-modal-backdrop" id="ex-modal-backdrop" onclick="closeExModal(event)">
-  <div class="ex-modal">
-    <button class="ex-modal-close" onclick="document.getElementById('ex-modal-backdrop').style.display='none'">✕</button>
-    <span class="tag" id="modal-tag">GUÍA DE EJECUCIÓN BIOMECÁNICA</span>
-    <h2 id="modal-title" style="font-size:1.55rem; margin-bottom:4px;"></h2>
-    <p id="modal-meta" style="font-family:monospace; color:#fca5a5; font-size:0.9rem;"></p>
-
-    <div class="modal-body-grid">
-      <div class="svg-box" style="position:static; padding:14px;" id="modal-svg"></div>
-      <div>
-        <h4 style="color:var(--gold); margin-bottom:8px; text-transform:uppercase; font-size:0.86rem;">Ejecución Paso a Paso:</h4>
-        <ul class="clean-list" id="modal-steps"></ul>
-        <div style="margin-top:14px; padding:12px 14px; background:rgba(185,28,28,0.16); border:1px solid rgba(239,68,68,0.35); border-radius:8px;">
-          <strong style="color:#fca5a5; font-size:0.82rem; display:block; margin-bottom:4px;">ERROR COMÚN A EVITAR:</strong>
-          <span id="modal-mistake" style="font-size:0.88rem; color:#e5e7eb;"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script src="nav.js"></script>
 <script>
-  // SILUETAS ANATÓMICAS MUSCULADAS REALISTAS CON RESALTADO ACTIVO
-  const ANATOMY_SVGS = {
-    bench_press: `
-      <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a4150"/><stop offset="100%" stop-color="#1e222b"/></linearGradient>
-          <linearGradient id="activeM" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
-        </defs>
-        <!-- Cabeza y cuello atlético -->
-        <ellipse cx="130" cy="34" rx="18" ry="22" fill="url(#skin)"/>
-        <path d="M116 52 L144 52 L154 70 L106 70 Z" fill="url(#skin)"/>
-        <!-- Hombros y brazos musculados -->
-        <path d="M106 70 C82 72, 68 92, 66 122 L58 175 L76 178 L86 128 L96 105 Z" fill="url(#skin)"/>
-        <path d="M154 70 C178 72, 192 92, 194 122 L202 175 L184 178 L174 128 L164 105 Z" fill="url(#skin)"/>
-        <!-- Torso y abdomen -->
-        <path d="M96 72 L164 72 L156 175 L104 175 Z" fill="url(#skin)"/>
-        <!-- PECTORALES ACTIVOS (ALTO RELIEVE) -->
-        <path d="M97 76 C112 74, 126 80, 128 94 C128 112, 114 118, 98 112 C93 102, 93 86, 97 76 Z" fill="url(#activeM)" stroke="#f3d266" stroke-width="1.2"/>
-        <path d="M163 76 C148 74, 134 80, 132 94 C132 112, 146 118, 162 112 C167 102, 167 86, 163 76 Z" fill="url(#activeM)" stroke="#f3d266" stroke-width="1.2"/>
-        <!-- Six-pack detallado -->
-        <rect x="114" y="120" width="13" height="12" rx="3" fill="#292e3a"/><rect x="133" y="120" width="13" height="12" rx="3" fill="#292e3a"/>
-        <rect x="114" y="135" width="13" height="12" rx="3" fill="#292e3a"/><rect x="133" y="135" width="13" height="12" rx="3" fill="#292e3a"/>
-        <rect x="115" y="150" width="12" height="13" rx="3" fill="#292e3a"/><rect x="133" y="150" width="12" height="13" rx="3" fill="#292e3a"/>
-        <!-- Piernas -->
-        <path d="M104 175 L128 175 L124 255 L104 255 Z" fill="url(#skin)"/>
-        <path d="M132 175 L156 175 L156 255 L136 255 Z" fill="url(#skin)"/>
-        <text x="130" y="274" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace" font-weight="bold">PECTORAL MAYOR • CLAVICULAR & ESTERNAL</text>
-      </svg>`,
-    lat_pulldown: `
-      <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="skin2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a4150"/><stop offset="100%" stop-color="#1e222b"/></linearGradient>
-          <linearGradient id="activeM2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
-        </defs>
-        <ellipse cx="130" cy="34" rx="18" ry="22" fill="url(#skin2)"/>
-        <!-- Trapecio y espalda en V -->
-        <path d="M102 62 L130 50 L158 62 L176 92 L156 172 L104 172 L84 92 Z" fill="url(#skin2)"/>
-        <!-- DORSALES ANCHOS EN V ACTIVOS -->
-        <path d="M88 86 L124 102 L116 164 L102 156 C90 135, 84 108, 88 86 Z" fill="url(#activeM2)" stroke="#f3d266" stroke-width="1.2"/>
-        <path d="M172 86 L136 102 L144 164 L158 156 C170 135, 176 108, 172 86 Z" fill="url(#activeM2)" stroke="#f3d266" stroke-width="1.2"/>
-        <!-- Trapecio medio -->
-        <path d="M114 62 L146 62 L130 105 Z" fill="url(#activeM2)" opacity="0.8"/>
-        <!-- Brazos -->
-        <path d="M84 78 C66 86, 62 115, 58 172 L76 175 L88 118 Z" fill="url(#skin2)"/>
-        <path d="M176 78 C194 86, 198 115, 202 172 L184 175 L172 118 Z" fill="url(#skin2)"/>
-        <!-- Piernas -->
-        <path d="M104 172 L128 172 L124 255 L104 255 Z" fill="url(#skin2)"/>
-        <path d="M132 172 L156 172 L156 255 L136 255 Z" fill="url(#skin2)"/>
-        <text x="130" y="274" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace" font-weight="bold">DORSAL ANCHO & TRAPECIO • AMPLITUD V</text>
-      </svg>`,
-    squat: `
-      <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="skin3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a4150"/><stop offset="100%" stop-color="#1e222b"/></linearGradient>
-          <linearGradient id="activeM3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
-        </defs>
-        <ellipse cx="130" cy="30" rx="17" ry="20" fill="url(#skin3)"/>
-        <path d="M98 64 L162 64 L154 152 L106 152 Z" fill="url(#skin3)"/>
-        <path d="M98 68 C76 76, 68 106, 64 155 L82 158 L94 102 Z" fill="url(#skin3)"/>
-        <path d="M162 68 C184 76, 192 106, 196 155 L178 158 L166 102 Z" fill="url(#skin3)"/>
-        <!-- CUÁDRICEPS HIPERTROFIADOS ACTIVOS -->
-        <path d="M104 152 C92 176, 94 205, 106 218 L127 218 L128 152 Z" fill="url(#activeM3)" stroke="#f3d266" stroke-width="1.2"/>
-        <path d="M156 152 C168 176, 166 205, 154 218 L133 218 L132 152 Z" fill="url(#activeM3)" stroke="#f3d266" stroke-width="1.2"/>
-        <!-- Gemelos -->
-        <path d="M106 220 C98 234, 100 248, 108 258 L124 258 L126 220 Z" fill="url(#skin3)"/>
-        <path d="M154 220 C162 234, 160 248, 152 258 L136 258 L134 220 Z" fill="url(#skin3)"/>
-        <text x="130" y="274" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace" font-weight="bold">CUÁDRICEPS & CADENA POSTERIOR</text>
-      </svg>`,
-    hip_thrust: `
-      <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="skin4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a4150"/><stop offset="100%" stop-color="#1e222b"/></linearGradient>
-          <linearGradient id="activeM4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
-        </defs>
-        <ellipse cx="130" cy="30" rx="17" ry="20" fill="url(#skin4)"/>
-        <path d="M98 64 L162 64 L154 148 L106 148 Z" fill="url(#skin4)"/>
-        <!-- GLÚTEO MAYOR Y MEDIO ACTIVO -->
-        <path d="M102 146 C90 162, 92 184, 108 190 L129 190 L129 146 Z" fill="url(#activeM4)" stroke="#f3d266" stroke-width="1.3"/>
-        <path d="M158 146 C170 162, 168 184, 152 190 L131 190 L131 146 Z" fill="url(#activeM4)" stroke="#f3d266" stroke-width="1.3"/>
-        <!-- Isquiosurales -->
-        <path d="M104 190 L127 190 L125 256 L106 256 Z" fill="url(#skin4)"/>
-        <path d="M133 190 L156 190 L154 256 L135 256 Z" fill="url(#skin4)"/>
-        <text x="130" y="274" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace" font-weight="bold">GLÚTEO MAYOR & MEDIO • EXTENSIÓN</text>
-      </svg>`,
-    bicep_curl: `
-      <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="skin5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a4150"/><stop offset="100%" stop-color="#1e222b"/></linearGradient>
-          <linearGradient id="activeM5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
-        </defs>
-        <ellipse cx="130" cy="34" rx="18" ry="22" fill="url(#skin5)"/>
-        <path d="M98 68 L162 68 L154 175 L106 175 Z" fill="url(#skin5)"/>
-        <!-- BÍCEPS Y TRÍCEPS HIPERTROFIADOS ACTIVOS -->
-        <path d="M96 74 C76 82, 68 106, 74 132 L92 130 L98 96 Z" fill="url(#activeM5)" stroke="#f3d266" stroke-width="1.2"/>
-        <path d="M164 74 C184 82, 192 106, 186 132 L168 130 L162 96 Z" fill="url(#activeM5)" stroke="#f3d266" stroke-width="1.2"/>
-        <!-- Antebrazos -->
-        <path d="M74 132 L92 130 L84 182 L68 180 Z" fill="url(#skin5)"/>
-        <path d="M186 132 L168 130 L176 182 L192 180 Z" fill="url(#skin5)"/>
-        <path d="M106 175 L128 175 L124 255 L104 255 Z" fill="url(#skin5)"/>
-        <path d="M132 175 L154 175 L156 255 L136 255 Z" fill="url(#skin5)"/>
-        <text x="130" y="274" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace" font-weight="bold">BÍCEPS BRAQUIAL, BRAQUIAL & TRÍCEPS</text>
-      </svg>`,
-    lateral_raise: `
-      <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="skin6" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a4150"/><stop offset="100%" stop-color="#1e222b"/></linearGradient>
-          <linearGradient id="activeM6" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
-        </defs>
-        <ellipse cx="130" cy="34" rx="18" ry="22" fill="url(#skin6)"/>
-        <path d="M98 68 L162 68 L154 175 L106 175 Z" fill="url(#skin6)"/>
-        <!-- DELTOIDES 3D REDONDEADOS ACTIVOS -->
-        <path d="M100 66 C74 66, 62 86, 70 112 L94 102 Z" fill="url(#activeM6)" stroke="#f3d266" stroke-width="1.3"/>
-        <path d="M160 66 C186 66, 198 86, 190 112 L166 102 Z" fill="url(#activeM6)" stroke="#f3d266" stroke-width="1.3"/>
-        <!-- Brazos -->
-        <path d="M70 112 L94 102 L82 178 L64 176 Z" fill="url(#skin6)"/>
-        <path d="M190 112 L166 102 L178 178 L196 176 Z" fill="url(#skin6)"/>
-        <path d="M106 175 L128 175 L124 255 L104 255 Z" fill="url(#skin6)"/>
-        <path d="M132 175 L154 175 L156 255 L136 255 Z" fill="url(#skin6)"/>
-        <text x="130" y="274" fill="#d4af37" font-size="10" text-anchor="middle" font-family="monospace" font-weight="bold">DELTOIDES ANTERIOR, LATERAL & POSTERIOR</text>
-      </svg>`
+  const TRAINING_CATALOG = {
+    grow_muscle: {
+      tag: "OBJETIVO • CRECER MÚSCULO",
+      note: "Combina básicos de carga progresiva con trabajo de aislamiento controlado. Busca subir repeticiones o carga de semana a semana manteniendo técnica limpia.",
+      routines: [
+        {
+          id: "ul_4d",
+          name: "Torso / Pierna (4 días)",
+          meta: "4 días/sem • Frecuencia 2 • 55–65 min",
+          summary: "Equilibrio ideal entre estímulo frecuente, recuperación y progreso de fuerza en básicos.",
+          profileSplit: "ul4",
+          tuesdayFocus: "Martes tipo (Torso Fuerza/Hipertrofia): remo pesado con apoyo en pecho, press inclinado con mancuernas, jalón neutro y elevaciones laterales en polea.",
+          exercises: [
+            {
+              name: "Press Inclinado con Mancuernas (30°)",
+              dose: "3–4 series x 6–10 reps • Descanso: 2–3 min",
+              steps: [
+                "Ajusta el banco a 30°, retrae escápulas y apoya firme plantas de pies y glúteo.",
+                "Baja las mancuernas controlando 2–3 segundos hasta sentir estiramiento seguro en pectoral.",
+                "Empuja hacia arriba y ligeramente adentro sin chocar las mancuernas arriba."
+              ],
+              mistake: "Abrir los codos a 90° o despegar la zona lumbar del banco al empujar."
+            },
+            {
+              name: "Remo con Apoyo al Pecho (Chest-Supported Row)",
+              dose: "3–4 series x 8–12 reps • Descanso: 2 min",
+              steps: [
+                "Alinea el pecho con el soporte para eliminar inercia lumbar.",
+                "Lleva los codos hacia atrás y ligeramente abajo pensando en acercar el codo a la cadera.",
+                "Pausa breve de 1 segundo en máxima contracción y estira con control."
+              ],
+              mistake: "Tirar encogiendo trapecios o usando impulso de tronco."
+            },
+            {
+              name: "Prensa Inclinada o Sentadilla Libre",
+              dose: "3 series x 8–12 reps • Descanso: 2.5–3 min",
+              steps: [
+                "Coloca los pies a la anchura de hombros con punteras ligeramente hacia fuera.",
+                "Desciende manteniendo rodillas alineadas con la dirección del pie y talones pegados.",
+                "Asciende empujando el suelo sin bloquear bruscamente las rodillas arriba."
+              ],
+              mistake: "Recortar el recorrido a medias o levantar los talones en el fondo."
+            },
+            {
+              name: "Elevaciones Laterales en Polea o Mancuernas",
+              dose: "4 series x 12–15 reps • Descanso: 60–75 s",
+              steps: [
+                "Mantén una ligera flexión de codo y tronco apenas inclinado si usas polea.",
+                "Eleva el brazo alejando la mano del cuerpo hasta la altura del hombro.",
+                "Baja lento manteniendo tensión en el deltoide lateral."
+              ],
+              mistake: "Subir encogiendo los hombros o balancear el cuerpo."
+            }
+          ]
+        },
+        {
+          id: "ppl_6d",
+          name: "Push / Pull / Legs (6 días)",
+          meta: "6 días/sem • Frecuencia 2 • 50–60 min",
+          summary: "Para quien disfruta entrenar 6 días con sesiones enfocadas y volumen repartido.",
+          profileSplit: "ppl6",
+          tuesdayFocus: "Martes tipo (Pull / Tracción): dominadas o jalón al pecho, remo con barra o mancuerna, curl femoral tumbado y curl de bíceps en banco inclinado.",
+          exercises: [
+            {
+              name: "Press Banca Plano con Barra o Multipower",
+              dose: "3–4 series x 6–10 reps • Descanso: 2.5–3 min",
+              steps: [
+                "Agarre algo más ancho que los hombros, muñecas neutras y escápulas firmes.",
+                "Baja la barra de forma controlada hasta rozar la zona media-baja del pectoral.",
+                "Empuja con trayectoria firme hasta extender los codos sin perder tensión escapular."
+              ],
+              mistake: "Rebotar la barra en el esternón o perder el punto de apoyo."
+            },
+            {
+              name: "Jalón al Pecho con Agarre Neutro / Ancho",
+              dose: "3–4 series x 8–12 reps • Descanso: 90–120 s",
+              steps: [
+                "Asegura los muslos bajo el rodillo y mantén el torso ligeramente inclinado atrás.",
+                "Lleva la barra hacia la parte superior del pecho tirando con los codos.",
+                "Vuelve arriba controlando el estiramiento del dorsal."
+              ],
+              mistake: "Dejarse tirar hacia atrás con impulso o llevar la barra detrás del cuello."
+            },
+            {
+              name: "Curl Femoral Tumbado o Sentado",
+              dose: "3–4 series x 10–14 reps • Descanso: 90 s",
+              steps: [
+                "Ajusta el rodillo justo por encima de los tobillos y fija la cadera al banco.",
+                "Flexiona las rodillas de forma continua hasta completar el recorrido.",
+                "Extiende controlando los últimos centímetros sin soltar de golpe."
+              ],
+              mistake: "Levantar la cadera del asiento para mover más peso."
+            }
+          ]
+        },
+        {
+          id: "fb_3d",
+          name: "Full Body Eficiente (3 días)",
+          meta: "3 días/sem • Frecuencia 3 • 65–75 min",
+          summary: "Ideal si tienes semanas cargadas de trabajo o turnos y quieres estímulo completo en 3 sesiones.",
+          profileSplit: "fb3",
+          tuesdayFocus: "Día de recuperación activa o movilidad: caminata de 7.000–10.000 pasos y movilidad torácica/cadera para llegar fresco a la siguiente sesión.",
+          exercises: [
+            {
+              name: "Sentadilla Goblet / Hack / Sentadilla Libre",
+              dose: "3 series x 8–12 reps • Descanso: 2–3 min",
+              steps: [
+                "Establece postura firme, respira profundo y bloquea el core.",
+                "Baja controlando profundidad hasta donde mantengas pelvis neutra.",
+                "Sube constante manteniendo el centro de gravedad sobre el mediopié."
+              ],
+              mistake: "Redondear la zona lumbar en el punto más bajo por falta de control."
+            },
+            {
+              name: "Press Militar con Mancuernas o Máquina",
+              dose: "3 series x 8–12 reps • Descanso: 2 min",
+              steps: [
+                "Siéntate con respaldo firme y codos ligeramente por delante del plano frontal.",
+                "Empuja hacia arriba hasta casi extender los codos sin arquear la espalda baja.",
+                "Desciende de forma controlada hasta la altura de las orejas/barbilla."
+              ],
+              mistake: "Arquear en exceso la lumbar para compensar falta de movilidad de hombro."
+            },
+            {
+              name: "Remo en Polea Baja con Triángulo",
+              dose: "3 series x 10–12 reps • Descanso: 90–120 s",
+              steps: [
+                "Mantén el torso erguido y las rodillas suavemente flexionadas.",
+                "Tira del agarre hacia el abdomen bajo juntando escápulas al final.",
+                "Deja que los hombros se estiren ligeramente adelante sin perder postura."
+              ],
+              mistake: "Balancear el torso adelante y atrás como un péndulo."
+            }
+          ]
+        }
+      ]
+    },
+    define_muscle: {
+      tag: "OBJETIVO • DEFINIR MÚSCULO",
+      note: "La definición real la marca el déficit calórico sostenido; el entrenamiento mantiene cargas altas para conservar músculo y ajusta densidades y cardio.",
+      routines: [
+        {
+          id: "cut_ul_cardio",
+          name: "Torso / Pierna + Densidad Controlada (4 días)",
+          meta: "4 días/sem + pasos/cardio • 55–65 min",
+          summary: "Conserva la fuerza en ejercicios base y añade ritmo controlado para gastar energía sin vaciarte.",
+          profileSplit: "ul4",
+          tuesdayFocus: "Martes tipo: sesión de torso con descansos algo más ajustados (75–120 s) y 20–25 min de cardio suave o caminata inclinada al final.",
+          exercises: [
+            {
+              name: "Press Inclinado en Máquina Convergente",
+              dose: "3 series x 8–12 reps • Descanso: 90–120 s",
+              steps: [
+                "Ajusta el asiento para que los mangos queden a la altura del pectoral superior.",
+                "Empuja con firmeza y controla la bajada en 2–3 segundos.",
+                "Mantén tensión constante sin bloquear con violencia."
+              ],
+              mistake: "Bajar el peso y hacer series eternas de 25–30 repeticiones perdiendo intensidad."
+            },
+            {
+              name: "Remo en Punta o Remo en Máquina",
+              dose: "3 series x 10–12 reps • Descanso: 90 s",
+              steps: [
+                "Fija el torso y lleva el codo atrás con trayectoria limpia.",
+                "Aprieta la espalda alta 1 segundo y controla el regreso.",
+                "Mantén el ritmo estable durante toda la serie."
+              ],
+              mistake: "Sacrificar el rango de movimiento por ir deprisa."
+            },
+            {
+              name: "Prensa de Piernas + Zancadas Estáticas",
+              dose: "3 series x 10–12 reps • Descanso: 90–120 s",
+              steps: [
+                "Coloca los pies de forma que trabajen cuádriceps y glúteo sin despegar talones.",
+                "Baja con control y sube sin detenerte arriba más de 1 segundo.",
+                "Mantén el abdomen firme en todo momento."
+              ],
+              mistake: "Creer que sudar más en el gimnasio quema grasa localizada."
+            }
+          ]
+        },
+        {
+          id: "cut_high_density",
+          name: "Circuito de Fuerza y Ritmo (4 días)",
+          meta: "4 días/sem • Ritmo ágil • 45–55 min",
+          summary: "Sesiones dinámicas y eficientes para etapas de definición con poco tiempo disponible.",
+          profileSplit: "ul4",
+          tuesdayFocus: "Martes tipo: emparejamientos de empuje/tracción o tren superior/inferior con 60–90 s de descanso para elevar gasto calórico.",
+          exercises: [
+            {
+              name: "Fondos en Paralelas o Press Banca",
+              dose: "3 series x 8–12 reps • Descanso: 90 s",
+              steps: [
+                "Inclina ligeramente el torso si buscas mayor énfasis pectoral.",
+                "Baja hasta un estiramiento cómodo del hombro sin perder control.",
+                "Sube firme y pasa al siguiente ejercicio con descanso medido."
+              ],
+              mistake: "Bajar demasiado profundo si notas molestia en la parte anterior del hombro."
+            },
+            {
+              name: "Jalón al Pecho + Elevaciones Laterales",
+              dose: "3 rondas x 10–15 reps • Descanso: 75–90 s",
+              steps: [
+                "Completa el jalón con técnica estricta y encadena elevaciones laterales controladas.",
+                "Evita balanceos y prioriza calidad muscular en cada repetición.",
+                "Descansa el tiempo marcado antes de repetir ronda."
+              ],
+              mistake: "Hacerlo tan rápido que la técnica se desarme desde la primera serie."
+            }
+          ]
+        }
+      ]
+    },
+    grow_arms: {
+      tag: "OBJETIVO • CRECER BRAZO",
+      note: "Da prioridad al inicio de sesión a bíceps, tríceps y deltoide lateral, cuidando la recuperación de codos y hombros.",
+      routines: [
+        {
+          id: "arms_priority_5d",
+          name: "Prioridad Brazos y Hombro Lateral (5 días)",
+          meta: "5 días/sem • Frecuencia 2–3 en brazo • 55 min",
+          summary: "Coloca el trabajo directo de brazos cuando estás fresco y reparte estímulos a lo largo de la semana.",
+          profileSplit: "spec_arms",
+          tuesdayFocus: "Martes tipo: inicio con extensión de tríceps en polea y curl de bíceps en banco inclinado, seguido de press inclinado y laterales.",
+          exercises: [
+            {
+              name: "Curl de Bíceps en Banco Inclinado con Mancuernas",
+              dose: "3–4 series x 8–12 reps • Descanso: 75–90 s",
+              steps: [
+                "Apoya la espalda en un banco inclinado (45–60°) dejando caer los brazos atrás.",
+                "Sube las mancuernas flexionando el codo sin adelantar el hombro.",
+                "Estira el brazo por completo abajo manteniendo tensión en la cabeza larga del bíceps."
+              ],
+              mistake: "Adelantar los codos hacia adelante o balancear el torso."
+            },
+            {
+              name: "Extensión de Tríceps por Encima de la Cabeza (Polea o Mancuerna)",
+              dose: "3–4 series x 10–15 reps • Descanso: 75–90 s",
+              steps: [
+                "Coloca la polea baja o sujeta una mancuerna a dos manos tras la nuca.",
+                "Mantén los codos apuntando arriba y hacia adelante sin abrirlos.",
+                "Extiende los codos notando el estiramiento y contracción de la cabeza larga."
+              ],
+              mistake: "Abrir los codos hacia los lados y meter el hombro en el empuje."
+            },
+            {
+              name: "Curl Martillo con Mancuernas o Cuerda",
+              dose: "3 series x 10–14 reps • Descanso: 60–75 s",
+              steps: [
+                "Mantén las palmas enfrentadas (agarre neutro) durante todo el recorrido.",
+                "Sube controlando hasta sentir trabajo en braquial, bíceps y antebrazo.",
+                "Baja sin dejar caer el peso."
+              ],
+              mistake: "Usar impulso de cadera en las últimas repeticiones."
+            }
+          ]
+        },
+        {
+          id: "arms_pump_detail",
+          name: "Brazo y Detalle Estético (4 días)",
+          meta: "4 días/sem • Enfoque bíceps/tríceps/deltoide • 55 min",
+          summary: "Combina cargas moderadas-altas con trabajo en polea para estimular tanto fibras rápidas como congestión.",
+          profileSplit: "spec_arms",
+          tuesdayFocus: "Martes tipo: curl en barra Z o polea baja, press francés/polea con cuerda y trabajo de hombro lateral.",
+          exercises: [
+            {
+              name: "Press Francés con Barra Z o Mancuernas",
+              dose: "3 series x 8–12 reps • Descanso: 90 s",
+              steps: [
+                "Túmbate en banco plano con los brazos ligeramente inclinados hacia atrás.",
+                "Flexiona los codos llevando la barra hacia la frente o detrás de la cabeza con control.",
+                "Extiende sin bloquear de golpe ni mover los hombros."
+              ],
+              mistake: "Dejar que los codos se separen demasiado o forzar molestias en el codo."
+            },
+            {
+              name: "Curl de Bíceps en Polea Baja con Barra Recta o Z",
+              dose: "3 series x 10–15 reps • Descanso: 60–75 s",
+              steps: [
+                "Pega los codos a los costados y mantén la tensión constante de la polea.",
+                "Sube hasta la contracción máxima sin levantar los hombros.",
+                "Baja lento en 2–3 segundos."
+              ],
+              mistake: "Inclinar el cuerpo hacia atrás para compensar el peso."
+            }
+          ]
+        }
+      ]
+    },
+    grow_legs: {
+      tag: "OBJETIVO • CRECER PIERNA",
+      note: "Equilibra cuádriceps, cadena posterior (femoral y glúteo) y gemelos con progresión real y recuperación suficiente entre días pesados.",
+      routines: [
+        {
+          id: "legs_quad_posterior",
+          name: "Pierna Completa: Cuádriceps y Cadena Posterior (5 días)",
+          meta: "5 días/sem • Frecuencia 2–3 en pierna • 60 min",
+          summary: "Alterna énfasis en cuádriceps con énfasis en femoral y glúteo para construir pierna completa.",
+          profileSplit: "spec_legs",
+          tuesdayFocus: "Martes tipo (Cadena Posterior / Femoral y Glúteo): peso muerto rumano o curl femoral tumbado, hip thrust o prensa y gemelos.",
+          exercises: [
+            {
+              name: "Sentadilla Hack o Prensa de Piernas",
+              dose: "4 series x 8–12 reps • Descanso: 2.5–3 min",
+              steps: [
+                "Apoya bien la espalda y coloca los pies en posición cómoda para tu anatomía.",
+                "Desciende controlando hasta lograr buen rango sin despegar zona lumbar ni talones.",
+                "Empuja con fuerza manteniendo rodillas estables."
+              ],
+              mistake: "Meter las rodillas hacia dentro (valgo) al iniciar la subida."
+            },
+            {
+              name: "Peso Muerto Rumano (Barra o Mancuernas)",
+              dose: "3–4 series x 8–12 reps • Descanso: 2–2.5 min",
+              steps: [
+                "Con ligera flexión de rodillas, lleva la cadera atrás manteniendo la espalda neutra.",
+                "Desliza la carga pegada a las piernas hasta notar estiramiento en isquiosurales.",
+                "Extiende la cadera adelante para volver a la posición inicial."
+              ],
+              mistake: "Encorvar la espalda baja o bajar más de lo que permite tu movilidad femoral."
+            },
+            {
+              name: "Extensión de Cuádriceps en Máquina",
+              dose: "3 series x 12–15 reps • Descanso: 60–90 s",
+              steps: [
+                "Alinea el eje de la rodilla con el giro de la máquina y ajusta el rodillo sobre el empeine.",
+                "Extiende las piernas y aprieta el cuádriceps 1 segundo arriba.",
+                "Baja lento sin soltar el peso."
+              ],
+              mistake: "Dar tirones con la cadera o bajar de golpe."
+            }
+          ]
+        },
+        {
+          id: "legs_glute_ham",
+          name: "Glúteo, Femoral y Gemelo (4 días)",
+          meta: "4 días/sem • Fuerza y extensión de cadera • 55–60 min",
+          summary: "Pensado para reforzar extensión de cadera, isquiosurales y gemelos con técnica limpia.",
+          profileSplit: "spec_legs",
+          tuesdayFocus: "Martes tipo: hip thrust o puente de glúteo con barra/máquina, curl femoral sentado y elevación de gemelos de pie.",
+          exercises: [
+            {
+              name: "Hip Thrust (Barra o Máquina)",
+              dose: "3–4 series x 8–12 reps • Descanso: 2 min",
+              steps: [
+                "Apoya la parte alta de la espalda (bajo las escápulas) en el banco y pies firmes.",
+                "Eleva la cadera hasta alinear tronco y muslos evitando hiperextender la lumbar.",
+                "Mantén 1 segundo de contracción arriba y baja con control."
+              ],
+              mistake: "Arquear la zona lumbar arriba en lugar de extender la cadera con el glúteo."
+            },
+            {
+              name: "Elevación de Gemelos de Pie o en Prensa",
+              dose: "4 series x 10–15 reps • Descanso: 60–75 s",
+              steps: [
+                "Apoya la parte delantera del pie (metatarso) con el talón libre para estirar abajo.",
+                "Sube lo más alto posible sobre las puntas y haz una pausa de 1–2 segundos arriba.",
+                "Baja despacio estirando el gemelo sin rebotar."
+              ],
+              mistake: "Hacer repeticiones cortas y rebotadas sin pausa arriba ni estiramiento abajo."
+            }
+          ]
+        }
+      ]
+    }
   };
 
-  let TRAIN_DATA = null;
-  let CURRENT_MUSCLE_IDX = 0;
+  let currentGoalKey = "grow_muscle";
+  let currentRoutineIdx = 0;
 
-  fetch("data/fitness_plans.json")
-    .then(r => r.json())
-    .then(data => {
-      TRAIN_DATA = data;
-      document.getElementById("muscle-pills").innerHTML = data.by_muscle_group.map((m, i) => `
-        <button class="m-pill ${i === 0 ? 'active' : ''}" onclick="renderMuscle(${i}, this)">${m.muscle} (${m.exercises.length})</button>
-      `).join("");
-      renderMuscle(0);
-
-      document.getElementById("view-days").innerHTML = data.by_days.map(d => `
-        <div class="card">
-          <span class="tag">${d.level}</span>
-          <h3>${d.days}</h3>
-          <p style="color:var(--gold); font-size:0.86rem; margin-bottom:6px;">${d.schedule}</p>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">${d.focus}</p>
-          <ul class="clean-list">${d.sessions.map(s => `<li>${s}</li>`).join("")}</ul>
-        </div>
-      `).join("");
-
-      const ppl = data.american_ppl;
-      document.getElementById("view-ppl").innerHTML = `
-        <div class="card" style="margin-bottom:22px;">
-          <span class="tag tag-red">ESTÁNDAR CULTURISMO AMERICANO</span>
-          <h3>${ppl.title}</h3>
-          <p style="color:var(--text-muted);">${ppl.description}</p>
-        </div>
-        <div class="grid-3">
-          ${ppl.blocks.map(b => `
-            <div class="card">
-              <span class="tag">${b.tag}</span>
-              <h3>${b.muscles}</h3>
-              <ul class="clean-list">${b.routine.map(r => `<li>${r}</li>`).join("")}</ul>
-            </div>
-          `).join("")}
-        </div>
-      `;
-
-      document.getElementById("view-freq").innerHTML = data.frequency_specialization.map(f => `
-        <div class="card">
-          <span class="tag tag-red">BLOQUE DE ESPECIALIZACIÓN</span>
-          <h3>${f.name}</h3>
-          <p style="color:var(--gold); font-size:0.9rem; margin:8px 0;"><strong>Distribución:</strong> ${f.split}</p>
-          <p style="color:#e5e7eb; font-size:0.9rem; margin-bottom:8px;"><strong>Volumen:</strong> ${f.weekly_sets}</p>
-          <p style="color:var(--text-muted); font-size:0.88rem;">${f.ideal_for}</p>
-        </div>
-      `).join("");
+  function selectGoal(goalKey) {
+    currentGoalKey = goalKey;
+    currentRoutineIdx = 0;
+    document.querySelectorAll(".goal-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.goal === goalKey);
     });
+    renderRoutines();
+  }
 
-  function renderMuscle(idx, btn) {
-    CURRENT_MUSCLE_IDX = idx;
-    if (btn) {
-      document.querySelectorAll(".m-pill").forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-    }
-    const m = TRAIN_DATA.by_muscle_group[idx];
-    document.getElementById("muscle-card").innerHTML = `
-      <div class="biomech-grid">
-        <div class="svg-box">
-          ${ANATOMY_SVGS[m.svg_type] || ""}
-          <p style="font-size:0.84rem; color:var(--text-muted); margin-top:12px;">${m.biomechanics}</p>
-        </div>
-        <div>
-          <span class="tag">ANATOMÍA & EJECUCIÓN (${m.exercises.length} EJERCICIOS)</span>
-          <h3 style="font-size:1.45rem; margin-bottom:14px;">${m.muscle}</h3>
-          ${m.exercises.map((ex, exIdx) => `
-            <div class="ex-item" onclick="openExModal(${idx}, ${exIdx})">
-              <div class="ex-head">
-                <strong>${exIdx + 1}. ${ex.name}</strong>
-                <span class="ex-meta">${ex.sets} | Descanso: ${ex.rest}</span>
-              </div>
-              <div class="ex-cue">${ex.cue}</div>
-              <span class="ex-click-hint">👆 PULSA AQUÍ PARA VER CÓMO SE HACE PASO A PASO →</span>
-            </div>
-          `).join("")}
-        </div>
+  function renderRoutines() {
+    const goalData = TRAINING_CATALOG[currentGoalKey];
+    const picker = document.getElementById("routine-picker");
+    picker.innerHTML = goalData.routines.map((r, idx) => `
+      <div class="routine-card ${idx === currentRoutineIdx ? 'active' : ''}" onclick="chooseRoutine(${idx})">
+        <span class="tag">${r.meta}</span>
+        <h4>${r.name}</h4>
+        <p>${r.summary}</p>
       </div>
+    `).join("");
+    renderDetail();
+  }
+
+  function chooseRoutine(idx) {
+    currentRoutineIdx = idx;
+    renderRoutines();
+  }
+
+  function renderDetail() {
+    const goalData = TRAINING_CATALOG[currentGoalKey];
+    const r = goalData.routines[currentRoutineIdx];
+    document.getElementById("routine-detail").innerHTML = `
+      <span class="tag">${goalData.tag} • ${r.meta}</span>
+      <h2 style="margin:6px 0 8px;">${r.name}</h2>
+      <p style="color:var(--text-muted); margin-bottom:14px;">${goalData.note}</p>
+      <div style="padding:12px 14px; background:#07090e; border:1px solid var(--border); border-radius:8px; margin-bottom:18px; font-size:0.9rem;">
+        <strong style="color:var(--gold);">Referencia de martes de entrenamiento:</strong> ${r.tuesdayFocus}
+      </div>
+
+      ${r.exercises.map((ex, i) => `
+        <div class="ex-row">
+          <div class="ex-top">
+            <strong>${i + 1}. ${ex.name}</strong>
+            <span class="ex-badge">${ex.dose}</span>
+          </div>
+          <ol class="ex-steps">
+            ${ex.steps.map(st => `<li>${st}</li>`).join("")}
+          </ol>
+          <div class="ex-mistake">
+            <strong>Error a evitar:</strong> ${ex.mistake}
+          </div>
+        </div>
+      `).join("")}
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:20px;">
+        <button type="button" class="btn-primary" onclick="sendRoutineToProfile('${r.profileSplit}', '${r.name.replace(/'/g, "\\'")}')">
+          Usar esta Rutina en Mi Perfil / Telegram
+        </button>
+        <a href="nutricion.html" class="btn-outline" style="padding:12px 18px;">
+          Ajustar Dieta para este Objetivo →
+        </a>
+        <a href="https://dazpremiumfit.com" target="_blank" rel="noopener" class="btn-outline" style="padding:12px 18px;">
+          Ver Equipamiento y Suplementos ↗
+        </a>
+      </div>
+      <p id="routine-saved-msg" style="color:var(--green); font-size:0.86rem; margin-top:10px; display:none;"></p>
     `;
   }
 
-  function openExModal(mIdx, exIdx) {
-    const m = TRAIN_DATA.by_muscle_group[mIdx];
-    const ex = m.exercises[exIdx];
-    document.getElementById("modal-tag").textContent = m.muscle.toUpperCase();
-    document.getElementById("modal-title").textContent = ex.name;
-    document.getElementById("modal-meta").textContent = `Series y Repeticiones: ${ex.sets}  •  Descanso entre series: ${ex.rest}`;
-    document.getElementById("modal-svg").innerHTML = ANATOMY_SVGS[m.svg_type] || "";
-    const steps = ex.steps || [
-      "1. Posición inicial: Ajusta el asiento/polea, retrae las escápulas y bloquea el abdomen antes de iniciar el movimiento.",
-      "2. Fase excéntrica (bajada): Desciende la carga de forma controlada durante 2 a 3 segundos manteniendo tensión continua.",
-      "3. Fase concéntrica (empuje/tracción): Impulsa el peso de manera explosiva sin usar inercia lumbar ni rebotes.",
-      "4. Respiración: Inhala profundamente antes de iniciar la repetición y exhala al superar el punto de máximo esfuerzo."
-    ];
-    document.getElementById("modal-steps").innerHTML = steps.map(s => `<li>${s}</li>`).join("");
-    document.getElementById("modal-mistake").textContent = ex.mistake || "Usar demasiado peso acortando el recorrido o perder la estabilidad escapular en las últimas repeticiones.";
-    document.getElementById("ex-modal-backdrop").style.display = "flex";
+  function sendRoutineToProfile(splitCode, routineName) {
+    const saved = JSON.parse(localStorage.getItem("daz_athlete_profile") || "{}");
+    saved.split = splitCode;
+    saved.selectedRoutineName = routineName;
+    localStorage.setItem("daz_athlete_profile", JSON.stringify(saved));
+    const msg = document.getElementById("routine-saved-msg");
+    msg.style.display = "block";
+    msg.textContent = `✓ Rutina "${routineName}" guardada en tu perfil para sincronizar con tu envío diario de Telegram.`;
   }
 
-  function closeExModal(e) {
-    if (e.target.id === "ex-modal-backdrop") {
-      document.getElementById("ex-modal-backdrop").style.display = "none";
-    }
-  }
-
-  function showTrainTab(tab, btn) {
-    document.querySelectorAll(".sub-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    document.querySelectorAll(".t-view").forEach(v => v.style.display = "none");
-    const target = document.getElementById("view-" + tab);
-    target.style.display = (tab === "days" || tab === "freq") ? "grid" : "block";
-  }
+  renderRoutines();
 </script>
 </body>
 </html>
