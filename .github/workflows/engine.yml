@@ -1,0 +1,39 @@
+name: DAZ Engine Diario
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Ejecutar Motor Principal y Revisor
+        run: |
+          python scripts/engine.py
+          python scripts/revisor.py
+
+      - name: Notificar Telegram (si está configurado)
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/telegram.py
+
+      - name: Guardar cambios en el repositorio
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "DAZ Engine Bot"
+          git add data/*.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualización diaria automática DAZ Performance" && git push)
