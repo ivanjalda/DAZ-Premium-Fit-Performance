@@ -1,8 +1,9 @@
-name: DAZ Engine Diario
+name: DAZ Engine & Morning Coach Diario
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    # Se ejecuta cada mañana a primera hora (06:00 UTC)
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -25,15 +26,18 @@ jobs:
           python scripts/engine.py
           python scripts/revisor.py
 
-      - name: Notificar Telegram (si está configurado)
+      - name: Enviar Entrenamientos Personalizados y Canales ES/EN
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python scripts/telegram.py
+          CF_WORKER_URL: ${{ secrets.CF_WORKER_URL }}
+          CF_ADMIN_SECRET: ${{ secrets.CF_ADMIN_SECRET }}
+          TELEGRAM_CHANNEL_ES: ${{ secrets.TELEGRAM_CHANNEL_ES }}
+          TELEGRAM_CHANNEL_EN: ${{ secrets.TELEGRAM_CHANNEL_EN }}
+        run: python scripts/telegram_coach.py
 
       - name: Guardar cambios en el repositorio
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "DAZ Engine Bot"
           git add data/*.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualización diaria automática DAZ Performance" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualización diaria y envío matinal DAZ Performance" && git push)
