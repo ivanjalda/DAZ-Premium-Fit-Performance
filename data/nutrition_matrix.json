@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-25 01:54 UTC",
+  "updated_at": "2026-11-25 17:51 UTC",
   "elite_foods": {
     "proteins": [
       {
         "name": "Pechuga de Pollo / Pavo",
         "macros_100g": "23g Prot | 0g Carb | 1.5g Grasa",
-        "benefit": "Perfil completo de aminoácidos esenciales y máxima digestibilidad sin grasa saturada."
+        "benefit": "Perfil completo de aminoácidos esenciales y alta biodisponibilidad sin grasa saturada."
       },
       {
         "name": "Ternera Magra (Solomillo / Babilla)",
@@ -37,17 +37,17 @@
       {
         "name": "Arroz Basmati / Jazmín",
         "macros_100g": "7g Prot | 78g Carb | 0.6g Grasa",
-        "benefit": "Almidón de fácil asimilación sin gluten; recarga glucógeno muscular sin pesadez."
+        "benefit": "Almidón de fácil asimilación sin gluten ni antinutrientes; recarga glucógeno sin pesadez."
       },
       {
         "name": "Copos de Avena Integral",
         "macros_100g": "13g Prot | 60g Carb | 7g Grasa",
-        "benefit": "Energía sostenida, betaglucanos cardiovasculares y control glucémico."
+        "benefit": "Energía sostenida, betaglucanos para salud cardiovascular y control glucémico."
       },
       {
         "name": "Patata / Boniato Asado",
         "macros_100g": "2g Prot | 20g Carb | 0.1g Grasa",
-        "benefit": "Índice de saciedad altísimo y aporte masivo de potasio intracelular para bombeo."
+        "benefit": "Índice de saciedad altísimo y aporte masivo de potasio intracelular para bombeo muscular."
       },
       {
         "name": "Crema de Arroz (Cream of Rice)",
@@ -57,7 +57,7 @@
       {
         "name": "Frutos Rojos (Arándanos / Fresas)",
         "macros_100g": "1g Prot | 10g Carb | 0.3g Grasa",
-        "benefit": "Polifenoles y antioxidantes de bajo impacto glucémico."
+        "benefit": "Polifenoles y antioxidantes de bajo impacto glucémico que reducen el estrés oxidativo."
       }
     ],
     "fats": [
@@ -83,23 +83,23 @@
       "id": "keto",
       "name": "Dieta Cetogénica (Keto Clínico / Rendimiento)",
       "macros_split": "70% Grasas | 25% Proteínas | 5% Carbohidratos (<30g netos/día)",
-      "mechanism": "Agota el glucógeno hepático en 48-72h forzando la producción de cuerpos cetónicos (beta-hidroxibutirato) como combustible cerebral y muscular altamente eficiente.",
+      "mechanism": "Agota el glucógeno hepático en 48-72h forzando al hígado a producir cuerpos cetónicos (beta-hidroxibutirato) como combustible cerebral y muscular altamente eficiente.",
       "rules": [
         "Mantener carbohidratos netos por debajo de 25-30g diarios (solo vegetales fibrosos verdes).",
-        "Suplementar electrolitos obligatoriamente: 4-5g Sodio, 3-4g Potasio y 400mg Magnesio.",
-        "Mejora la sensibilidad a la insulina, la claridad mental y el control del apetito."
+        "Suplementar electrolitos obligatoriamente: 4-5g Sodio, 3-4g Potasio y 400mg Magnesio para evitar la 'gripe keto'.",
+        "Ideal para mejorar sensibilidad a la insulina, claridad mental y control del apetito en pérdida de grasa."
       ],
       "sample_day": [
         "Desayuno: 4 Huevos enteros revueltos con 30g de aguacate y café solo con 10g de aceite MCT.",
         "Almuerzo: 220g Salmón a la plancha con espárragos trigueros y 15ml de AOVE.",
-        "Cena: 220g Entrecot de ternera con ensalada de espinacas y 25g de nueces."
+        "Cena: 220g Entrecot de ternera o muslos de pollo con ensalada de espinacas y 25g de nueces."
       ]
     },
     {
       "id": "carb_cycling",
       "name": "Ciclado de Carbohidratos (Carb Cycling)",
-      "macros_split": "Días Altos (Pierna/Espalda) | Días Medios (Torso) | Días Bajos (Descanso)",
-      "mechanism": "Manipula insulina y leptina semanalmente: aporta glucosa máxima en días de alta demanda mecánica y maximiza la lipólisis en días de descanso.",
+      "macros_split": "Días Altos (Entreno Pierna/Espalda) | Días Medios (Torso) | Días Bajos (Descanso)",
+      "mechanism": "Manipula la insulina y la leptina semanalmente: aporta glucosa máxima los días de mayor demanda mecánica y maximiza la lipólisis los días de baja actividad.",
       "rules": [
         "Días Altos: 4-5g Carbohidratos/kg peso | Grasas bajas (0.5g/kg).",
         "Días Bajos: 1-1.5g Carbohidratos/kg peso | Grasas moderadas (1g/kg).",
@@ -107,17 +107,17 @@
       ],
       "sample_day": [
         "Día Alto: 350g Arroz cocido repartido pre y post entreno + 200g Pollo por comida.",
-        "Día Bajo: Solo proteínas magras, verduras verdes, huevos enteros y aguacate."
+        "Día Bajo: 0g Arroz/Avena; solo proteínas magras, verduras verdes, huevos enteros y aguacate."
       ]
     },
     {
       "id": "volumen_limpio",
       "name": "Hipertrofia Controlada (Lean Bulk)",
-      "macros_split": "Superávit +350 kcal | Proteína 2.1g/kg | Grasas 0.85g/kg | Resto Carbos",
+      "macros_split": "Superávit +300 a +400 kcal | Proteína 2.1g/kg | Grasas 0.85g/kg | Resto Carbos",
       "mechanism": "Maximiza la señalización anabólica (mTOR) y la síntesis proteica manteniendo el porcentaje graso bajo control.",
       "rules": [
         "Subida de peso objetivo: entre 0.25% y 0.5% del peso corporal por semana.",
-        "Concentrar el 45% de los carbohidratos diarios peri-entreno."
+        "Concentrar el 45% de los carbohidratos diarios en las comidas previa y posterior al entrenamiento."
       ],
       "sample_day": [
         "4 a 5 comidas sólidas + batido Whey Isolate post-entreno con Creatina."
