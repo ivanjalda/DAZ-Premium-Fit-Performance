@@ -259,7 +259,7 @@ def send_telegram_message(chat_id: str, text: str) -> bool:
     req = urllib.request.Request(
         url,
         data=payload,
-        headers={"Content-Type": "application/json"},
+        headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0 (DAZ Engine Bot)"},
         method="POST",
     )
     try:
@@ -274,13 +274,14 @@ def send_telegram_message(chat_id: str, text: str) -> bool:
 def fetch_registered_users() -> list[dict]:
     if not CF_WORKER_URL or not ADMIN_SECRET:
         return []
-    url = f"{CF_WORKER_URL}/admin/users"
+    url = f"{CF_WORKER_URL}/subscribers"
     req = urllib.request.Request(
         url,
         headers={
             "Authorization": f"Bearer {ADMIN_SECRET}",
             "X-Admin-Secret": ADMIN_SECRET,
             "Accept": "application/json",
+            "User-Agent": "Mozilla/5.0 (DAZ Engine Bot)",
         },
         method="GET",
     )
