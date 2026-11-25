@@ -1,0 +1,37 @@
+name: DAZ Revisor & Huellas SHA-256
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '*.html'
+      - 'nav.js'
+      - 'scripts/*.py'
+  schedule:
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Ejecutar Revisor de Integridad y Huellas
+        run: python scripts/revisor.py
+
+      - name: Guardar informe de revisión
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "DAZ Revisor Bot"
+          git add data/revision.json data/revision_huellas.json data/*.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auditoría SHA-256: DAZ Revisor" && git push)
