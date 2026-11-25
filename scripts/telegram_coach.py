@@ -135,12 +135,20 @@ def send_tg(chat_id, text):
 def fetch_subscribers():
     if not WORKER_URL or not ADMIN_SECRET:
         return []
-    req = urllib.request.Request(
-        f"{WORKER_URL.rstrip('/')}/subscribers",
-        headers={"Authorization": f"Bearer {ADMIN_SECRET}"}
-    )
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    try:
+        req = urllib.request.Request(
+            f"{WORKER_URL.rstrip('/')}/subscribers",
+            headers={
+                "Authorization": f"Bearer {ADMIN_SECRET}",
+                "User-Agent": "Mozilla/5.0 (DAZ Engine Bot)",
+                "Accept": "application/json"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except Exception as e:
+        print("[COACH WARN] No se pudo leer la lista de suscriptores:", e)
+        return []
 
 
 def format_workout_message(user, weekday):
