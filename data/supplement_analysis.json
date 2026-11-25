@@ -1,54 +1,148 @@
 {
-  "updated_at": "2026-11-25 01:11 UTC",
-  "brand_line": "The Blueprint Series: Nutritional Foundation® & The Prestige Protocol®",
-  "supplements": [
-    {
-      "name": "1. Proteína Whey Isolate (Aislado de Suero)",
-      "evidence_grade": "Grado A (Evidencia Máxima)",
-      "mechanism": "Aporte rápido de aminoácidos esenciales y alto contenido en L-Leucina (>3g por toma) para activar la vía mTOR y la síntesis proteica miofibrilar.",
-      "dosage": "30g - 40g post-entreno o para alcanzar requerimiento proteico diario.",
-      "synergy": "Combinar con Creatina Monohidrato tras entrenar.",
-      "shop_url": "https://dazpremiumfit.com/collections/supplements"
-    },
-    {
-      "name": "2. Creatina Monohidrato (200 Mesh / Pura)",
-      "evidence_grade": "Grado A (Evidencia Máxima)",
-      "mechanism": "Satura los depósitos de fosfocreatina intramuscular, acelerando la resíntesis de ATP en series pesadas de 1 a 12 repeticiones y aumentando la hidratación celular.",
-      "dosage": "0.1g por kg de peso corporal al día (ej. 8g - 9g diarios), todos los días sin descansos.",
-      "synergy": "Absorción optimizada junto a carbohidratos o proteína.",
-      "shop_url": "https://dazpremiumfit.com/collections/supplements"
-    },
-    {
-      "name": "3. Pre-Entreno de Rendimiento (Citrulina + Cafeína + Beta-Alanina)",
-      "evidence_grade": "Grado A (Evidencia Máxima)",
-      "mechanism": "La L-Citrulina (6-8g) eleva el óxido nítrico y el flujo sanguíneo; la Cafeína (3-5mg/kg) reduce la percepción de fatiga; la Beta-Alanina tampona la acidez muscular.",
-      "dosage": "1 servicio 25-30 minutos antes de la sesión de fuerza.",
-      "synergy": "Evitar en las 6 horas previas al sueño para preservar la arquitectura del descanso.",
-      "shop_url": "https://dazpremiumfit.com/collections/supplements"
-    },
-    {
-      "name": "4. Omega-3 Alta Pureza (EPA / DHA)",
-      "evidence_grade": "Grado A (Salud Cardiovascular y Articular)",
-      "mechanism": "Modula la inflamación sistémica post-entrenamiento, mejora la sensibilidad a la insulina y protege la salud endotelial y articular bajo cargas pesadas.",
-      "dosage": "2g - 3g combinados de EPA + DHA diarios junto a una comida con grasas.",
-      "synergy": "Potencia la absorción de vitaminas liposolubles (D3, K2, E).",
-      "shop_url": "https://dazpremiumfit.com/collections/supplements"
-    },
-    {
-      "name": "5. Multivitamínico y Minerales Quelados",
-      "evidence_grade": "Grado B+ (Soporte Metabólico)",
-      "mechanism": "Cubre micronutrientes críticos (Zinc, Magnesio, Vitamina D3, Complejo B) esenciales para la producción hormonal endógena y el metabolismo energético en déficit o volumen.",
-      "dosage": "1 dosis diaria con el desayuno.",
-      "synergy": "Previene caídas de rendimiento por carencias subclínicas de micronutrientes.",
-      "shop_url": "https://dazpremiumfit.com/collections/supplements"
-    },
-    {
-      "name": "6. Colágeno Hidrolizado + Vitamina C",
-      "evidence_grade": "Grado B+ (Tejido Conectivo y Tendones)",
-      "mechanism": "Proporciona glicina, prolina e hidroxiprolina necesarios para la regeneración de tendones, ligamentos y cartílago sometidos a alta tensión mecánica.",
-      "dosage": "10g - 15g diarios junto con 50-100mg de Vitamina C (cofactor indispensable).",
-      "synergy": "Ideal tomar 45 minutos antes del entrenamiento o antes de dormir.",
-      "shop_url": "https://dazpremiumfit.com/collections/supplements"
-    }
-  ]
+  "updated_at": "2026-11-25 01:54 UTC",
+  "categories": {
+    "masa_muscular": [
+      {
+        "name": "Creatina Monohidrato Pura (200 Mesh)",
+        "grade": "Grado A • Evidencia Máxima",
+        "how_to_take": "0.1g por kg de peso corporal al día (ej. 8-9g diarios), todos los días con agua o comida.",
+        "mechanism": "Satura la fosfocreatina intramuscular, eleva la fuerza máxima, resíntesis de ATP e hidratación celular.",
+        "featured_store": true
+      },
+      {
+        "name": "Proteína Whey Isolate (Aislado de Suero)",
+        "grade": "Grado A • Evidencia Máxima",
+        "how_to_take": "30g - 40g inmediatamente tras entrenar o para completar requerimientos proteicos.",
+        "mechanism": "Aporta >3g de L-Leucina pura de rápida absorción para disparar la síntesis proteica vía mTOR.",
+        "featured_store": true
+      },
+      {
+        "name": "L-Citrulina Malato 2:1 + Beta-Alanina",
+        "grade": "Grado A • Rendimiento y Bombeo",
+        "how_to_take": "6-8g de Citrulina + 3.2g de Beta-Alanina 30 minutos antes del entrenamiento.",
+        "mechanism": "Aumenta el óxido nítrico, vasodilatación periférica y tampona el ácido láctico en series largas.",
+        "featured_store": true
+      },
+      {
+        "name": "EAA (Aminoácidos Esenciales) + Ciclodextrina",
+        "grade": "Grado B+ • Intra-Entreno",
+        "how_to_take": "12g EAA + 30g Ciclodextrina disueltos en 1L de agua durante sesiones de +75 minutos.",
+        "mechanism": "Frena el catabolismo inducido por cortisol y mantiene la glucemia estable durante el entrenamiento.",
+        "featured_store": false
+      }
+    ],
+    "perdida_peso": [
+      {
+        "name": "Cafeína Anhidra + Extracto de Té Verde (EGCG)",
+        "grade": "Grado A • Termogénesis y Lipólisis",
+        "how_to_take": "200mg Cafeína + 400mg EGCG 30 minutos antes del cardio o entrenamiento de fuerza.",
+        "mechanism": "Eleva las catecolaminas (adrenalina/noradrenalina) movilizando ácidos grasos libres de los adipocitos.",
+        "featured_store": true
+      },
+      {
+        "name": "L-Carnitina L-Tartrato",
+        "grade": "Grado B • Transporte Mitocondrial",
+        "how_to_take": "2g - 3g diarios acompañados de una comida con carbohidratos o insulina para su captación muscular.",
+        "mechanism": "Facilita el transporte de ácidos grasos de cadena larga hacia la mitocondria y acelera la recuperación.",
+        "featured_store": false
+      },
+      {
+        "name": "Berberina HCL (500mg)",
+        "grade": "Grado A • Sensibilidad a la Insulina",
+        "how_to_take": "500mg 15 minutos antes de las dos comidas principales con carbohidratos.",
+        "mechanism": "Activa la enzima AMPK, mejorando la captación de glucosa muscular y reduciendo picos de insulina.",
+        "featured_store": false
+      },
+      {
+        "name": "Glucomanano / Psyllium Husk",
+        "grade": "Grado A • Saciedad en Déficit",
+        "how_to_take": "3g con 400ml de agua 20 minutos antes de la comida más abundante.",
+        "mechanism": "Fibra soluble viscosa que retrasa el vaciado gástrico y bloquea el hambre en déficit calórico.",
+        "featured_store": false
+      }
+    ],
+    "salud": [
+      {
+        "name": "Omega-3 Ultra Puro (EPA / DHA)",
+        "grade": "Grado A • Cardiovascular y Cerebral",
+        "how_to_take": "2.5g - 3g combinados de EPA+DHA al día junto a comidas con grasa.",
+        "mechanism": "Reduce triglicéridos, mejora la flexibilidad arterial, protege la función cognitiva y regula inflamación.",
+        "featured_store": true
+      },
+      {
+        "name": "Vitamina D3 (4000 UI) + K2 (MK-7 100mcg)",
+        "grade": "Grado A • Sistema Inmune y Óseo",
+        "how_to_take": "1 cápsula diaria con el desayuno (requiere grasa para absorberse).",
+        "mechanism": "La D3 optimiza testosterona e inmunidad; la K2 dirige el calcio al hueso evitando calcificación arterial.",
+        "featured_store": true
+      },
+      {
+        "name": "Magnesio Bisglicinato + Zinc Quelado",
+        "grade": "Grado A • Descanso y Entorno Hormonal",
+        "how_to_take": "400mg Magnesio + 15mg Zinc 45 minutos antes de dormir.",
+        "mechanism": "Cofactor en más de 300 reacciones enzimáticas; mejora el sueño profundo y la recuperación del SNC.",
+        "featured_store": true
+      },
+      {
+        "name": "Coenzima Q10 (Ubiquinol 100mg) + NAC",
+        "grade": "Grado B+ • Protección Hepática y Mitocondrial",
+        "how_to_take": "100mg Ubiquinol + 600mg N-Acetilcisteína por la mañana.",
+        "mechanism": "Eleva el glutatión intracelular (antioxidante maestro) y protege el miocardio.",
+        "featured_store": false
+      }
+    ],
+    "alivio": [
+      {
+        "name": "Colágeno Hidrolizado Tipo I y II + Vitamina C",
+        "grade": "Grado B+ • Tendones y Cartílago",
+        "how_to_take": "15g de Colágeno + 100mg de Vitamina C 45 minutos antes de entrenar o antes de dormir.",
+        "mechanism": "Estimula la síntesis de matriz extracelular en tendones, ligamentos y articulaciones sometidas a carga.",
+        "featured_store": true
+      },
+      {
+        "name": "Cúrcuma Fitosomada (Curcumina + Piperina)",
+        "grade": "Grado A • Antiinflamatorio Natural",
+        "how_to_take": "500mg - 1000mg diarios repartidos en comidas.",
+        "mechanism": "Inhibe citoquinas proinflamatorias (NF-kB y COX-2) aliviando molestias articulares sin dañar el estómago.",
+        "featured_store": false
+      },
+      {
+        "name": "Ashwagandha KSM-66 (600mg)",
+        "grade": "Grado A • Control de Cortisol y Estrés",
+        "how_to_take": "300mg por la mañana y 300mg por la tarde/noche.",
+        "mechanism": "Adaptógeno clínico que reduce el cortisol sérico hasta un 27%, mejorando la calma y el descanso.",
+        "featured_store": false
+      },
+      {
+        "name": "Glucosamina Sulfato + Condroitina + MSM",
+        "grade": "Grado B+ • Lubricación Articular",
+        "how_to_take": "1500mg Glucosamina + 1200mg Condroitina + 2000mg MSM al día.",
+        "mechanism": "Mantiene la viscosidad del líquido sinovial y amortigua el impacto articular en sentadillas y presses.",
+        "featured_store": false
+      }
+    ],
+    "cabello": [
+      {
+        "name": "Saw Palmetto (Serenoa Repens 320mg) + Semilla de Calabaza",
+        "grade": "Grado B+ • Inhibidor Natural 5-Alfa Reductasa",
+        "how_to_take": "320mg extracto estandarizado al 85-95% de ácidos grasos diarios con comida.",
+        "mechanism": "Ayuda a modular la conversión de testosterona en DHT en el folículo piloso de forma natural.",
+        "featured_store": false
+      },
+      {
+        "name": "Biotina (5000mcg) + Zinc + L-Cisteína",
+        "grade": "Grado A • Estructura de Queratina",
+        "how_to_take": "1 dosis diaria con el desayuno.",
+        "mechanism": "Aporta los aminoácidos azufrados y coenzimas indispensables para el grosor y resistencia del tallo capilar.",
+        "featured_store": true
+      },
+      {
+        "name": "Colágeno Marino + Silicio Orgánico",
+        "grade": "Grado B+ • Irrigación y Anclaje Folicular",
+        "how_to_take": "10g Colágeno + 50mg Silicio al día.",
+        "mechanism": "Mejora la microcirculación del cuero cabelludo y fortalece la dermis donde se ancla el folículo.",
+        "featured_store": true
+      }
+    ]
+  }
 }

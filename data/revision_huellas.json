@@ -1,0 +1,13 @@
+{
+  "data/nutrition_matrix.json": "59ca3be8fec7e4ce6341ba5638587ef5ad49d84a41a570acbdc2628601d91c12",
+  "data/fitness_plans.json": "a612350f4227cd9ba6af0a23a0292cf7765608796841ffe82d209ac2cbadb242",
+  "data/supplement_analysis.json": "a5faa2aa04ee1f65dd84b6e9b3cd1156876e3c5880a13de4f842a06bb272bcb2",
+  "data/marketing_showcase.json": "51512b66c57d7e3e4c41f6a76825cb7113fd180bd8c0efd7fa3c9233178205b4",
+  "data/blog_posts.json": "ecbe4f5b29a6469fe8cca03df2c7a570ab63e225e6374729a3ea168c6df31f36",
+  "index.html": "ee7ccd8769e1c37acfd7d75a7d4feb2084811617ec3ca5d61274d4c4f24ad353",
+  "entrenamiento.html": "6372ca5a0e13915bc386ed88ac67f57d14c9fa78c200c6521c0b00ca50409f6e",
+  "nutricion.html": "0f8ac70fe83eb3597fb3e28d572b4ad336d8e2fc8d9cd893bbdc7d4ef1266c30",
+  "suplementacion.html": "d8be58e558574e4b383fd8e7c4252a6d24e92ac3eabde8b431e77281a928cdf4",
+  "ciencia.html": "e8e0ed13a04c3fda252a09554aeaa91b2fb508b87e3d2c21488cd934160d08af",
+  "nav.js": "a947dd11724f7d0470259342f158e55abefd0a7bda2abae09b99169b39e7a066"
+}
