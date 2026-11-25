@@ -1,0 +1,32 @@
+name: DAZ Premium Fit Autonomous Engine
+
+on:
+  schedule:
+    # Se ejecuta automáticamente cada 2 días a las 08:00 UTC
+    - cron: '0 8 */2 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-hub-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run DAZ Hub Engine
+        run: python scripts/daz_hub_engine.py
+
+      - name: Commit and push updated JSON data
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "DAZ Autonomous Engine"
+          git add data/*.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: DAZ Performance Hub data & showcase" && git push)
