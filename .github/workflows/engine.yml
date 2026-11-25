@@ -30,7 +30,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CF_WORKER_URL: ${{ secrets.CF_WORKER_URL }}
-          CF_ADMIN_SECRET: ${{ secrets.CF_ADMIN_SECRET }}
+          CF_ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
           TELEGRAM_CHANNEL_ES: ${{ secrets.TELEGRAM_CHANNEL_ES }}
           TELEGRAM_CHANNEL_EN: ${{ secrets.TELEGRAM_CHANNEL_EN }}
         run: python scripts/telegram_coach.py
