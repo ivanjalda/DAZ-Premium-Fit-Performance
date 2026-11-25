@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DAZ Premium Fit Performance | Culturismo, Biomecánica & Ciencia</title>
+  <title>DAZ Premium Fit Performance | Culturismo, Nutrición Clínica & Ciencia</title>
   <style>
     :root {
       --bg-main: #060709;
@@ -33,7 +33,7 @@
       width: 100%;
     }
 
-    /* TOP ECOSYSTEM LUXURY TICKER */
+    /* TOP ECOSYSTEM BAR */
     .ecosystem-bar {
       background: linear-gradient(90deg, #090a0d 0%, #16130b 50%, #090a0d 100%);
       border-bottom: 1px solid var(--border-gold);
@@ -157,7 +157,7 @@
     /* HERO FULL SCREEN WIDTH */
     .hero {
       width: 100%;
-      padding: 52px 2.5% 44px;
+      padding: 48px 2.5% 40px;
       background:
         radial-gradient(circle at 85% 20%, rgba(212, 175, 55, 0.15), transparent 45%),
         radial-gradient(circle at 10% 85%, rgba(153, 27, 27, 0.18), transparent 45%),
@@ -211,13 +211,13 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       color: #060709;
-      padding: 14px 26px;
+      padding: 13px 24px;
       border-radius: 6px;
       font-weight: 900;
       text-decoration: none;
       border: none;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       letter-spacing: 0.6px;
       text-transform: uppercase;
       transition: transform 0.15s, box-shadow 0.2s;
@@ -233,11 +233,11 @@
       background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border);
-      padding: 14px 24px;
+      padding: 13px 22px;
       border-radius: 6px;
       font-weight: 700;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       transition: border-color 0.2s;
     }
 
@@ -298,7 +298,7 @@
     }
 
     .section-header {
-      margin-bottom: 28px;
+      margin-bottom: 26px;
       border-left: 4px solid var(--gold);
       padding-left: 16px;
     }
@@ -311,7 +311,7 @@
 
     .section-header p { color: var(--text-muted); font-size: 0.96rem; }
 
-    /* RESPONSIVE FULL-WIDTH GRIDS */
+    /* GRIDS & CARDS */
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 22px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 22px; }
 
@@ -320,12 +320,12 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 24px;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s;
     }
 
     .card:hover { border-color: var(--border-gold); }
-
     .card h3 { font-size: 1.18rem; margin-bottom: 8px; color: #fff; }
+
     .tag {
       display: inline-block;
       font-size: 0.72rem;
@@ -340,11 +340,16 @@
     }
 
     .tag-red {
-      background: rgba(185, 28, 28, 0.2);
+      background: rgba(185, 28, 28, 0.22);
       color: #fca5a5;
     }
 
-    /* CALCULATOR */
+    .tag-green {
+      background: rgba(16, 185, 129, 0.18);
+      color: #6ee7b7;
+    }
+
+    /* FORMS & CALCULATORS */
     .calc-form {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -354,7 +359,7 @@
 
     .form-group label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
       margin-bottom: 6px;
       font-weight: 700;
@@ -389,14 +394,14 @@
 
     .macro-box strong {
       display: block;
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       color: var(--gold);
       font-weight: 900;
     }
 
     .macro-box span { font-size: 0.8rem; color: var(--text-muted); }
 
-    /* TRAINING SUB-NAVIGATION */
+    /* SUB-NAVIGATION TABS */
     .sub-tabs {
       display: flex;
       gap: 10px;
@@ -410,11 +415,11 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 11px 20px;
+      padding: 10px 18px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       transition: all 0.2s;
     }
 
@@ -469,12 +474,12 @@
       height: auto;
     }
 
-    .exercise-row {
-      padding: 15px 18px;
+    .exercise-row, .food-row {
+      padding: 14px 16px;
       background: #0b0d10;
       border: 1px solid var(--border);
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .exercise-top {
@@ -483,12 +488,12 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .exercise-top strong { color: var(--gold); font-size: 1.03rem; }
-    .exercise-meta { font-family: monospace; font-size: 0.84rem; color: #fca5a5; }
-    .exercise-cue { font-size: 0.9rem; color: var(--text-muted); }
+    .exercise-top strong { color: var(--gold); font-size: 1rem; }
+    .exercise-meta { font-family: monospace; font-size: 0.82rem; color: #fca5a5; }
+    .exercise-cue { font-size: 0.88rem; color: var(--text-muted); }
 
     ul.clean-list { list-style: none; margin-top: 10px; }
     ul.clean-list li {
@@ -499,7 +504,7 @@
     }
     ul.clean-list li:last-child { border-bottom: none; }
 
-    /* LUXURY BRAND SHOWCASE BANNER (ECOSYSTEM ADVERTISING) */
+    /* LUXURY BRAND SHOWCASE BANNER */
     .luxury-ad-section {
       width: 100%;
       padding: 46px 2.5%;
@@ -640,13 +645,13 @@
   <div class="brand">
     <span>DAZ <span class="accent">PREMIUM FIT</span></span>
     <span class="sub-division">PERFORMANCE</span>
-    <span class="status-pill" id="sync-status">ENGINE ACTIVE</span>
+    <span class="status-pill" id="sync-status">AUTO-ENGINE & AUDIT OK</span>
   </div>
   <nav>
     <button class="active" onclick="switchMainTab('planner', this)">Planificador Total</button>
     <button onclick="switchMainTab('training', this)">Entrenamiento Élite</button>
-    <button onclick="switchMainTab('nutrition', this)">Nutrición & Macros</button>
-    <button onclick="switchMainTab('supplements', this)">Suplementación</button>
+    <button onclick="switchMainTab('nutrition', this)">Nutrición & Dietas</button>
+    <button onclick="switchMainTab('supplements', this)">Suplementación Total</button>
     <button onclick="switchMainTab('blog', this)">Ciencia & Blog</button>
     <a class="btn-shop-nav" href="https://dazpremiumfit.com" target="_blank" rel="noopener">Tienda Oficial ↗</a>
   </nav>
@@ -657,10 +662,10 @@
     <div>
       <span class="hero-badge" id="hero-badge">DIVISIÓN CIENTÍFICA • DAZ PREMIUM FIT PERFORMANCE</span>
       <h1 id="hero-title">INGENIERÍA TEXTIL Y CIENCIA PARA EL FÍSICO DE ÉLITE</h1>
-      <p id="hero-sub">Plataforma integral automatizada de hipertrofia, biomecánica aplicada y nutrición clínica conectada directamente con la tienda oficial DAZ Premium Fit.</p>
+      <p id="hero-sub">Plataforma integral automatizada de hipertrofia, nutrición clínica en gramos exactos y suplementación personalizada conectada con la tienda oficial DAZ Premium Fit.</p>
       <div class="hero-actions">
-        <a class="btn-primary" id="hero-cta" href="https://dazpremiumfit.com" target="_blank" rel="noopener">EXPLORAR ROPA DEPORTIVA EN TIENDA</a>
-        <button class="btn-secondary" onclick="switchMainTab('training', document.querySelectorAll('nav button')[1])">Explorar Rutinas y Biomecánica</button>
+        <a class="btn-primary" id="hero-cta" href="https://dazpremiumfit.com" target="_blank" rel="noopener">EXPLORAR TIENDA OFICIAL DAZ</a>
+        <button class="btn-secondary" onclick="switchMainTab('nutrition', document.querySelectorAll('nav button')[2])">Calcular Dieta en Gramos</button>
       </div>
     </div>
     <div class="showcase-box">
@@ -678,7 +683,7 @@
   <section id="tab-planner" class="section-block active">
     <div class="section-header">
       <h2>Planificador Total Sinérgico</h2>
-      <p>Calcula tu gasto energético real (Ecuación Mifflin-St Jeor) y obtén al instante tus macronutrientes, estructura de entrenamiento y stack de suplementación.</p>
+      <p>Calcula tu gasto energético real (Ecuación Mifflin-St Jeor) y cruza al instante calorías, rutina óptima y suplementación recomendada.</p>
     </div>
 
     <div class="card" style="margin-bottom: 24px;">
@@ -723,7 +728,7 @@
 
       <div class="macro-results" id="macro-output">
         <div class="macro-box"><strong id="res-kcal">3,589</strong><span>Kcal Diarias</span></div>
-        <div class="macro-box"><strong id="res-prot">193 g</strong><span>Proteína (2.1g/kg)</span></div>
+        <div class="macro-box"><strong id="res-prot">193 g</strong><span>Proteína</span></div>
         <div class="macro-box"><strong id="res-carb">518 g</strong><span>Carbohidratos</span></div>
         <div class="macro-box"><strong id="res-fat">83 g</strong><span>Grasas Esenciales</span></div>
       </div>
@@ -736,55 +741,137 @@
   <section id="tab-training" class="section-block">
     <div class="section-header">
       <h2>Arquitectura de Entrenamiento Personal</h2>
-      <p>Sistemas estructurados por disponibilidad semanal, anatomía muscular con guías biomecánicas ilustradas, protocolo Push-Pull-Legs y especialización por frecuencia.</p>
+      <p>Sistemas estructurados por anatomía muscular con guías biomecánicas ilustradas, días semanales, protocolo Push-Pull-Legs y especialización por frecuencia.</p>
     </div>
 
     <div class="sub-tabs">
-      <button class="sub-tab-btn active" onclick="switchTrainingView('muscles', this)">Por Grupo Muscular + Diagrama</button>
-      <button class="sub-tab-btn" onclick="switchTrainingView('days', this)">Entrenamientos por Días (3 a 6)</button>
-      <button class="sub-tab-btn" onclick="switchTrainingView('ppl', this)">Estilo Americano (Push / Pull / Legs)</button>
-      <button class="sub-tab-btn" onclick="switchTrainingView('freq', this)">Especialización por Frecuencia</button>
+      <button class="sub-tab-btn active" onclick="switchSubTab('training', 'muscles', this)">Por Grupo Muscular + Diagrama</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('training', 'days', this)">Entrenamientos por Días (3 a 6)</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('training', 'ppl', this)">Estilo Americano (Push / Pull / Legs)</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('training', 'freq', this)">Especialización por Frecuencia</button>
     </div>
 
-    <!-- VISTA A: POR GRUPO MUSCULAR CON DIBUJO SVG -->
-    <div id="train-view-muscles">
+    <div id="training-view-muscles" class="sub-view-training">
       <div class="muscle-pills" id="muscle-selector"></div>
       <div class="card" id="muscle-detail-card"></div>
     </div>
-
-    <!-- VISTA B: POR DÍAS -->
-    <div id="train-view-days" style="display:none;" class="grid-2"></div>
-
-    <!-- VISTA C: PUSH PULL LEGS AMERICANO -->
-    <div id="train-view-ppl" style="display:none;"></div>
-
-    <!-- VISTA D: FRECUENCIA Y ESPECIALIZACIÓN -->
-    <div id="train-view-freq" style="display:none;" class="grid-2"></div>
+    <div id="training-view-days" class="sub-view-training grid-2" style="display:none;"></div>
+    <div id="training-view-ppl" class="sub-view-training" style="display:none;"></div>
+    <div id="training-view-freq" class="sub-view-training grid-2" style="display:none;"></div>
   </section>
 
-  <!-- 3. NUTRICIÓN & DIETAS -->
+  <!-- 3. NUTRICIÓN & DIETAS POR SECCIONES -->
   <section id="tab-nutrition" class="section-block">
     <div class="section-header">
-      <h2>Nutrición Clínica y Menús Estructurados</h2>
-      <p>Distribución científica de macronutrientes y ejemplos reales de comidas según fase metabólica.</p>
+      <h2>Nutrición Clínica, Alimentos de Élite & Protocolos</h2>
+      <p>Calcula el peso exacto en gramos de cada alimento según tu objetivo, consulta los alimentos de máxima calidad nutricional y domina protocolos como Keto o Ciclado.</p>
     </div>
-    <div class="grid-3" id="nutrition-cards"></div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" onclick="switchSubTab('nutrition', 'gram-calc', this)">Calculadora de Alimentos por Peso (en Gramos)</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('nutrition', 'elite-foods', this)">Alimentos Buenos (Matriz de Élite)</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('nutrition', 'protocols', this)">Dietas Keto, Ciclado & Volumen</button>
+    </div>
+
+    <!-- SUB-VISTA NUTRICIÓN 1: CALCULADORA DE PESO EXACTO DE ALIMENTOS -->
+    <div id="nutrition-view-gram-calc" class="sub-view-nutrition">
+      <div class="card" style="margin-bottom:22px;">
+        <span class="tag">PRECISIÓN DE BÁSCULA • PESO EN CRUDO</span>
+        <h3 style="margin-bottom:14px;">Calcula qué comer y cuántos gramos exactos pesar</h3>
+        <div class="calc-form">
+          <div class="form-group">
+            <label>Tu Peso Actual (kg)</label>
+            <input type="number" id="food-weight" value="92" min="40" max="180" />
+          </div>
+          <div class="form-group">
+            <label>Objetivo Nutricional</label>
+            <select id="food-goal">
+              <option value="volumen">Ganar Masa Muscular (Volumen Limpio)</option>
+              <option value="definicion">Perder Grasa (Definición)</option>
+              <option value="recomposicion">Recomposición Corporal</option>
+              <option value="keto">Dieta Cetogénica (Keto Estricto)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Número de Comidas al Día</label>
+            <select id="food-meals">
+              <option value="3">3 Comidas Principales</option>
+              <option value="4" selected>4 Comidas Estructuradas</option>
+              <option value="5">5 Comidas (Atleta)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="calculateExactFoodWeights()">CALCULAR GRAMOS EXACTOS DE COMIDA</button>
+      </div>
+
+      <div id="exact-food-output" class="grid-2"></div>
+    </div>
+
+    <!-- SUB-VISTA NUTRICIÓN 2: ALIMENTOS BUENOS -->
+    <div id="nutrition-view-elite-foods" class="sub-view-nutrition grid-3" style="display:none;"></div>
+
+    <!-- SUB-VISTA NUTRICIÓN 3: DIETAS KETO Y ESPECIALES -->
+    <div id="nutrition-view-protocols" class="sub-view-nutrition grid-3" style="display:none;"></div>
   </section>
 
-  <!-- 4. SUPLEMENTACIÓN CIENTÍFICA -->
+  <!-- 4. SUPLEMENTACIÓN TOTAL Y PERSONALIZADA -->
   <section id="tab-supplements" class="section-block">
     <div class="section-header">
-      <h2>Matriz Científica de Suplementación (Los 6 Esenciales)</h2>
-      <p>Análisis honesto basado en evidencia clínica Grado A/B+, mecanismos fisiológicos y dosificación real por peso corporal.</p>
+      <h2>Enciclopedia & Asesor Personalizado de Suplementación</h2>
+      <p>Genera tu protocolo exacto según tu edad y objetivo, o explora todos los compuestos divididos por finalidad clínica.</p>
     </div>
-    <div class="grid-3" id="supplement-cards"></div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" onclick="switchSubTab('supplements', 'advisor', this)">Asesor Personalizado (Edad & Objetivo)</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('supplements', 'masa_muscular', this)">Ganar Masa Muscular</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('supplements', 'perdida_peso', this)">Pérdida de Peso y Grasa</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('supplements', 'salud', this)">Salud & Longevidad</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('supplements', 'alivio', this)">Alivio Articular & Cortisol</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('supplements', 'cabello', this)">Crecimiento Capilar & Piel</button>
+    </div>
+
+    <!-- SUB-VISTA SUPLEMENTOS 1: ASESOR PERSONALIZADO -->
+    <div id="supplements-view-advisor" class="sub-view-supplements">
+      <div class="card" style="margin-bottom:22px;">
+        <span class="tag">DOSIFICACIÓN CLÍNICA PERSONALIZADA</span>
+        <h3 style="margin-bottom:14px;">Configura tu perfil para obtener tu protocolo exacto</h3>
+        <div class="calc-form">
+          <div class="form-group">
+            <label>Tu Edad (años)</label>
+            <input type="number" id="supp-age" value="37" min="18" max="85" />
+          </div>
+          <div class="form-group">
+            <label>Tu Peso Corporal (kg)</label>
+            <input type="number" id="supp-weight" value="92" min="40" max="180" />
+          </div>
+          <div class="form-group">
+            <label>Prioridad Principal</label>
+            <select id="supp-goal">
+              <option value="masa">Hipertrofia y Fuerza Máxima</option>
+              <option value="grasa">Definición y Pérdida de Grasa</option>
+              <option value="salud_total">Salud Integral, Articulaciones y Cabello</option>
+              <option value="rendimiento_40">Optimización Hormonal y Energía (+35 años)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="generatePersonalSupplementStack()">GENERAR STACK PERSONALIZADO</button>
+      </div>
+      <div id="personal-supp-output" class="grid-2"></div>
+    </div>
+
+    <!-- SUB-VISTAS DE CATEGORÍAS DE SUPLEMENTOS -->
+    <div id="supplements-view-masa_muscular" class="sub-view-supplements grid-2" style="display:none;"></div>
+    <div id="supplements-view-perdida_peso" class="sub-view-supplements grid-2" style="display:none;"></div>
+    <div id="supplements-view-salud" class="sub-view-supplements grid-2" style="display:none;"></div>
+    <div id="supplements-view-alivio" class="sub-view-supplements grid-2" style="display:none;"></div>
+    <div id="supplements-view-cabello" class="sub-view-supplements grid-2" style="display:none;"></div>
   </section>
 
   <!-- 5. BLOG Y CIENCIA -->
   <section id="tab-blog" class="section-block">
     <div class="section-header">
-      <h2>Bitácora de Ciencia, Hipertrofia y Rendimiento</h2>
-      <p>Publicaciones actualizadas automáticamente por el motor de DAZ Premium Fit Performance.</p>
+      <h2>Bitácora Diaria de Ciencia, Hipertrofia y Rendimiento</h2>
+      <p>Artículos técnicos actualizados automáticamente cada 24 horas por el motor de DAZ Premium Fit Performance.</p>
     </div>
     <div class="grid-2" id="blog-cards"></div>
   </section>
@@ -801,7 +888,6 @@
   </div>
 
   <div class="brand-ad-grid">
-    <!-- TARJETA 1: DAZ PREMIUM FIT -->
     <div class="brand-ad-card">
       <div>
         <div class="ad-kicker">INDUMENTARIA DE CULTURISMO & SUPLEMENTACIÓN</div>
@@ -811,7 +897,6 @@
       <a href="https://dazpremiumfit.com" target="_blank" rel="noopener" class="ad-btn">Visitar Tienda DAZ Premium Fit ↗</a>
     </div>
 
-    <!-- TARJETA 2: DAZMOND -->
     <div class="brand-ad-card">
       <div>
         <div class="ad-kicker">MODA, CALZADO & ACCESORIOS • US TRADEMARK</div>
@@ -821,7 +906,6 @@
       <a href="https://dazmond.com" target="_blank" rel="noopener" class="ad-btn">Explorar Colección DAZMOND® ↗</a>
     </div>
 
-    <!-- TARJETA 3: VALMONT & CO. -->
     <div class="brand-ad-card">
       <div>
         <div class="ad-kicker">ACADEMIA DE INVERSIÓN & MERCADOS GLOBALES</div>
@@ -835,7 +919,7 @@
 
 <footer>
   <p><strong>DAZ PREMIUM FIT PERFORMANCE</strong> • División Científica de <a href="https://dazpremiumfit.com" target="_blank" style="color:var(--gold); text-decoration:none;">DAZ Premium Fit®</a> (Marca Registrada en EE. UU.)</p>
-  <p style="margin-top:6px; font-size:0.78rem;">Contenido educativo basado en fisiología del ejercicio, biomecánica y nutrición deportiva contrastada.</p>
+  <p id="audit-footer" style="margin-top:6px; font-size:0.78rem;">Motor Autónomo & Sistema de Autodiagnóstico Activo.</p>
 </footer>
 
 <script>
@@ -844,7 +928,8 @@
     training: null,
     supplements: null,
     showcase: null,
-    blog: null
+    blog: null,
+    health: null
   };
 
   const BIOMECH_SVGS = {
@@ -917,22 +1002,28 @@
 
   async function loadAllData() {
     try {
-      const [nut, trn, sup, shw, blg] = await Promise.all([
+      const [nut, trn, sup, shw, blg, hlt] = await Promise.all([
         fetch('data/nutrition_matrix.json').then(r => r.json()),
         fetch('data/fitness_plans.json').then(r => r.json()),
         fetch('data/supplement_analysis.json').then(r => r.json()),
         fetch('data/marketing_showcase.json').then(r => r.json()),
-        fetch('data/blog_posts.json').then(r => r.json())
+        fetch('data/blog_posts.json').then(r => r.json()),
+        fetch('data/system_health.json').then(r => r.json()).catch(() => null)
       ]);
-      HUB_DATA = { nutrition: nut, training: trn, supplements: sup, showcase: shw, blog: blg };
+      HUB_DATA = { nutrition: nut, training: trn, supplements: sup, showcase: shw, blog: blg, health: hlt };
       renderAll();
     } catch (e) {
-      console.warn("Esperando generación de JSON...", e);
-      document.getElementById("sync-status").textContent = "SYNCING...";
+      console.warn("Esperando primera ejecución del motor diario...", e);
+      document.getElementById("sync-status").textContent = "SYNCING ENGINE...";
     }
   }
 
   function renderAll() {
+    if (HUB_DATA.health) {
+      document.getElementById('sync-status').textContent = `ENGINE ${HUB_DATA.health.status} • ${HUB_DATA.health.last_audit_utc.split(' ')[0]}`;
+      document.getElementById('audit-footer').textContent = `Última auditoría automática: ${HUB_DATA.health.last_audit_utc} • Estado: ${HUB_DATA.health.status}`;
+    }
+
     if (HUB_DATA.showcase) {
       document.getElementById('hero-badge').textContent = HUB_DATA.showcase.badge;
       document.getElementById('hero-title').textContent = HUB_DATA.showcase.headline;
@@ -953,17 +1044,56 @@
     }
 
     if (HUB_DATA.nutrition) {
-      document.getElementById('nutrition-cards').innerHTML = HUB_DATA.nutrition.protocols.map(p => `
+      // Alimentos buenos
+      const ef = HUB_DATA.nutrition.elite_foods;
+      document.getElementById('nutrition-view-elite-foods').innerHTML = `
         <div class="card">
-          <span class="tag">${p.caloric_delta}</span>
-          <h3>${p.name}</h3>
-          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">
-            Proteína: <strong>${p.protein_g_kg}g/kg</strong> • Grasas: <strong>${p.fat_g_kg}g/kg</strong><br/>
-            ${p.meal_timing}
-          </p>
+          <span class="tag">CONSTRUCCIÓN TISULAR</span>
+          <h3>Proteínas de Alto Valor Biológico</h3>
+          ${ef.proteins.map(f => `
+            <div class="food-row">
+              <div class="exercise-top"><strong>${f.name}</strong><span class="exercise-meta">${f.macros_100g}</span></div>
+              <div class="exercise-cue">${f.benefit}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="card">
+          <span class="tag">ENERGÍA Y GLUCÓGENO</span>
+          <h3>Carbohidratos de Rendimiento</h3>
+          ${ef.carbs.map(f => `
+            <div class="food-row">
+              <div class="exercise-top"><strong>${f.name}</strong><span class="exercise-meta">${f.macros_100g}</span></div>
+              <div class="exercise-cue">${f.benefit}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="card">
+          <span class="tag">ENTORNO HORMONAL</span>
+          <h3>Grasas Esenciales & Salud</h3>
+          ${ef.fats.map(f => `
+            <div class="food-row">
+              <div class="exercise-top"><strong>${f.name}</strong><span class="exercise-meta">${f.macros_100g}</span></div>
+              <div class="exercise-cue">${f.benefit}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Protocolos (Keto, Carb Cycling, Volumen)
+      document.getElementById('nutrition-view-protocols').innerHTML = HUB_DATA.nutrition.specialized_diets.map(d => `
+        <div class="card">
+          <span class="tag tag-red">${d.macros_split}</span>
+          <h3>${d.name}</h3>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">${d.mechanism}</p>
           <ul class="clean-list">
-            ${p.sample_menu.map(m => `<li>${m}</li>`).join('')}
+            ${d.rules.map(r => `<li>• ${r}</li>`).join('')}
           </ul>
+          <div style="margin-top:12px; padding-top:10px; border-top:1px solid var(--border);">
+            <strong style="color:var(--gold); font-size:0.82rem;">EJEMPLO PRÁCTICO:</strong>
+            <ul class="clean-list">
+              ${d.sample_day.map(s => `<li>${s}</li>`).join('')}
+            </ul>
+          </div>
         </div>
       `).join('');
     }
@@ -975,7 +1105,7 @@
       `).join('');
       selectMuscleGroup(0);
 
-      document.getElementById('train-view-days').innerHTML = HUB_DATA.training.by_days.map(d => `
+      document.getElementById('training-view-days').innerHTML = HUB_DATA.training.by_days.map(d => `
         <div class="card">
           <span class="tag">${d.level}</span>
           <h3>${d.days}</h3>
@@ -988,7 +1118,7 @@
       `).join('');
 
       const ppl = HUB_DATA.training.american_ppl;
-      document.getElementById('train-view-ppl').innerHTML = `
+      document.getElementById('training-view-ppl').innerHTML = `
         <div class="card" style="margin-bottom:22px;">
           <span class="tag tag-red">ESTÁNDAR CULTURISMO MODERNO</span>
           <h3>${ppl.title}</h3>
@@ -1007,7 +1137,7 @@
         </div>
       `;
 
-      document.getElementById('train-view-freq').innerHTML = HUB_DATA.training.frequency_specialization.map(f => `
+      document.getElementById('training-view-freq').innerHTML = HUB_DATA.training.frequency_specialization.map(f => `
         <div class="card">
           <span class="tag tag-red">BLOQUE DE ESPECIALIZACIÓN</span>
           <h3>${f.name}</h3>
@@ -1018,17 +1148,25 @@
       `).join('');
     }
 
-    if (HUB_DATA.supplements) {
-      document.getElementById('supplement-cards').innerHTML = HUB_DATA.supplements.supplements.map(s => `
-        <div class="card">
-          <span class="tag">${s.evidence_grade}</span>
-          <h3>${s.name}</h3>
-          <p style="font-size:0.9rem; color:#d1d5db; margin-bottom:10px;">${s.mechanism}</p>
-          <p style="font-size:0.86rem; color:var(--gold); margin-bottom:6px;"><strong>Dosis Clínica:</strong> ${s.dosage}</p>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;"><strong>Sinergia:</strong> ${s.synergy}</p>
-          <a href="${s.shop_url}" target="_blank" rel="noopener" class="ad-btn">Ver en DAZ Premium Fit ↗</a>
-        </div>
-      `).join('');
+    if (HUB_DATA.supplements && HUB_DATA.supplements.categories) {
+      const cats = HUB_DATA.supplements.categories;
+      Object.keys(cats).forEach(catKey => {
+        const container = document.getElementById('supplements-view-' + catKey);
+        if (container) {
+          container.innerHTML = cats[catKey].map(s => `
+            <div class="card">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                <span class="tag" style="margin-bottom:0;">${s.grade}</span>
+                ${s.featured_store ? '<span class="tag tag-green" style="margin-bottom:0;">DISPONIBLE EN DAZ STORE</span>' : ''}
+              </div>
+              <h3>${s.name}</h3>
+              <p style="font-size:0.9rem; color:#d1d5db; margin-bottom:10px;">${s.mechanism}</p>
+              <p style="font-size:0.86rem; color:var(--gold); margin-bottom:14px;"><strong>Cómo tomarlo:</strong> ${s.how_to_take}</p>
+              ${s.featured_store ? `<a href="https://dazpremiumfit.com/collections/supplements" target="_blank" rel="noopener" class="ad-btn">Adquirir en DAZ Premium Fit ↗</a>` : ''}
+            </div>
+          `).join('');
+        }
+      });
     }
 
     if (HUB_DATA.blog) {
@@ -1043,6 +1181,8 @@
     }
 
     calculateUnifiedPlan();
+    calculateExactFoodWeights();
+    generatePersonalSupplementStack();
   }
 
   function selectMuscleGroup(idx, btn) {
@@ -1089,20 +1229,18 @@
     let protFactor = 2.1;
     let fatFactor = 0.85;
     let splitRec = "Torso / Pierna 4 Días o Push Pull Legs 6 Días";
-    let suppRec = "Creatina Monohidrato (0.1g/kg) + Whey Isolate + Pre-Entreno";
+    let suppRec = "Creatina Monohidrato (" + Math.round(weight * 0.1) + "g/día) + Whey Isolate + Pre-Entreno";
 
     if (goal === 'volumen') {
       tdee += 350;
       protFactor = 2.1;
       fatFactor = 0.9;
       splitRec = "Push Pull Legs (5-6 días) con sobrecarga progresiva en básicos";
-      suppRec = "Creatina " + Math.round(weight * 0.1) + "g/día + Whey Isolate + Multivitamínico + Omega-3";
     } else if (goal === 'definicion') {
       tdee -= 450;
       protFactor = 2.4;
       fatFactor = 0.75;
       splitRec = "Torso / Pierna 4 Días (Mantener cargas pesadas para retener masa)";
-      suppRec = "Whey Isolate (alta saciedad) + Creatina + Omega-3 + Colágeno";
     }
 
     const kcal = Math.round(tdee);
@@ -1129,9 +1267,133 @@
       <div class="card">
         <span class="tag">3. STACK SUPLEMENTACIÓN</span>
         <h3>Sinergia Clínica</h3>
-        <p style="font-size:0.9rem; color:var(--text-muted);">${suppRec}. <a href="https://dazpremiumfit.com" target="_blank" style="color:var(--gold);">Ver disponibilidad ↗</a></p>
+        <p style="font-size:0.9rem; color:var(--text-muted);">${suppRec}. <a href="https://dazpremiumfit.com" target="_blank" style="color:var(--gold);">Ver tienda ↗</a></p>
       </div>
     `;
+  }
+
+  function calculateExactFoodWeights() {
+    const weight = parseFloat(document.getElementById('food-weight').value) || 92;
+    const goal = document.getElementById('food-goal').value;
+    const meals = parseInt(document.getElementById('food-meals').value) || 4;
+
+    let protPerKg = 2.1;
+    let carbPerKg = 4.5;
+    let fatPerKg = 0.85;
+
+    if (goal === 'definicion') {
+      protPerKg = 2.4; carbPerKg = 2.2; fatPerKg = 0.7;
+    } else if (goal === 'recomposicion') {
+      protPerKg = 2.2; carbPerKg = 3.2; fatPerKg = 0.8;
+    } else if (goal === 'keto') {
+      protPerKg = 2.0; carbPerKg = 0.3; fatPerKg = 2.1;
+    }
+
+    const totalProt = Math.round(weight * protPerKg);
+    const totalCarb = Math.round(weight * carbPerKg);
+    const totalFat = Math.round(weight * fatPerKg);
+
+    const protPerMeal = Math.round(totalProt / meals);
+    const carbPerMeal = Math.round(totalCarb / meals);
+    const fatPerMeal = Math.round(totalFat / meals);
+
+    // Conversión a gramos reales de alimento en crudo
+    const chickenGrams = Math.round((protPerMeal / 23) * 100);
+    const beefGrams = Math.round((protPerMeal / 21) * 100);
+    const riceGrams = goal === 'keto' ? 0 : Math.round((carbPerMeal / 78) * 100);
+    const oatsGrams = goal === 'keto' ? 0 : Math.round((carbPerMeal / 60) * 100);
+    const oilMl = Math.max(5, Math.round(fatPerMeal));
+    const avocadoGrams = Math.round((fatPerMeal / 15) * 100);
+
+    document.getElementById('exact-food-output').innerHTML = `
+      <div class="card">
+        <span class="tag">REPARTO POR COMIDA (${meals} TOMAS/DÍA)</span>
+        <h3>Gramaje Exacto en Báscula (En Crudo)</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+          Objetivo diario: <strong>${totalProt}g Proteína</strong> • <strong>${totalCarb}g Carbohidratos</strong> • <strong>${totalFat}g Grasas</strong>
+        </p>
+        <ul class="clean-list">
+          <li><strong>Fuente Proteica (Elige 1 por comida):</strong> ${chickenGrams}g de Pechuga de Pollo/Pavo OR ${beefGrams}g de Ternera Magra OR ${Math.round(protPerMeal/0.88)}g de Whey Isolate.</li>
+          <li><strong>Fuente Carbohidrato (Elige 1 por comida):</strong> ${goal === 'keto' ? '0g (Modo Cetogénico: solo 150g de brócoli/espinacas)' : `${riceGrams}g de Arroz Basmati en crudo OR ${oatsGrams}g de Avena OR ${Math.round((carbPerMeal/20)*100)}g de Patata.`}</li>
+          <li><strong>Fuente Grasa Saludable (Por comida):</strong> ${oilMl}ml de Aceite de Oliva Virgen Extra OR ${avocadoGrams}g de Aguacate OR ${Math.round((fatPerMeal/55)*100)}g de Nueces.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag tag-green">EJEMPLO DE MENÚ DIARIO YA CALCULADO</span>
+        <h3>Tu Día Tipo (${weight} kg • ${goal.toUpperCase()})</h3>
+        <ul class="clean-list">
+          <li><strong>Comida 1 (Desayuno):</strong> ${goal === 'keto' ? '4 Huevos enteros + 30g Aguacate + Café solo' : `${oatsGrams}g Avena + ${Math.round(protPerMeal/0.88)}g Whey Isolate + ${Math.round(fatPerMeal)}g Almendras.`}</li>
+          <li><strong>Comida 2 (Pre-Entreno):</strong> ${chickenGrams}g Pechuga de Pollo + ${goal === 'keto' ? 'Ensalada verde + 15ml AOVE' : `${riceGrams}g Arroz Basmati + 10ml AOVE.`}</li>
+          <li><strong>Comida 3 (Post-Entreno):</strong> ${beefGrams}g Ternera Magra + ${goal === 'keto' ? '200g Espárragos + 15g Mantequilla/AOVE' : `${Math.round((carbPerMeal/20)*100)}g Patata asada + Verduras.`}</li>
+          <li><strong>Comida 4 (Cena):</strong> ${Math.round((protPerMeal/20)*100)}g Salmón o Pescado Blanco + Verduras + ${oilMl}ml AOVE.</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  function generatePersonalSupplementStack() {
+    const age = parseInt(document.getElementById('supp-age').value) || 37;
+    const weight = parseFloat(document.getElementById('supp-weight').value) || 92;
+    const goal = document.getElementById('supp-goal').value;
+
+    const creatinaDose = (weight * 0.1).toFixed(1);
+    const omegaDose = age >= 35 ? "3,000 mg (EPA+DHA)" : "2,000 mg (EPA+DHA)";
+
+    let stack = [
+      {
+        title: `Creatina Monohidrato Pura: ${creatinaDose}g / día`,
+        timing: "Todos los días (entreno y descanso) junto a una comida o batido post-entreno.",
+        why: `Ajustada exactamente a tus ${weight} kg de peso corporal (0.1g/kg) para saturar tus reservas de ATP.`
+      },
+      {
+        title: "Proteína Whey Isolate: 35g - 40g / toma",
+        timing: "Inmediatamente después de entrenar o como apoyo proteico.",
+        why: "Aporta >3.2g de L-Leucina para disparar la síntesis proteica sin lactosa ni grasas añadidas."
+      },
+      {
+        title: `Omega-3 Alta Pureza: ${omegaDose}`,
+        timing: "Repartido en comida y cena.",
+        why: "Protección cardiovascular, sensibilidad a la insulina y control de inflamación articular."
+      }
+    ];
+
+    if (age >= 35 || goal === 'rendimiento_40' || goal === 'salud_total') {
+      stack.push({
+        title: "Vitamina D3 (4000 UI) + K2 + Magnesio Bisglicinato (400mg) + Zinc (15mg)",
+        timing: "D3+K2 por la mañana; Magnesio y Zinc 45 minutos antes de dormir.",
+        why: `A los ${age} años este soporte optimiza la producción hormonal endógena, la densidad ósea y el sueño profundo.`
+      });
+    }
+
+    if (goal === 'masa') {
+      stack.push({
+        title: "Pre-Entreno Clínico (7g Citrulina + 3.2g Beta-Alanina + Cafeína)",
+        timing: "25 minutos antes de la sesión de pesas.",
+        why: "Maximiza el flujo sanguíneo, la resistencia anaeróbica y el enfoque mental bajo cargas altas."
+      });
+    } else if (goal === 'grasa') {
+      stack.push({
+        title: "Berberina HCL (500mg) + Cafeína/EGCG",
+        timing: "Cafeína antes de entrenar; Berberina antes de comidas con carbohidratos.",
+        why: "Acelera la movilización de ácidos grasos y optimiza la gestión glucémica en déficit."
+      });
+    } else if (goal === 'salud_total') {
+      stack.push({
+        title: "Colágeno Hidrolizado (15g) + Vitamina C + Biotina (5000mcg) + Saw Palmetto",
+        timing: "Por la mañana o 45 minutos antes del entrenamiento.",
+        why: "Regeneración de tendones y ligamentos sometidos a carga junto con soporte capilar integral."
+      });
+    }
+
+    document.getElementById('personal-supp-output').innerHTML = stack.map(item => `
+      <div class="card">
+        <span class="tag">PROTOCOLO PERSONALIZADO • ${age} AÑOS / ${weight} KG</span>
+        <h3>${item.title}</h3>
+        <p style="font-size:0.88rem; color:var(--gold); margin-bottom:6px;"><strong>Cuándo tomarlo:</strong> ${item.timing}</p>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${item.why}</p>
+        <a href="https://dazpremiumfit.com/collections/supplements" target="_blank" rel="noopener" class="ad-btn">Ver en Tienda DAZ Premium Fit ↗</a>
+      </div>
+    `).join('');
   }
 
   function switchMainTab(tabName, btn) {
@@ -1141,12 +1403,19 @@
     document.getElementById('tab-' + tabName).classList.add('active');
   }
 
-  function switchTrainingView(viewName, btn) {
-    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  function switchSubTab(section, viewName, btn) {
+    const parentSection = document.getElementById('tab-' + section);
+    parentSection.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    ['muscles', 'days', 'ppl', 'freq'].forEach(v => {
-      document.getElementById('train-view-' + v).style.display = (v === viewName) ? (v === 'days' || v === 'freq' ? 'grid' : 'block') : 'none';
+
+    parentSection.querySelectorAll('.sub-view-' + section).forEach(v => {
+      v.style.display = 'none';
     });
+
+    const target = document.getElementById(section + '-view-' + viewName);
+    if (target) {
+      target.style.display = target.classList.contains('grid-2') || target.classList.contains('grid-3') ? 'grid' : 'block';
+    }
   }
 
   loadAllData();
