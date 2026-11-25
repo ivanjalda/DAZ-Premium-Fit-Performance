@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suplementación Clínica & Asesor Personalizado | DAZ Premium Fit Performance</title>
+  <style>
+    .sub-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sub-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 11px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .sub-btn.active { background: var(--gold); color: #060709; border-color: var(--gold); }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      background: #060709;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 11px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<section class="daz-page-banner">
+  <span class="kicker">MÓDULO 03 • FARMACOCINÉTICA Y SUPLEMENTACIÓN</span>
+  <h1>Suplementación Personalizada & Enciclopedia</h1>
+  <p>Configura tu protocolo exacto según edad, peso corporal y objetivo, o explora todos los compuestos contrastados divididos por Ganar Masa Muscular, Pérdida de Peso, Salud, Alivio y Crecimiento Capilar.</p>
+</section>
+
+<main class="daz-container">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSuppTab('advisor', this)">Asesor Personalizado (Edad & Objetivo)</button>
+    <button class="sub-btn" onclick="showSuppTab('masa_muscular', this)">Ganar Masa Muscular</button>
+    <button class="sub-btn" onclick="showSuppTab('perdida_peso', this)">Pérdida de Peso & Grasa</button>
+    <button class="sub-btn" onclick="showSuppTab('salud', this)">Salud & Longevidad</button>
+    <button class="sub-btn" onclick="showSuppTab('alivio', this)">Alivio Articular & Cortisol</button>
+    <button class="sub-btn" onclick="showSuppTab('cabello', this)">Crecimiento Capilar & Piel</button>
+  </div>
+
+  <!-- ASESOR PERSONALIZADO -->
+  <div id="sview-advisor" class="s-view">
+    <div class="card" style="margin-bottom:22px;">
+      <span class="tag">DOSIFICACIÓN CLÍNICA POR PESO Y EDAD</span>
+      <h3 style="margin-bottom:14px;">Calcula tu stack exacto y cuándo tomar cada compuesto</h3>
+      <div class="calc-grid">
+        <div class="field">
+          <label>Tu Edad (años)</label>
+          <input type="number" id="s-age" value="37" min="18" max="85" />
+        </div>
+        <div class="field">
+          <label>Tu Peso Corporal (kg)</label>
+          <input type="number" id="s-weight" value="92" min="40" max="180" />
+        </div>
+        <div class="field">
+          <label>Objetivo Prioritario</label>
+          <select id="s-goal">
+            <option value="masa">Ganar Masa Muscular y Fuerza</option>
+            <option value="grasa">Pérdida de Grasa y Definición</option>
+            <option value="salud_total">Salud Integral, Articulaciones y Cabello</option>
+            <option value="hormonal">Optimización Hormonal y Energía (+35 años)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="calcPersonalSupps()">GENERAR PROTOCOLO PERSONALIZADO</button>
+    </div>
+    <div id="personal-supp-grid" class="grid-2"></div>
+  </div>
+
+  <!-- CATEGORÍAS -->
+  <div id="sview-masa_muscular" class="s-view grid-2" style="display:none;"></div>
+  <div id="sview-perdida_peso" class="s-view grid-2" style="display:none;"></div>
+  <div id="sview-salud" class="s-view grid-2" style="display:none;"></div>
+  <div id="sview-alivio" class="s-view grid-2" style="display:none;"></div>
+  <div id="sview-cabello" class="s-view grid-2" style="display:none;"></div>
+</main>
+
+<script src="nav.js"></script>
+<script>
+  fetch("data/supplement_analysis.json")
+    .then(r => r.json())
+    .then(data => {
+      const cats = data.categories;
+      Object.keys(cats).forEach(key => {
+        const el = document.getElementById("sview-" + key);
+        if (el) {
+          el.innerHTML = cats[key].map(s => `
+            <div class="card">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                <span class="tag" style="margin-bottom:0;">${s.grade}</span>
+                ${s.featured_store ? '<span class="tag tag-green" style="margin-bottom:0;">DISPONIBLE EN TIENDA DAZ</span>' : ''}
+              </div>
+              <h3>${s.name}</h3>
+              <p style="font-size:0.9rem; color:#d1d5db; margin-bottom:10px;">${s.mechanism}</p>
+              <p style="font-size:0.86rem; color:var(--gold); margin-bottom:14px;"><strong>Cómo tomarlo:</strong> ${s.how_to_take}</p>
+              ${s.featured_store ? `<a href="https://dazpremiumfit.com/collections/supplements" target="_blank" rel="noopener" class="btn-outline">Ver en DAZ Premium Fit ↗</a>` : ''}
+            </div>
+          `).join("");
+        }
+      });
+    });
+
+  function calcPersonalSupps() {
+    const age = parseInt(document.getElementById("s-age").value) || 37;
+    const weight = parseFloat(document.getElementById("s-weight").value) || 92;
+    const goal = document.getElementById("s-goal").value;
+
+    const creat = (weight * 0.1).toFixed(1);
+    const omega = age >= 35 ? "3,000 mg (EPA+DHA)" : "2,000 mg (EPA+DHA)";
+
+    const list = [
+      {
+        title: `Creatina Monohidrato 200 Mesh: ${creat}g / día`,
+        timing: "Todos los días junto a una comida o batido post-entreno.",
+        why: `Calculada a 0.1g/kg para tus ${weight} kg; maximiza fuerza, ATP y recuperación celular.`
+      },
+      {
+        title: "Proteína Whey Isolate: 35g - 40g / toma",
+        timing: "Inmediatamente tras entrenar o para alcanzar tu objetivo proteico.",
+        why: "Más de 3g de L-Leucina pura para activar la síntesis proteica miofibrilar."
+      },
+      {
+        title: `Omega-3 Ultra Puro: ${omega}`,
+        timing: "Repartido entre comida y cena.",
+        why: "Salud cardiovascular, flexibilidad endotelial y control inflamatorio."
+      }
+    ];
+
+    if (age >= 35 || goal === "hormonal" || goal === "salud_total") {
+      list.push({
+        title: "Vitamina D3 (4000 UI) + K2 + Magnesio Bisglicinato (400mg) + Zinc (15mg)",
+        timing: "D3+K2 en el desayuno; Magnesio y Zinc 45 min antes de dormir.",
+        why: `Soporte hormonal endógeno, inmunidad y descanso profundo optimizado para ${age} años.`
+      });
+    }
+
+    if (goal === "masa") {
+      list.push({
+        title: "Pre-Entreno Clínico (7g Citrulina + 3.2g Beta-Alanina + Cafeína)",
+        timing: "25 minutos antes de entrenar.",
+        why: "Vasodilatación máxima, retraso de la fatiga muscular y enfoque mental."
+      });
+    } else if (goal === "grasa") {
+      list.push({
+        title: "Berberina HCL (500mg) + Cafeína/EGCG",
+        timing: "Cafeína pre-entreno; Berberina 15 min antes de comidas con carbohidratos.",
+        why: "Mejora la sensibilidad a la insulina y acelera la oxidación de ácidos grasos."
+      });
+    } else if (goal === "salud_total") {
+      list.push({
+        title: "Colágeno Hidrolizado (15g) + Vitamina C + Biotina (5000mcg) + Saw Palmetto",
+        timing: "Por la mañana o 45 min antes de entrenar.",
+        why: "Regeneración de tendones/articulaciones y fortalecimiento del folículo capilar."
+      });
+    }
+
+    document.getElementById("personal-supp-grid").innerHTML = list.map(i => `
+      <div class="card">
+        <span class="tag">AJUSTADO A ${age} AÑOS • ${weight} KG</span>
+        <h3>${i.title}</h3>
+        <p style="font-size:0.88rem; color:var(--gold); margin-bottom:6px;"><strong>Toma:</strong> ${i.timing}</p>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${i.why}</p>
+        <a href="https://dazpremiumfit.com/collections/supplements" target="_blank" rel="noopener" class="btn-outline">Ver en Tienda DAZ ↗</a>
+      </div>
+    `).join("");
+  }
+
+  function showSuppTab(tab, btn) {
+    document.querySelectorAll(".sub-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll(".s-view").forEach(v => v.style.display = "none");
+    const target = document.getElementById("sview-" + tab);
+    target.style.display = (tab === "advisor") ? "block" : "grid";
+  }
+
+  calcPersonalSupps();
+</script>
+</body>
+</html>
