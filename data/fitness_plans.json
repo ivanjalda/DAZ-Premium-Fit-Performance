@@ -1,0 +1,311 @@
+{
+  "updated_at": "2026-11-25 01:11 UTC",
+  "by_days": [
+    {
+      "days": "3 Días (Full Body Pesado)",
+      "level": "Intermedio / Agenda Exigente",
+      "schedule": "Lunes - Miércoles - Viernes",
+      "focus": "Tensión mecánica global y progresión de cargas en básicos multiarticulares.",
+      "sessions": [
+        "Día 1: Sentadilla Barra (4x6), Press Banca Plano (4x6), Remo con Barra (4x8), Curl Barra Z (3x10)",
+        "Día 2: Peso Muerto Rumano (4x8), Press Militar Barra (4x6), Jalón al Pecho (4x10), Fondos Lastrados (3x8)",
+        "Día 3: Prensa 45° (4x10), Press Inclinado Mancuernas (4x8), Remo Polea Baja (4x10), Elevaciones Laterales (4x15)"
+      ]
+    },
+    {
+      "days": "4 Días (Torso / Pierna Potencia-Hipertrofia)",
+      "level": "Intermedio - Avanzado",
+      "schedule": "Lunes, Martes, Jueves, Viernes",
+      "focus": "Frecuencia 2 real por grupo muscular con recuperación neural óptima.",
+      "sessions": [
+        "Día 1 (Torso Fuerza): Press Banca (4x5), Remo Pendlay (4x6), Press Militar (3x8), Dominadas (3x8)",
+        "Día 2 (Pierna Fuerza): Sentadilla Libre (4x6), Peso Muerto Rumano (4x8), Prensa (3x10), Gemelo Pie (4x12)",
+        "Día 3 (Torso Hipertrofia): Press Inclinado (4x10), Jalón Neutro (4x10), Elevaciones Laterales (4x15), Superserie Brazo (3x12)",
+        "Día 4 (Pierna Hipertrofia): Sentadilla Hack (4x10), Hip Thrust (4x10), Curl Femoral Tumbado (4x12), Extensión Cuádriceps (3x15)"
+      ]
+    },
+    {
+      "days": "5 Días (PHAT / Híbrido Élite)",
+      "level": "Avanzado",
+      "schedule": "Lunes a Viernes (Sábado y Domingo Descanso)",
+      "focus": "Combina dos días de fuerza pesada con tres días de volumen metabólico y detalle muscular.",
+      "sessions": [
+        "Día 1: Torso Pesado (Press Banca, Remo Barra, Press Hombro)",
+        "Día 2: Pierna Pesada (Sentadilla, Peso Muerto Rumano, Gemelo)",
+        "Día 3: Espalda y Hombros Hipertrofia (12-15 reps controladas)",
+        "Día 4: Pierna y Glúteo Hipertrofia (Hack, Hip Thrust, Aislamientos)",
+        "Día 5: Pecho y Brazos Bombo Máximo (Inclinado, Cruces, Bíceps/Tríceps)"
+      ]
+    },
+    {
+      "days": "6 Días (Push Pull Legs x2)",
+      "level": "Atleta Avanzado",
+      "schedule": "6 Días Activos / 1 Descanso Total",
+      "focus": "Máximo estímulo semanal repartido sin fatiga excesiva por sesión.",
+      "sessions": [
+        "Lunes / Jueves (Push): Pecho, Deltoides Anterior/Lateral, Tríceps",
+        "Martes / Viernes (Pull): Dorsal, Trapecio, Deltoides Posterior, Bíceps",
+        "Miércoles / Sábado (Legs): Cuádriceps, Isquiosurales, Glúteo, Gemelo"
+      ]
+    }
+  ],
+  "by_muscle_group": [
+    {
+      "id": "pecho",
+      "muscle": "Pectoral (Estética y Densidad)",
+      "svg_type": "bench_press",
+      "biomechanics": "Aducción horizontal del húmero. Priorizar ángulo clavicular (30°) para estética superior.",
+      "exercises": [
+        {
+          "name": "Press Inclinado con Mancuernas (30°)",
+          "sets": "4 x 8-10",
+          "rest": "120s",
+          "cue": "Retracción escapular firme, baja hasta estirar el pectoral sin perder tensión."
+        },
+        {
+          "name": "Press Banca Plano con Barra",
+          "sets": "4 x 6-8",
+          "rest": "150s",
+          "cue": "Codos a 45° respecto al torso, empuje explosivo."
+        },
+        {
+          "name": "Cruces en Polea Alta a Baja",
+          "sets": "3 x 12-15",
+          "rest": "75s",
+          "cue": "Contracción pico de 1 segundo juntando muñecas."
+        },
+        {
+          "name": "Fondos en Paralelas Lastrados",
+          "sets": "3 x 8-10",
+          "rest": "90s",
+          "cue": "Inclina el torso 20° hacia delante para enfatizar pectoral inferior."
+        }
+      ]
+    },
+    {
+      "id": "espalda",
+      "muscle": "Espalda (Amplitud en V y Grosor)",
+      "svg_type": "lat_pulldown",
+      "biomechanics": "Extensión y aducción del hombro en plano frontal para amplitud; retracción escapular en plano sagital para grosor.",
+      "exercises": [
+        {
+          "name": "Jalón al Pecho Agarre Neutro/Mag",
+          "sets": "4 x 8-10",
+          "rest": "120s",
+          "cue": "Inicia el movimiento deprimiendo los hombros, lleva los codos a la cadera."
+        },
+        {
+          "name": "Remo con Barra Inclinado",
+          "sets": "4 x 6-8",
+          "rest": "150s",
+          "cue": "Torso a 45°, tira hacia el ombligo manteniendo lumbar neutra."
+        },
+        {
+          "name": "Remo Unilateral en Polea Baja",
+          "sets": "3 x 10-12",
+          "rest": "90s",
+          "cue": "Estira completamente el dorsal en la fase excéntrica de 3 segundos."
+        },
+        {
+          "name": "Pull-Over en Polea Alta con Cuerda",
+          "sets": "3 x 12-15",
+          "rest": "75s",
+          "cue": "Brazos semirrígidos, aísla el dorsal sin intervención del bíceps."
+        }
+      ]
+    },
+    {
+      "id": "pierna",
+      "muscle": "Pierna Completa (Cuádriceps e Isquios)",
+      "svg_type": "squat",
+      "biomechanics": "Máxima flexión de rodilla bajo carga para vastos del cuádriceps; bisagra de cadera para isquiosurales.",
+      "exercises": [
+        {
+          "name": "Sentadilla Libre o Hack Squat",
+          "sets": "4 x 6-8",
+          "rest": "180s",
+          "cue": "Rodillas siguen la línea de la punta del pie, profundidad paralela o superior."
+        },
+        {
+          "name": "Peso Muerto Rumano con Barra",
+          "sets": "4 x 8-10",
+          "rest": "150s",
+          "cue": "Empuja la cadera atrás hasta notar tensión máxima en el isquio; barra pegada a tibias."
+        },
+        {
+          "name": "Prensa Inclinada 45° (Pies Bajos)",
+          "sets": "3 x 10-12",
+          "rest": "120s",
+          "cue": "No despegues el sacro del respaldo al bajar."
+        },
+        {
+          "name": "Curl Femoral Sentado + Extensión Cuádriceps",
+          "sets": "3 x 12-15",
+          "rest": "90s",
+          "cue": "Control excéntrico estricto de 3 segundos en cada repetición."
+        }
+      ]
+    },
+    {
+      "id": "gluteo",
+      "muscle": "Glúteo (Potencia y Proyección)",
+      "svg_type": "hip_thrust",
+      "biomechanics": "Extensión de cadera con pico de tensión en acortamiento máximo y abducción.",
+      "exercises": [
+        {
+          "name": "Hip Thrust con Barra Olímpica",
+          "sets": "4 x 8-10",
+          "rest": "150s",
+          "cue": "Mirada al frente, retroversión pélvica arriba, pausa de 2 segundos en contracción."
+        },
+        {
+          "name": "Sentadilla Búlgara con Mancuernas",
+          "sets": "3 x 8-10 / lado",
+          "rest": "90s",
+          "cue": "Paso largo e inclinación ligera del torso para maximizar elongación del glúteo mayor."
+        },
+        {
+          "name": "Patada de Glúteo en Polea Baja",
+          "sets": "3 x 12-15 / lado",
+          "rest": "60s",
+          "cue": "Extiende en diagonal (30° hacia fuera) siguiendo las fibras del glúteo."
+        },
+        {
+          "name": "Abducción de Cadera en Máquina",
+          "sets": "3 x 15-20",
+          "rest": "60s",
+          "cue": "Torso ligeramente inclinado hacia delante para activar glúteo medio."
+        }
+      ]
+    },
+    {
+      "id": "brazo",
+      "muscle": "Brazo Completo (Bíceps, Tríceps y Braquial)",
+      "svg_type": "bicep_curl",
+      "biomechanics": "El tríceps representa 2/3 del volumen del brazo; trabajar en estiramiento (cabeza larga) y acortamiento.",
+      "exercises": [
+        {
+          "name": "Curl en Banco Inclinado 45° con Mancuernas",
+          "sets": "4 x 8-10",
+          "rest": "90s",
+          "cue": "Codos detrás del torso para estirar la cabeza larga del bíceps."
+        },
+        {
+          "name": "Press Francés con Barra Z o Mancuernas",
+          "sets": "4 x 8-10",
+          "rest": "90s",
+          "cue": "Lleva la barra detrás de la cabeza para tensión constante en cabeza larga del tríceps."
+        },
+        {
+          "name": "Curl Martillo en Polea con Cuerda",
+          "sets": "3 x 10-12",
+          "rest": "75s",
+          "cue": "Enfocado en braquial anterior y braquiorradial para grosor lateral."
+        },
+        {
+          "name": "Extensión de Tríceps en Polea Alta (Barra V)",
+          "sets": "3 x 12-15",
+          "rest": "75s",
+          "cue": "Codos bloqueados a los costados, extensión completa."
+        }
+      ]
+    },
+    {
+      "id": "hombro",
+      "muscle": "Deltoides 3D (Estética Classic Physique)",
+      "svg_type": "lateral_raise",
+      "biomechanics": "El deltoides lateral crea la ilusión óptica de cintura estrecha y amplitud clavicular.",
+      "exercises": [
+        {
+          "name": "Press Militar Sentado con Mancuernas",
+          "sets": "4 x 6-8",
+          "rest": "120s",
+          "cue": "Codos en plano escapular (30° hacia delante), sin arquear lumbar."
+        },
+        {
+          "name": "Elevaciones Laterales en Polea a la Altura de Muñeca",
+          "sets": "4 x 12-15",
+          "rest": "60s",
+          "cue": "Tensión continua desde el inicio del recorrido; lidera con los codos."
+        },
+        {
+          "name": "Pájaros en Máquina Contractora Inversa",
+          "sets": "4 x 12-15",
+          "rest": "60s",
+          "cue": "Empuja hacia los lados sin juntar en exceso las escápulas."
+        },
+        {
+          "name": "Remo al Mentón Agarre Ancho con Barra Z",
+          "sets": "3 x 10-12",
+          "rest": "75s",
+          "cue": "Sube hasta la línea del pecho para proteger el manguito rotador."
+        }
+      ]
+    }
+  ],
+  "american_ppl": {
+    "title": "Protocolo Americano Push / Pull / Legs (PPL)",
+    "description": "Sistema estándar en culturismo moderno. Agrupa músculos por patrón biomecánico sinérgico, permitiendo alta intensidad y recuperación limpia.",
+    "blocks": [
+      {
+        "tag": "PUSH (Empuje)",
+        "muscles": "Pectoral + Deltoides Anterior/Lateral + Tríceps",
+        "routine": [
+          "1. Press Inclinado Barra/Multipower: 4 x 6-8",
+          "2. Press Plano Mancuernas: 3 x 8-10",
+          "3. Elevaciones Laterales Mancuernas: 4 x 12-15",
+          "4. Cruces en Polea: 3 x 12-15",
+          "5. Extensión Tríceps Polea Alta: 4 x 10-12"
+        ]
+      },
+      {
+        "tag": "PULL (Tracción)",
+        "muscles": "Dorsal Ancho + Trapecio + Deltoides Posterior + Bíceps",
+        "routine": [
+          "1. Dominadas Lastradas o Jalón Pecho: 4 x 6-8",
+          "2. Remo en Punta (T-Bar) o Barra: 4 x 8-10",
+          "3. Remo Gironda Agarre Estrecho: 3 x 10-12",
+          "4. Face Pull en Polea Alta: 4 x 15",
+          "5. Curl Bíceps Barra Recta + Curl Predicador: 3 x 10"
+        ]
+      },
+      {
+        "tag": "LEGS (Tren Inferior)",
+        "muscles": "Cuádriceps + Isquiosurales + Glúteo + Gemelo",
+        "routine": [
+          "1. Sentadilla Libre / Hack: 4 x 6-8",
+          "2. Peso Muerto Rumano: 4 x 8-10",
+          "3. Prensa 45°: 3 x 10-12",
+          "4. Curl Femoral Tumbado: 3 x 12",
+          "5. Elevación de Talones de Pie: 4 x 12-15"
+        ]
+      }
+    ]
+  },
+  "frequency_specialization": [
+    {
+      "name": "Frecuencia 2 Global (Equilibrio Total)",
+      "split": "Torso / Pierna / Descanso / Push / Pull / Legs",
+      "weekly_sets": "14-16 series efectivas por grupo muscular",
+      "ideal_for": "Atletas naturales que buscan hipertrofia simétrica sin saturar el sistema nervioso."
+    },
+    {
+      "name": "Especialización Frecuencia 3 en Brazos",
+      "split": "Día 1: Brazos + Hombro | Día 2: Pierna | Día 3: Pecho/Espalda + Bíceps | Día 4: Descanso | Día 5: Brazos + Hombro | Día 6: Pierna",
+      "weekly_sets": "20-22 series semanales para Bíceps y Tríceps; mantenimiento (8 series) en torso/pierna.",
+      "ideal_for": "Romper estancamientos de perímetro de brazo en bloques de 6 a 8 semanas."
+    },
+    {
+      "name": "Especialización Frecuencia 3 en Pierna y Glúteo",
+      "split": "Día 1: Cuádriceps Dominante | Día 2: Torso Completo | Día 3: Glúteo e Isquios | Día 4: Descanso | Día 5: Pierna Completa | Día 6: Torso Bombo",
+      "weekly_sets": "22 series semanales en tren inferior; mantenimiento en tren superior.",
+      "ideal_for": "Maximizar densidad en cuádriceps, femorales y proyección glútea."
+    },
+    {
+      "name": "Especialización Amplitud V-Taper (Hombro + Dorsal)",
+      "split": "Frecuencia 3 en Deltoides Lateral y Dorsal; Frecuencia 1.5 en Pecho/Pierna",
+      "weekly_sets": "20 series en deltoides lateral y dorsal.",
+      "ideal_for": "Estética Classic Physique y proporción cintura-hombro."
+    }
+  ]
+}

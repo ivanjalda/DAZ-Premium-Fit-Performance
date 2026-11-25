@@ -1,0 +1,51 @@
+{
+  "updated_at": "2026-11-25 01:11 UTC",
+  "equation": "Mifflin-St Jeor (1990) + Factor de Actividad Físico",
+  "protocols": [
+    {
+      "id": "volumen",
+      "name": "Superávit Limpio (Hipertrofia Máxima)",
+      "caloric_delta": "+350 kcal sobre TDEE",
+      "protein_g_kg": 2.1,
+      "fat_g_kg": 0.9,
+      "carbs_rule": "Resto de calorías para glucógeno y rendimiento",
+      "meal_timing": "4-5 ingestas diarias; 40% de carbohidratos concentrados peri-entreno.",
+      "sample_menu": [
+        "Comida 1: 120g Avena + 40g Whey Isolate + 15g Crema de Almendras + Arándanos",
+        "Comida 2 (Pre-Entreno): 200g Pechuga de Pollo + 250g Arroz Basmati cocido + 10ml AOVE",
+        "Comida 3 (Post-Entreno): 220g Ternera Magra + 300g Patata asada + Verduras verdes",
+        "Comida 4: 250g Salmón o Huevos enteros (4 uds) + 150g Arroz o Pan de masa madre"
+      ]
+    },
+    {
+      "id": "definicion",
+      "name": "Déficit Estratégico (Preservación Muscular)",
+      "caloric_delta": "-450 kcal sobre TDEE",
+      "protein_g_kg": 2.4,
+      "fat_g_kg": 0.75,
+      "carbs_rule": "Ciclado alrededor del entrenamiento",
+      "meal_timing": "Alta saciedad, prioridad proteica para bloquear catabolismo.",
+      "sample_menu": [
+        "Comida 1: 6 Claras + 2 Huevos enteros + 60g Avena + Café solo",
+        "Comida 2 (Pre-Entreno): 220g Pechuga de Pavo + 150g Arroz cocido + Espárragos",
+        "Comida 3 (Post-Entreno): 45g Whey Isolate + 1 Plátano + 5g Creatina Monohidrato",
+        "Comida 4: 250g Merluza o Lubina + 250g Brócoli/Calabacín + 10ml AOVE"
+      ]
+    },
+    {
+      "id": "recomposicion",
+      "name": "Recomposición Corporal (Calorías de Mantenimiento)",
+      "caloric_delta": "0 kcal (TDEE Exacto)",
+      "protein_g_kg": 2.3,
+      "fat_g_kg": 0.85,
+      "carbs_rule": "Moderados y constantes",
+      "meal_timing": "Distribución equitativa de leucina cada 4 horas (3-4g por toma).",
+      "sample_menu": [
+        "Comida 1: 40g Whey Isolate + 80g Copos de Avena + 10g Nueces",
+        "Comida 2: 200g Solomillo de Pollo + 200g Boniato asado + Ensalada",
+        "Comida 3: 200g Ternera Magra + 180g Arroz Integral + Pimientos",
+        "Comida 4: 250g Queso Fresco Batido 0% o Caseína + 20g Almendras"
+      ]
+    }
+  ]
+}

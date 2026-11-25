@@ -1,0 +1,54 @@
+{
+  "updated_at": "2026-11-25 01:11 UTC",
+  "brand_line": "The Blueprint Series: Nutritional Foundation® & The Prestige Protocol®",
+  "supplements": [
+    {
+      "name": "1. Proteína Whey Isolate (Aislado de Suero)",
+      "evidence_grade": "Grado A (Evidencia Máxima)",
+      "mechanism": "Aporte rápido de aminoácidos esenciales y alto contenido en L-Leucina (>3g por toma) para activar la vía mTOR y la síntesis proteica miofibrilar.",
+      "dosage": "30g - 40g post-entreno o para alcanzar requerimiento proteico diario.",
+      "synergy": "Combinar con Creatina Monohidrato tras entrenar.",
+      "shop_url": "https://dazpremiumfit.com/collections/supplements"
+    },
+    {
+      "name": "2. Creatina Monohidrato (200 Mesh / Pura)",
+      "evidence_grade": "Grado A (Evidencia Máxima)",
+      "mechanism": "Satura los depósitos de fosfocreatina intramuscular, acelerando la resíntesis de ATP en series pesadas de 1 a 12 repeticiones y aumentando la hidratación celular.",
+      "dosage": "0.1g por kg de peso corporal al día (ej. 8g - 9g diarios), todos los días sin descansos.",
+      "synergy": "Absorción optimizada junto a carbohidratos o proteína.",
+      "shop_url": "https://dazpremiumfit.com/collections/supplements"
+    },
+    {
+      "name": "3. Pre-Entreno de Rendimiento (Citrulina + Cafeína + Beta-Alanina)",
+      "evidence_grade": "Grado A (Evidencia Máxima)",
+      "mechanism": "La L-Citrulina (6-8g) eleva el óxido nítrico y el flujo sanguíneo; la Cafeína (3-5mg/kg) reduce la percepción de fatiga; la Beta-Alanina tampona la acidez muscular.",
+      "dosage": "1 servicio 25-30 minutos antes de la sesión de fuerza.",
+      "synergy": "Evitar en las 6 horas previas al sueño para preservar la arquitectura del descanso.",
+      "shop_url": "https://dazpremiumfit.com/collections/supplements"
+    },
+    {
+      "name": "4. Omega-3 Alta Pureza (EPA / DHA)",
+      "evidence_grade": "Grado A (Salud Cardiovascular y Articular)",
+      "mechanism": "Modula la inflamación sistémica post-entrenamiento, mejora la sensibilidad a la insulina y protege la salud endotelial y articular bajo cargas pesadas.",
+      "dosage": "2g - 3g combinados de EPA + DHA diarios junto a una comida con grasas.",
+      "synergy": "Potencia la absorción de vitaminas liposolubles (D3, K2, E).",
+      "shop_url": "https://dazpremiumfit.com/collections/supplements"
+    },
+    {
+      "name": "5. Multivitamínico y Minerales Quelados",
+      "evidence_grade": "Grado B+ (Soporte Metabólico)",
+      "mechanism": "Cubre micronutrientes críticos (Zinc, Magnesio, Vitamina D3, Complejo B) esenciales para la producción hormonal endógena y el metabolismo energético en déficit o volumen.",
+      "dosage": "1 dosis diaria con el desayuno.",
+      "synergy": "Previene caídas de rendimiento por carencias subclínicas de micronutrientes.",
+      "shop_url": "https://dazpremiumfit.com/collections/supplements"
+    },
+    {
+      "name": "6. Colágeno Hidrolizado + Vitamina C",
+      "evidence_grade": "Grado B+ (Tejido Conectivo y Tendones)",
+      "mechanism": "Proporciona glicina, prolina e hidroxiprolina necesarios para la regeneración de tendones, ligamentos y cartílago sometidos a alta tensión mecánica.",
+      "dosage": "10g - 15g diarios junto con 50-100mg de Vitamina C (cofactor indispensable).",
+      "synergy": "Ideal tomar 45 minutos antes del entrenamiento o antes de dormir.",
+      "shop_url": "https://dazpremiumfit.com/collections/supplements"
+    }
+  ]
+}

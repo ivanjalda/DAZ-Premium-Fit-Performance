@@ -1,0 +1,41 @@
+{
+  "updated_at": "2026-11-25 01:11 UTC",
+  "posts": [
+    {
+      "id": "hipertrofia-tension-mecanica",
+      "category": "BIOMECÁNICA E HIPERTROFIA",
+      "date": "25/11/2026",
+      "read_time": "4 min",
+      "title": "Tensión Mecánica vs. Estrés Metabólico: Qué construye tejido contráctil real",
+      "summary": "La ciencia actual demuestra que las últimas 5 repeticiones efectivas cerca del fallo muscular reclutan las unidades motoras de alto umbral responsables del crecimiento real.",
+      "content": "El error más habitual en sala es acumular series basura sin intensidad real. Para maximizar la hipertrofia miofibrilar, prioriza ejercicios estables donde puedas aplicar sobrecarga progresiva entre 6 y 12 repeticiones, manteniendo un RIR (repeticiones en recámara) de 1 a 2 y controlando la fase excéntrica durante 2-3 segundos."
+    },
+    {
+      "id": "creatina-dosis-real",
+      "category": "NUTRICIÓN CLÍNICA",
+      "date": "25/11/2026",
+      "read_time": "3 min",
+      "title": "Por qué la dosis estándar de 5g de Creatina se queda corta en atletas de +85 kg",
+      "summary": "El cálculo científico basado en peso corporal (0.1g/kg) optimiza la saturación muscular y cognitiva frente a la recomendación genérica de etiqueta.",
+      "content": "La mayoría de fabricantes imprimen 5 gramos como dosis universal. Sin embargo, los estudios farmacocinéticos muestran que un atleta de 90 kg requiere entre 8 y 9 gramos diarios de creatina monohidrato pura para mantener los depósitos de fosfocreatina al 100%, acelerando la recuperación entre series pesadas."
+    },
+    {
+      "id": "frecuencia-entrenamiento-natural",
+      "category": "PROGRAMACIÓN",
+      "date": "25/11/2026",
+      "read_time": "5 min",
+      "title": "Frecuencia 2 vs. Weider Clásica: Cómo gestionar la síntesis proteica en atletas naturales",
+      "summary": "La síntesis de proteínas musculares regresa a niveles basales entre 36 y 48 horas después de entrenar. Dividir el volumen semanal duplica las ventanas de crecimiento.",
+      "content": "Hacer 20 series de pecho el lunes genera un daño muscular excesivo cuya recuperación consume recursos sin aportar hipertrofia extra. Dividir ese trabajo en 10 series el lunes y 10 series el jueves permite entrenar con cargas más altas y mayor calidad técnica en cada sesión."
+    },
+    {
+      "id": "sueno-cortisol-composicion",
+      "category": "RECUPERACIÓN Y HORMONAS",
+      "date": "25/11/2026",
+      "read_time": "4 min",
+      "title": "El impacto real del cortisol elevado y la falta de sueño en la pérdida de grasa",
+      "summary": "Dormir menos de 6 horas desploma la oxidación de ácidos grasos y aumenta la pérdida de masa libre de grasa durante un déficit calórico.",
+      "content": "Durante el sueño profundo se produce el mayor pulso fisiológico de hormona del crecimiento y la regulación del eje hipotálamo-hipófisis. Sin descanso adecuado, el cortisol crónico favorece la retención hídrica y el catabolismo proteico."
+    }
+  ]
+}
