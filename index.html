@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DAZ Premium Fit & Performance Hub | Culturismo, Nutrición & Ciencia</title>
+  <title>DAZ Premium Fit Performance | Culturismo, Biomecánica & Ciencia</title>
   <style>
     :root {
-      --bg-main: #08090b;
-      --bg-card: #101216;
-      --bg-card-hover: #161920;
-      --border: #232730;
+      --bg-main: #060709;
+      --bg-panel: #0c0e12;
+      --bg-card: #11141a;
+      --bg-card-hover: #171b24;
+      --border: #232834;
+      --border-gold: rgba(212, 175, 55, 0.35);
       --gold: #d4af37;
-      --gold-soft: rgba(212, 175, 55, 0.14);
-      --crimson: #b91c1c;
+      --gold-light: #f3d266;
+      --gold-soft: rgba(212, 175, 55, 0.12);
+      --crimson: #991b1b;
       --crimson-bright: #ef4444;
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
@@ -27,42 +30,88 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
+      width: 100%;
     }
 
-    /* TOP BAR */
+    /* TOP ECOSYSTEM LUXURY TICKER */
+    .ecosystem-bar {
+      background: linear-gradient(90deg, #090a0d 0%, #16130b 50%, #090a0d 100%);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 7px 2.5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+      letter-spacing: 0.8px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ecosystem-bar span.label {
+      color: var(--gold);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .ecosystem-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .ecosystem-links a {
+      color: #e5e7eb;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .ecosystem-links a:hover { color: var(--gold-light); }
+
+    /* HEADER FULL WIDTH */
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(8, 9, 11, 0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(6, 7, 9, 0.94);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 5%;
+      padding: 14px 2.5%;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      font-size: 1.1rem;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 1.8px;
+      font-size: 1.15rem;
       text-transform: uppercase;
     }
 
     .brand span.accent { color: var(--gold); }
+    .brand span.sub-division {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: #fff;
+      background: var(--crimson);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 800;
+    }
 
     .status-pill {
-      font-size: 0.72rem;
-      background: rgba(16, 185, 129, 0.12);
+      font-size: 0.7rem;
+      background: rgba(16, 185, 129, 0.1);
       color: var(--green);
       border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 3px 9px;
+      padding: 3px 10px;
       border-radius: 999px;
       font-family: monospace;
     }
@@ -71,16 +120,17 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     nav button {
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
-      padding: 7px 13px;
+      padding: 8px 15px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       font-weight: 600;
       transition: all 0.2s;
     }
@@ -88,63 +138,68 @@
     nav button:hover, nav button.active {
       color: var(--gold);
       background: var(--gold-soft);
-      border-color: rgba(212, 175, 55, 0.35);
+      border-color: var(--border-gold);
     }
 
     .btn-shop-nav {
-      background: linear-gradient(135deg, var(--gold), #b58e22);
-      color: #000 !important;
-      font-weight: 800 !important;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), #a67c1e);
+      color: #050505 !important;
+      font-weight: 900 !important;
       border-radius: 6px;
-      padding: 8px 15px;
+      padding: 9px 18px;
       text-decoration: none;
       font-size: 0.82rem;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
+      box-shadow: 0 4px 18px rgba(212, 175, 55, 0.25);
     }
 
-    /* HERO SHOWCASE */
+    /* HERO FULL SCREEN WIDTH */
     .hero {
-      padding: 56px 5% 42px;
-      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.12), transparent 45%),
-                  radial-gradient(circle at bottom left, rgba(185, 28, 28, 0.12), transparent 45%);
+      width: 100%;
+      padding: 52px 2.5% 44px;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(212, 175, 55, 0.15), transparent 45%),
+        radial-gradient(circle at 10% 85%, rgba(153, 27, 27, 0.18), transparent 45%),
+        linear-gradient(180deg, #0b0d11 0%, #060709 100%);
       border-bottom: 1px solid var(--border);
     }
 
     .hero-grid {
-      max-width: 1280px;
-      margin: 0 auto;
+      width: 100%;
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 32px;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 36px;
       align-items: center;
     }
 
     .hero-badge {
       display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 1.8px;
       color: var(--gold);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 4px 12px;
+      border: 1px solid var(--border-gold);
+      background: rgba(212, 175, 55, 0.06);
+      padding: 5px 14px;
       border-radius: 4px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .hero h1 {
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      line-height: 1.12;
+      font-size: clamp(2.1rem, 3.6vw, 3.4rem);
+      line-height: 1.08;
       font-weight: 900;
       margin-bottom: 16px;
       letter-spacing: -0.5px;
+      text-transform: uppercase;
     }
 
     .hero p {
       color: var(--text-muted);
-      font-size: 1.05rem;
-      margin-bottom: 24px;
-      max-width: 620px;
+      font-size: 1.06rem;
+      margin-bottom: 26px;
+      max-width: 780px;
     }
 
     .hero-actions {
@@ -154,72 +209,87 @@
     }
 
     .btn-primary {
-      background: var(--gold);
-      color: #08090b;
-      padding: 13px 24px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #060709;
+      padding: 14px 26px;
       border-radius: 6px;
-      font-weight: 800;
+      font-weight: 900;
       text-decoration: none;
       border: none;
       cursor: pointer;
       font-size: 0.9rem;
-      letter-spacing: 0.5px;
-      transition: transform 0.15s;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.22);
     }
 
-    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 26px rgba(212, 175, 55, 0.35);
+    }
 
     .btn-secondary {
       background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border);
-      padding: 13px 22px;
+      padding: 14px 24px;
       border-radius: 6px;
       font-weight: 700;
       cursor: pointer;
       font-size: 0.9rem;
+      transition: border-color 0.2s;
     }
 
+    .btn-secondary:hover { border-color: var(--gold); }
+
     .showcase-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: linear-gradient(145deg, #12151c, #0a0c10);
+      border: 1px solid var(--border-gold);
       border-radius: 12px;
-      padding: 22px;
+      padding: 24px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
     }
 
     .showcase-box h3 {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.5px;
       color: var(--gold);
       margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .showcase-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
-      background: #0b0d10;
+      padding: 13px 15px;
+      background: #08090c;
       border: 1px solid var(--border);
       border-radius: 8px;
       margin-bottom: 10px;
       text-decoration: none;
       color: var(--text-main);
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
 
-    .showcase-item:hover { border-color: var(--gold); }
+    .showcase-item:last-child { margin-bottom: 0; }
+    .showcase-item:hover {
+      border-color: var(--gold);
+      transform: translateX(4px);
+    }
     .showcase-item small { color: var(--text-muted); display: block; font-size: 0.78rem; }
 
-    /* MAIN CONTAINER */
+    /* MAIN FULL-WIDTH CONTAINER */
     main {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 40px 5% 80px;
+      width: 100%;
+      padding: 40px 2.5% 70px;
     }
 
-    .section-block { display: none; }
+    .section-block { display: none; width: 100%; }
     .section-block.active { display: block; animation: fadeIn 0.25s ease; }
 
     @keyframes fadeIn {
@@ -234,66 +304,70 @@
     }
 
     .section-header h2 {
-      font-size: 1.8rem;
-      font-weight: 800;
+      font-size: 1.85rem;
+      font-weight: 900;
+      letter-spacing: -0.3px;
     }
 
-    .section-header p { color: var(--text-muted); font-size: 0.95rem; }
+    .section-header p { color: var(--text-muted); font-size: 0.96rem; }
 
-    /* GRID & CARDS */
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 22px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    /* RESPONSIVE FULL-WIDTH GRIDS */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 22px; }
 
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 22px;
-      transition: border-color 0.2s;
+      padding: 24px;
+      transition: border-color 0.2s, transform 0.2s;
     }
 
-    .card:hover { border-color: rgba(212, 175, 55, 0.45); }
+    .card:hover { border-color: var(--border-gold); }
 
-    .card h3 { font-size: 1.15rem; margin-bottom: 8px; color: #fff; }
+    .card h3 { font-size: 1.18rem; margin-bottom: 8px; color: #fff; }
     .tag {
       display: inline-block;
       font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
+      font-weight: 800;
+      padding: 3px 9px;
       border-radius: 4px;
       background: var(--gold-soft);
       color: var(--gold);
       margin-bottom: 10px;
       text-transform: uppercase;
+      letter-spacing: 0.6px;
     }
 
     .tag-red {
-      background: rgba(185, 28, 28, 0.18);
+      background: rgba(185, 28, 28, 0.2);
       color: #fca5a5;
     }
 
     /* CALCULATOR */
     .calc-form {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
     }
 
     .form-group label {
       display: block;
       font-size: 0.8rem;
       color: var(--text-muted);
-      margin-bottom: 5px;
-      font-weight: 600;
+      margin-bottom: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .form-group input, .form-group select {
       width: 100%;
-      background: #08090b;
+      background: #07080a;
       border: 1px solid var(--border);
       color: #fff;
-      padding: 10px 12px;
+      padding: 11px 13px;
       border-radius: 6px;
       font-size: 0.95rem;
     }
@@ -301,25 +375,26 @@
     .macro-results {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-top: 18px;
+      gap: 14px;
+      margin-top: 20px;
     }
 
     .macro-box {
-      background: #08090b;
+      background: #07080a;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 14px;
+      padding: 16px;
       text-align: center;
     }
 
     .macro-box strong {
       display: block;
-      font-size: 1.45rem;
+      font-size: 1.6rem;
       color: var(--gold);
+      font-weight: 900;
     }
 
-    .macro-box span { font-size: 0.78rem; color: var(--text-muted); }
+    .macro-box span { font-size: 0.8rem; color: var(--text-muted); }
 
     /* TRAINING SUB-NAVIGATION */
     .sub-tabs {
@@ -335,7 +410,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 10px 18px;
+      padding: 11px 20px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
@@ -345,13 +420,13 @@
 
     .sub-tab-btn.active {
       background: var(--gold);
-      color: #08090b;
+      color: #060709;
       border-color: var(--gold);
     }
 
     .muscle-pills {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 22px;
     }
@@ -360,46 +435,46 @@
       background: #0b0d10;
       border: 1px solid var(--border);
       color: var(--text-muted);
-      padding: 7px 14px;
+      padding: 8px 16px;
       border-radius: 999px;
       cursor: pointer;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 700;
     }
 
     .muscle-pill.active {
       border-color: var(--crimson-bright);
       color: #fff;
-      background: rgba(185, 28, 28, 0.2);
+      background: rgba(185, 28, 28, 0.25);
     }
 
     .biomech-layout {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 24px;
+      grid-template-columns: 320px 1fr;
+      gap: 28px;
       align-items: start;
     }
 
     .svg-stage {
       background: #060709;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-gold);
       border-radius: 10px;
-      padding: 16px;
+      padding: 20px;
       text-align: center;
     }
 
     .svg-stage svg {
       width: 100%;
-      max-width: 230px;
+      max-width: 260px;
       height: auto;
     }
 
     .exercise-row {
-      padding: 14px;
+      padding: 15px 18px;
       background: #0b0d10;
       border: 1px solid var(--border);
       border-radius: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .exercise-top {
@@ -411,38 +486,160 @@
       margin-bottom: 6px;
     }
 
-    .exercise-top strong { color: var(--gold); font-size: 1rem; }
-    .exercise-meta { font-family: monospace; font-size: 0.82rem; color: #fca5a5; }
-    .exercise-cue { font-size: 0.88rem; color: var(--text-muted); }
+    .exercise-top strong { color: var(--gold); font-size: 1.03rem; }
+    .exercise-meta { font-family: monospace; font-size: 0.84rem; color: #fca5a5; }
+    .exercise-cue { font-size: 0.9rem; color: var(--text-muted); }
 
     ul.clean-list { list-style: none; margin-top: 10px; }
     ul.clean-list li {
-      padding: 8px 0;
+      padding: 9px 0;
       border-bottom: 1px solid #1b1f27;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       color: #d1d5db;
     }
     ul.clean-list li:last-child { border-bottom: none; }
 
+    /* LUXURY BRAND SHOWCASE BANNER (ECOSYSTEM ADVERTISING) */
+    .luxury-ad-section {
+      width: 100%;
+      padding: 46px 2.5%;
+      background: linear-gradient(180deg, #060709 0%, #0d0f14 50%, #060709 100%);
+      border-top: 1px solid var(--border-gold);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .luxury-ad-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .luxury-ad-header h2 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .luxury-ad-header span {
+      color: var(--gold);
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+
+    .brand-ad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 22px;
+      width: 100%;
+    }
+
+    .brand-ad-card {
+      position: relative;
+      background: linear-gradient(145deg, #13161f, #090a0e);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      overflow: hidden;
+    }
+
+    .brand-ad-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--crimson-bright));
+    }
+
+    .brand-ad-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+    }
+
+    .brand-ad-card .ad-kicker {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .brand-ad-card h3 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-ad-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 22px;
+    }
+
+    .ad-btn {
+      display: inline-block;
+      text-align: center;
+      padding: 11px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--border-gold);
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--gold-light);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .ad-btn:hover {
+      background: var(--gold);
+      color: #060709;
+    }
+
     footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 5%;
+      width: 100%;
+      padding: 34px 2.5%;
       text-align: center;
       color: var(--text-muted);
       font-size: 0.85rem;
+      background: #050608;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       .hero-grid, .biomech-layout { grid-template-columns: 1fr; }
       .macro-results { grid-template-columns: repeat(2, 1fr); }
+      .grid-2, .grid-3, .brand-ad-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
+<!-- BARRA SUPERIOR DE ECOSISTEMA OFICIAL -->
+<div class="ecosystem-bar">
+  <div><span class="label">ECOSISTEMA OFICIAL • COMMUNITY16 GROUP</span></div>
+  <div class="ecosystem-links">
+    <a href="https://dazpremiumfit.com" target="_blank" rel="noopener">DAZ PREMIUM FIT (Ropa Deportiva & Suplementación) ↗</a>
+    <a href="https://dazmond.com" target="_blank" rel="noopener">DAZMOND® (Moda & Calzado) ↗</a>
+    <a href="https://valmontco.com" target="_blank" rel="noopener">VALMONT & CO. (Academia Financiera) ↗</a>
+  </div>
+</div>
+
 <header>
   <div class="brand">
     <span>DAZ <span class="accent">PREMIUM FIT</span></span>
+    <span class="sub-division">PERFORMANCE</span>
     <span class="status-pill" id="sync-status">ENGINE ACTIVE</span>
   </div>
   <nav>
@@ -458,16 +655,19 @@
 <section class="hero">
   <div class="hero-grid">
     <div>
-      <span class="hero-badge" id="hero-badge">PROTOCOLO OFICIAL • EE. UU.</span>
-      <h1 id="hero-title">CIENCIA DEL CULTURISMO, BIOMECÁNICA Y RENDIMIENTO REAL</h1>
-      <p id="hero-sub">Plataforma integral automatizada de hipertrofia, nutrición clínica basada en evidencia y suplementación grado profesional conectada con la tienda oficial DAZ Premium Fit.</p>
+      <span class="hero-badge" id="hero-badge">DIVISIÓN CIENTÍFICA • DAZ PREMIUM FIT PERFORMANCE</span>
+      <h1 id="hero-title">INGENIERÍA TEXTIL Y CIENCIA PARA EL FÍSICO DE ÉLITE</h1>
+      <p id="hero-sub">Plataforma integral automatizada de hipertrofia, biomecánica aplicada y nutrición clínica conectada directamente con la tienda oficial DAZ Premium Fit.</p>
       <div class="hero-actions">
-        <a class="btn-primary" id="hero-cta" href="https://dazpremiumfit.com" target="_blank" rel="noopener">VISITAR TIENDA OFICIAL DAZ</a>
+        <a class="btn-primary" id="hero-cta" href="https://dazpremiumfit.com" target="_blank" rel="noopener">EXPLORAR ROPA DEPORTIVA EN TIENDA</a>
         <button class="btn-secondary" onclick="switchMainTab('training', document.querySelectorAll('nav button')[1])">Explorar Rutinas y Biomecánica</button>
       </div>
     </div>
     <div class="showcase-box">
-      <h3>Escaparate Oficial • Selección Destacada</h3>
+      <h3>
+        <span>Escaparate Oficial • Selección Destacada</span>
+        <span style="font-size:0.7rem; color:#9ca3af;">EE. UU.</span>
+      </h3>
       <div id="showcase-items"></div>
     </div>
   </div>
@@ -492,15 +692,15 @@
         </div>
         <div class="form-group">
           <label>Edad (años)</label>
-          <input type="number" id="calc-age" value="32" min="16" max="85" />
+          <input type="number" id="calc-age" value="37" min="16" max="85" />
         </div>
         <div class="form-group">
           <label>Peso Corporal (kg)</label>
-          <input type="number" id="calc-weight" value="85" min="40" max="180" />
+          <input type="number" id="calc-weight" value="92" min="40" max="180" />
         </div>
         <div class="form-group">
           <label>Altura (cm)</label>
-          <input type="number" id="calc-height" value="178" min="140" max="220" />
+          <input type="number" id="calc-height" value="177" min="140" max="220" />
         </div>
         <div class="form-group">
           <label>Actividad Semanal</label>
@@ -522,10 +722,10 @@
       <button class="btn-primary" onclick="calculateUnifiedPlan()">GENERAR PROTOCOLO INTEGRAL</button>
 
       <div class="macro-results" id="macro-output">
-        <div class="macro-box"><strong id="res-kcal">3,150</strong><span>Kcal Diarias</span></div>
-        <div class="macro-box"><strong id="res-prot">179 g</strong><span>Proteína (2.1g/kg)</span></div>
-        <div class="macro-box"><strong id="res-carb">435 g</strong><span>Carbohidratos</span></div>
-        <div class="macro-box"><strong id="res-fat">77 g</strong><span>Grasas Esenciales</span></div>
+        <div class="macro-box"><strong id="res-kcal">3,589</strong><span>Kcal Diarias</span></div>
+        <div class="macro-box"><strong id="res-prot">193 g</strong><span>Proteína (2.1g/kg)</span></div>
+        <div class="macro-box"><strong id="res-carb">518 g</strong><span>Carbohidratos</span></div>
+        <div class="macro-box"><strong id="res-fat">83 g</strong><span>Grasas Esenciales</span></div>
       </div>
     </div>
 
@@ -577,22 +777,65 @@
       <h2>Matriz Científica de Suplementación (Los 6 Esenciales)</h2>
       <p>Análisis honesto basado en evidencia clínica Grado A/B+, mecanismos fisiológicos y dosificación real por peso corporal.</p>
     </div>
-    <div class="grid-2" id="supplement-cards"></div>
+    <div class="grid-3" id="supplement-cards"></div>
   </section>
 
   <!-- 5. BLOG Y CIENCIA -->
   <section id="tab-blog" class="section-block">
     <div class="section-header">
       <h2>Bitácora de Ciencia, Hipertrofia y Rendimiento</h2>
-      <p>Publicaciones actualizadas automáticamente por el motor de DAZ Premium Fit.</p>
+      <p>Publicaciones actualizadas automáticamente por el motor de DAZ Premium Fit Performance.</p>
     </div>
     <div class="grid-2" id="blog-cards"></div>
   </section>
 </main>
 
+<!-- VITRINA PUBLICITARIA DE LUJO DEL ECOSISTEMA DE TIENDAS Y MARCAS -->
+<section class="luxury-ad-section">
+  <div class="luxury-ad-header">
+    <div>
+      <span>PORTAFOLIO OFICIAL • MARCAS REGISTRADAS</span>
+      <h2>Universo DAZ & Valmont</h2>
+    </div>
+    <p style="color:var(--text-muted); font-size:0.88rem;">Equipamiento deportivo, moda contemporánea y educación financiera de alto nivel.</p>
+  </div>
+
+  <div class="brand-ad-grid">
+    <!-- TARJETA 1: DAZ PREMIUM FIT -->
+    <div class="brand-ad-card">
+      <div>
+        <div class="ad-kicker">INDUMENTARIA DE CULTURISMO & SUPLEMENTACIÓN</div>
+        <h3>DAZ PREMIUM FIT®</h3>
+        <p>Ropa deportiva técnica diseñada para el físico atlético, cortes oversized de alto gramaje, prendas de compresión y nuestra línea esencial de nutrición deportiva.</p>
+      </div>
+      <a href="https://dazpremiumfit.com" target="_blank" rel="noopener" class="ad-btn">Visitar Tienda DAZ Premium Fit ↗</a>
+    </div>
+
+    <!-- TARJETA 2: DAZMOND -->
+    <div class="brand-ad-card">
+      <div>
+        <div class="ad-kicker">MODA, CALZADO & ACCESORIOS • US TRADEMARK</div>
+        <h3>DAZMOND® & CO.</h3>
+        <p>Estética urbana sofisticada, calzado exclusivo y accesorios diseñados con identidad propia para destacar fuera del gimnasio.</p>
+      </div>
+      <a href="https://dazmond.com" target="_blank" rel="noopener" class="ad-btn">Explorar Colección DAZMOND® ↗</a>
+    </div>
+
+    <!-- TARJETA 3: VALMONT & CO. -->
+    <div class="brand-ad-card">
+      <div>
+        <div class="ad-kicker">ACADEMIA DE INVERSIÓN & MERCADOS GLOBALES</div>
+        <h3>VALMONT & CO.</h3>
+        <p>Formación financiera avanzada, protocolos de inversión bursátil e inmobiliaria y análisis estratégico de capital liderados por Ivan J. Valmont.</p>
+      </div>
+      <a href="https://valmontco.com" target="_blank" rel="noopener" class="ad-btn">Acceder a Valmont & Co. ↗</a>
+    </div>
+  </div>
+</section>
+
 <footer>
-  <p><strong>DAZ PREMIUM FIT & PERFORMANCE HUB</strong> • Marca Registrada en EE. UU. • <a href="https://dazpremiumfit.com" target="_blank" style="color:var(--gold);">dazpremiumfit.com</a></p>
-  <p style="margin-top:6px; font-size:0.78rem;">Contenido educativo basado en fisiología del ejercicio y nutrición deportiva contrastada.</p>
+  <p><strong>DAZ PREMIUM FIT PERFORMANCE</strong> • División Científica de <a href="https://dazpremiumfit.com" target="_blank" style="color:var(--gold); text-decoration:none;">DAZ Premium Fit®</a> (Marca Registrada en EE. UU.)</p>
+  <p style="margin-top:6px; font-size:0.78rem;">Contenido educativo basado en fisiología del ejercicio, biomecánica y nutrición deportiva contrastada.</p>
 </footer>
 
 <script>
@@ -604,23 +847,18 @@
     blog: null
   };
 
-  // Dibujos vectoriales biomecánicos limpios (SVG) para cada grupo muscular
   const BIOMECH_SVGS = {
     bench_press: `
       <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="25" y="125" width="170" height="10" rx="3" fill="#232730"/>
         <rect x="55" y="135" width="10" height="30" fill="#232730"/>
         <rect x="155" y="135" width="10" height="30" fill="#232730"/>
-        <!-- Atleta en banco inclinado -->
         <line x1="55" y1="120" x2="125" y2="95" stroke="#9ca3af" stroke-width="8" stroke-linecap="round"/>
         <circle cx="138" cy="86" r="10" fill="#d4af37"/>
-        <!-- Brazos empujando barra -->
         <polyline points="115,100 105,65 115,42" stroke="#f3f4f6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Barra y discos -->
         <line x1="70" y1="42" x2="160" y2="42" stroke="#d4af37" stroke-width="4"/>
         <rect x="65" y="26" width="8" height="32" rx="2" fill="#ef4444"/>
         <rect x="157" y="26" width="8" height="32" rx="2" fill="#ef4444"/>
-        <!-- Vector de fuerza -->
         <path d="M115 32 L115 12 M109 18 L115 12 L121 18" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
         <text x="110" y="172" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="monospace">EMPUJE CLAVICULAR 30°</text>
       </svg>`,
@@ -628,10 +866,8 @@
       <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="110" y1="10" x2="110" y2="48" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4 3"/>
         <line x1="65" y1="48" x2="155" y2="48" stroke="#d4af37" stroke-width="5" stroke-linecap="round"/>
-        <!-- Torso y cabeza -->
         <circle cx="110" cy="76" r="10" fill="#d4af37"/>
         <path d="M92 94 L128 94 L120 142 L100 142 Z" fill="#ef4444" fill-opacity="0.35" stroke="#ef4444" stroke-width="2"/>
-        <!-- Brazos traccionando -->
         <polyline points="68,48 76,82 94,95" stroke="#f3f4f6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
         <polyline points="152,48 144,82 126,95" stroke="#f3f4f6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M55 62 L55 92 M49 85 L55 92 L61 85" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
@@ -640,12 +876,9 @@
     squat: `
       <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="30" y1="155" x2="190" y2="155" stroke="#232730" stroke-width="4"/>
-        <!-- Pierna flexionada -->
         <polyline points="115,152 138,116 92,102" stroke="#ef4444" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Torso inclinado -->
         <line x1="92" y1="102" x2="114" y2="56" stroke="#f3f4f6" stroke-width="8" stroke-linecap="round"/>
         <circle cx="120" cy="42" r="10" fill="#d4af37"/>
-        <!-- Barra sobre trapecios -->
         <circle cx="106" cy="56" r="12" fill="#d4af37" fill-opacity="0.25" stroke="#d4af37" stroke-width="3"/>
         <path d="M72 75 L72 115 M66 108 L72 115 L78 108" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
         <text x="110" y="172" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="monospace">FLEXIÓN PROFUNDA RODILLA/CADERA</text>
@@ -654,10 +887,8 @@
       <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="25" y="95" width="42" height="60" rx="4" fill="#232730"/>
         <line x1="20" y1="155" x2="200" y2="155" stroke="#232730" stroke-width="4"/>
-        <!-- Puente de cadera -->
         <polyline points="62,96 115,96 155,112 155,152" stroke="#f3f4f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="52" cy="84" r="9" fill="#d4af37"/>
-        <!-- Disco sobre cadera -->
         <circle cx="115" cy="96" r="16" fill="#ef4444" fill-opacity="0.3" stroke="#ef4444" stroke-width="3"/>
         <path d="M115 74 L115 50 M109 56 L115 50 L121 56" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
         <text x="110" y="172" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="monospace">EXTENSIÓN PÉLVICA MÁXIMA</text>
@@ -666,9 +897,7 @@
       <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="105" cy="36" r="10" fill="#d4af37"/>
         <line x1="105" y1="50" x2="105" y2="135" stroke="#9ca3af" stroke-width="9" stroke-linecap="round"/>
-        <!-- Brazo en flexión -->
         <polyline points="105,62 105,102 142,74" stroke="#f3f4f6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Mancuerna -->
         <rect x="135" y="64" width="16" height="10" rx="2" fill="#ef4444"/>
         <path d="M148 96 A 32 32 0 0 0 148 68" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
         <text x="110" y="172" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="monospace">SUPINACIÓN Y FLEXIÓN CODO</text>
@@ -677,7 +906,6 @@
       <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="110" cy="42" r="10" fill="#d4af37"/>
         <line x1="110" y1="56" x2="110" y2="140" stroke="#9ca3af" stroke-width="9" stroke-linecap="round"/>
-        <!-- Brazos abducidos a 90 grados -->
         <line x1="42" y1="68" x2="178" y2="68" stroke="#f3f4f6" stroke-width="6" stroke-linecap="round"/>
         <rect x="34" y="61" width="10" height="14" rx="2" fill="#ef4444"/>
         <rect x="176" y="61" width="10" height="14" rx="2" fill="#ef4444"/>
@@ -699,8 +927,8 @@
       HUB_DATA = { nutrition: nut, training: trn, supplements: sup, showcase: shw, blog: blg };
       renderAll();
     } catch (e) {
-      console.warn("Cargando modo inicial hasta que Actions genere los JSON...", e);
-      document.getElementById("sync-status").textContent = "READY • RUN ENGINE";
+      console.warn("Esperando generación de JSON...", e);
+      document.getElementById("sync-status").textContent = "SYNCING...";
     }
   }
 
@@ -719,7 +947,7 @@
             <strong>${item.title}</strong>
             <small>${item.tag}</small>
           </div>
-          <span style="color:var(--gold); font-weight:800;">VER ↗</span>
+          <span style="color:var(--gold); font-weight:900;">VER ↗</span>
         </a>
       `).join('');
     }
@@ -741,30 +969,27 @@
     }
 
     if (HUB_DATA.training) {
-      // 1. Selector de músculos
       const muscles = HUB_DATA.training.by_muscle_group;
       document.getElementById('muscle-selector').innerHTML = muscles.map((m, idx) => `
         <button class="muscle-pill ${idx === 0 ? 'active' : ''}" onclick="selectMuscleGroup(${idx}, this)">${m.muscle}</button>
       `).join('');
       selectMuscleGroup(0);
 
-      // 2. Por días
       document.getElementById('train-view-days').innerHTML = HUB_DATA.training.by_days.map(d => `
         <div class="card">
           <span class="tag">${d.level}</span>
           <h3>${d.days}</h3>
-          <p style="font-size:0.85rem; color:var(--gold); margin-bottom:6px;">${d.schedule}</p>
-          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">${d.focus}</p>
+          <p style="font-size:0.86rem; color:var(--gold); margin-bottom:6px;">${d.schedule}</p>
+          <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:10px;">${d.focus}</p>
           <ul class="clean-list">
             ${d.sessions.map(s => `<li>${s}</li>`).join('')}
           </ul>
         </div>
       `).join('');
 
-      // 3. PPL Americano
       const ppl = HUB_DATA.training.american_ppl;
       document.getElementById('train-view-ppl').innerHTML = `
-        <div class="card" style="margin-bottom:20px;">
+        <div class="card" style="margin-bottom:22px;">
           <span class="tag tag-red">ESTÁNDAR CULTURISMO MODERNO</span>
           <h3>${ppl.title}</h3>
           <p style="color:var(--text-muted);">${ppl.description}</p>
@@ -782,14 +1007,13 @@
         </div>
       `;
 
-      // 4. Especialización por frecuencia
       document.getElementById('train-view-freq').innerHTML = HUB_DATA.training.frequency_specialization.map(f => `
         <div class="card">
           <span class="tag tag-red">BLOQUE DE ESPECIALIZACIÓN</span>
           <h3>${f.name}</h3>
-          <p style="font-size:0.88rem; color:var(--gold); margin:8px 0;"><strong>Distribución:</strong> ${f.split}</p>
-          <p style="font-size:0.88rem; color:#e5e7eb; margin-bottom:8px;"><strong>Volumen:</strong> ${f.weekly_sets}</p>
-          <p style="font-size:0.86rem; color:var(--text-muted);">${f.ideal_for}</p>
+          <p style="font-size:0.9rem; color:var(--gold); margin:8px 0;"><strong>Distribución:</strong> ${f.split}</p>
+          <p style="font-size:0.9rem; color:#e5e7eb; margin-bottom:8px;"><strong>Volumen:</strong> ${f.weekly_sets}</p>
+          <p style="font-size:0.88rem; color:var(--text-muted);">${f.ideal_for}</p>
         </div>
       `).join('');
     }
@@ -800,9 +1024,9 @@
           <span class="tag">${s.evidence_grade}</span>
           <h3>${s.name}</h3>
           <p style="font-size:0.9rem; color:#d1d5db; margin-bottom:10px;">${s.mechanism}</p>
-          <p style="font-size:0.85rem; color:var(--gold); margin-bottom:6px;"><strong>Dosis Clínica:</strong> ${s.dosage}</p>
-          <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:14px;"><strong>Sinergia:</strong> ${s.synergy}</p>
-          <a href="${s.shop_url}" target="_blank" rel="noopener" class="btn-secondary" style="display:inline-block; text-decoration:none; font-size:0.82rem;">Ver en DAZ Premium Fit ↗</a>
+          <p style="font-size:0.86rem; color:var(--gold); margin-bottom:6px;"><strong>Dosis Clínica:</strong> ${s.dosage}</p>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;"><strong>Sinergia:</strong> ${s.synergy}</p>
+          <a href="${s.shop_url}" target="_blank" rel="noopener" class="ad-btn">Ver en DAZ Premium Fit ↗</a>
         </div>
       `).join('');
     }
@@ -812,8 +1036,8 @@
         <div class="card">
           <span class="tag">${p.category} • ${p.date}</span>
           <h3>${p.title}</h3>
-          <p style="font-size:0.9rem; color:var(--gold); margin-bottom:8px;">${p.summary}</p>
-          <p style="font-size:0.88rem; color:var(--text-muted);">${p.content}</p>
+          <p style="font-size:0.92rem; color:var(--gold); margin-bottom:8px;">${p.summary}</p>
+          <p style="font-size:0.9rem; color:var(--text-muted);">${p.content}</p>
         </div>
       `).join('');
     }
@@ -832,11 +1056,11 @@
       <div class="biomech-layout">
         <div class="svg-stage">
           ${svgCode}
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">${m.biomechanics}</p>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px;">${m.biomechanics}</p>
         </div>
         <div>
           <span class="tag">PROTOCOLO DE HIPERTROFIA</span>
-          <h3 style="font-size:1.4rem; margin-bottom:14px;">${m.muscle}</h3>
+          <h3 style="font-size:1.45rem; margin-bottom:14px;">${m.muscle}</h3>
           ${m.exercises.map(ex => `
             <div class="exercise-row">
               <div class="exercise-top">
@@ -853,13 +1077,12 @@
 
   function calculateUnifiedPlan() {
     const sex = document.getElementById('calc-sex').value;
-    const age = parseFloat(document.getElementById('calc-age').value) || 30;
-    const weight = parseFloat(document.getElementById('calc-weight').value) || 80;
-    const height = parseFloat(document.getElementById('calc-height').value) || 175;
+    const age = parseFloat(document.getElementById('calc-age').value) || 37;
+    const weight = parseFloat(document.getElementById('calc-weight').value) || 92;
+    const height = parseFloat(document.getElementById('calc-height').value) || 177;
     const act = parseFloat(document.getElementById('calc-activity').value) || 1.725;
     const goal = document.getElementById('calc-goal').value;
 
-    // Ecuación Mifflin-St Jeor
     let bmr = (10 * weight) + (6.25 * height) - (5 * age) + (sex === 'male' ? 5 : -161);
     let tdee = bmr * act;
 
@@ -873,7 +1096,7 @@
       protFactor = 2.1;
       fatFactor = 0.9;
       splitRec = "Push Pull Legs (5-6 días) con sobrecarga progresiva en básicos";
-      suppRec = "Creatina 9g/día + Whey Isolate + Multivitamínico + Omega-3";
+      suppRec = "Creatina " + Math.round(weight * 0.1) + "g/día + Whey Isolate + Multivitamínico + Omega-3";
     } else if (goal === 'definicion') {
       tdee -= 450;
       protFactor = 2.4;
