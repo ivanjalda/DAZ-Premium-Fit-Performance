@@ -1,8 +1,10 @@
 {
-  "fecha_utc": "2026-11-25 18:31 UTC",
+  "fecha_utc": "2026-11-25 19:56 UTC",
   "estado": "OK",
   "archivos_verificados": 5,
   "paginas_verificadas": 6,
-  "cambios_detectados": [],
+  "cambios_detectados": [
+    "entrenamiento.html"
+  ],
   "errores": []
 }
