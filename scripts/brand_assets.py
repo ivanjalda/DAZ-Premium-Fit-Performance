@@ -8,6 +8,7 @@ import html
 import json
 import os
 import re
+import subprocess
 import urllib.request
 from datetime import date
 
@@ -19,7 +20,6 @@ NAME = "DAZ Premium Fit Performance"
 MARK_START = "<!-- DAZ-BRAND:START -->"
 MARK_END = "<!-- DAZ-BRAND:END -->"
 SAME_AS = [
-    "https://dazpremiumfit.com",
     "https://t.me/DPFPerformance_bot",
 ]
 
@@ -27,7 +27,11 @@ SAME_AS = [
 def build_images() -> None:
     os.makedirs("assets", exist_ok=True)
     src_path = "assets/logo-original.png"
-    if not os.path.exists(src_path):
+    svg_path = "assets/logo.svg"
+    if os.path.exists(svg_path):
+        # Logo oficial de DAZ Performance (vectorial): se convierte a imagen a 1024x1024
+        subprocess.run(["rsvg-convert", "-w", "1024", "-h", "1024", svg_path, "-o", src_path], check=True)
+    elif not os.path.exists(src_path):
         req = urllib.request.Request(LOGO_URL, headers={"User-Agent": "Mozilla/5.0 (DAZ Brand Bot)"})
         with urllib.request.urlopen(req, timeout=60) as resp, open(src_path, "wb") as out:
             out.write(resp.read())
