@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Cuenta & Suscripción Diaria | DAZ Premium Fit Performance</title>
+  <style>
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 26px;
+      align-items: start;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      background: #060709;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 11px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .preview-box {
+      background: #07090d;
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 0.86rem;
+      white-space: pre-line;
+      color: #e5e7eb;
+    }
+    @media (max-width: 900px) {
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="daz-page-banner">
+  <span class="kicker" data-i18n="profile_kicker">ÁREA DE ATLETA • CUENTA PERSONAL Y AUTOMATIZACIÓN</span>
+  <h1 data-i18n="profile_title">Mi Perfil & Entrenamiento Diario en Telegram</h1>
+  <p data-i18n="profile_sub">Configura tus datos biométricos, elige tu división de entrenamiento e idioma (Español o English USA) y recibe cada mañana tu sesión exacta con series y tiempos de descanso.</p>
+</section>
+
+<main class="daz-container">
+  <div class="profile-grid">
+    <!-- FORMULARIO DE CUENTA PERSONAL -->
+    <div class="card">
+      <span class="tag" data-i18n="profile_card_tag">FICHA PERSONAL DEL ATLETA</span>
+      <h3 style="margin-bottom:16px;" data-i18n="profile_card_h3">Datos Biométricos & Suscripción</h3>
+
+      <div class="form-grid">
+        <div class="field">
+          <label data-i18n="lbl_name">Nombre / Alias</label>
+          <input type="text" id="u-name" placeholder="Ej. Alex Valmont" />
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_lang">Idioma / Language</label>
+          <select id="u-lang" onchange="updateTelegramLinks()">
+            <option value="es">Español (España / LATAM)</option>
+            <option value="en">English (United States)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_age">Edad / Age</label>
+          <input type="number" id="u-age" value="30" min="16" max="85" />
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_weight">Peso / Weight (kg)</label>
+          <input type="number" id="u-weight" value="88" min="40" max="180" onchange="updateTelegramLinks()" />
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_height">Altura / Height (cm)</label>
+          <input type="number" id="u-height" value="178" min="140" max="220" />
+        </div>
+        <div class="field">
+          <label data-i18n="lbl_goal">Objetivo / Goal</label>
+          <select id="u-goal" onchange="updateTelegramLinks()">
+            <option value="volumen">Hipertrofia / Lean Bulk</option>
+            <option value="definicion">Definición / Fat Loss</option>
+            <option value="recomposicion">Recomposición / Recomp</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:22px;">
+        <label data-i18n="lbl_split">Programa de Entrenamiento Suscrito (Envío Diario)</label>
+        <select id="u-split" onchange="updateTelegramLinks()">
+          <option value="ppl6">Push / Pull / Legs — Frecuencia 2 (6 Días: Lunes Pecho/Hombro/Tríceps...)</option>
+          <option value="ul4">Torso / Pierna — Frecuencia 2 (4 Días: Lun/Mar/Jue/Vie)</option>
+          <option value="fb3">Full Body Pesado — Frecuencia 3 (3 Días: Lun/Mié/Vie)</option>
+          <option value="spec_arms">Especialización Brazos y Hombros — Frecuencia 3 (5 Días)</option>
+          <option value="spec_legs">Especialización Pierna y Glúteo — Frecuencia 3 (5 Días)</option>
+        </select>
+      </div>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="btn-primary" onclick="saveUserProfile()" data-i18n="btn_save_profile">Guardar en Mi Cuenta</button>
+        <a id="tg-bot-link" href="#" target="_blank" rel="noopener" class="btn-outline" style="padding:13px 20px;" data-i18n="btn_activate_tg">
+          Activar Entrenamientos Diarios en Telegram ↗
+        </a>
+      </div>
+      <p id="save-feedback" style="color:var(--green); font-size:0.85rem; margin-top:10px; display:none;"></p>
+    </div>
+
+    <!-- VISTA PREVIA DEL MENSAJE DIARIO Y CANAL OFICIAL POR IDIOMA -->
+    <div class="card">
+      <span class="tag tag-green" data-i18n="preview_tag">VISTA PREVIA • ENVÍO AUTOMÁTICO 06:00 AM</span>
+      <h3 style="margin-bottom:12px;" data-i18n="preview_h3">Ejemplo de Sesión que Recibirás el Lunes</h3>
+      <div class="preview-box" id="tg-preview-box"></div>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+        <strong style="color:var(--gold); font-size:0.85rem; display:block; margin-bottom:8px;" data-i18n="channels_title">
+          CANALES OFICIALES DE COMUNIDAD POR IDIOMA:
+        </strong>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a id="tg-channel-es" href="https://t.me/DAZPerformance_ES" target="_blank" rel="noopener" class="btn-outline">Canal Telegram Español ↗</a>
+          <a id="tg-channel-en" href="https://t.me/DAZPerformance_EN" target="_blank" rel="noopener" class="btn-outline">Telegram Channel English (USA) ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="nav.js"></script>
+<script>
+  // Configura aquí el usuario de tu Bot de Telegram (creado en @BotFather)
+  const TELEGRAM_BOT_USERNAME = "DAZPerformanceBot";
+
+  function loadUserProfile() {
+    const saved = JSON.parse(localStorage.getItem("daz_athlete_profile") || "null");
+    const globalLang = localStorage.getItem("daz_lang") || "es";
+
+    if (saved) {
+      document.getElementById("u-name").value = saved.name || "";
+      document.getElementById("u-lang").value = saved.lang || globalLang;
+      document.getElementById("u-age").value = saved.age || 30;
+      document.getElementById("u-weight").value = saved.weight || 88;
+      document.getElementById("u-height").value = saved.height || 178;
+      document.getElementById("u-goal").value = saved.goal || "volumen";
+      document.getElementById("u-split").value = saved.split || "ppl6";
+    } else {
+      document.getElementById("u-lang").value = globalLang;
+    }
+    updateTelegramLinks();
+  }
+
+  function saveUserProfile() {
+    const profile = {
+      name: document.getElementById("u-name").value.trim() || "Atleta DAZ",
+      lang: document.getElementById("u-lang").value,
+      age: document.getElementById("u-age").value,
+      weight: document.getElementById("u-weight").value,
+      height: document.getElementById("u-height").value,
+      goal: document.getElementById("u-goal").value,
+      split: document.getElementById("u-split").value
+    };
+    localStorage.setItem("daz_athlete_profile", JSON.stringify(profile));
+    localStorage.setItem("daz_lang", profile.lang);
+
+    const fb = document.getElementById("save-feedback");
+    fb.style.display = "block";
+    fb.textContent = profile.lang === "en"
+      ? "✓ Profile saved. Click 'Activate Daily Workouts on Telegram' to sync your morning schedule."
+      : "✓ Perfil guardado en tu cuenta. Pulsa 'Activar Entrenamientos Diarios en Telegram' para sincronizar tus envíos matinales.";
+    updateTelegramLinks();
+  }
+
+  function updateTelegramLinks() {
+    const lang = document.getElementById("u-lang").value;
+    const split = document.getElementById("u-split").value;
+    const weight = document.getElementById("u-weight").value || 88;
+    const goal = document.getElementById("u-goal").value;
+
+    // Deep-link directo al bot con parámetros codificados: lang_split_weight_goal
+    const startPayload = `${lang}_${split}_${weight}_${goal}`;
+    document.getElementById("tg-bot-link").href = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${startPayload}`;
+
+    const preview = document.getElementById("tg-preview-box");
+    if (lang === "en") {
+      preview.textContent =
+`🔥 DAZ PREMIUM FIT PERFORMANCE — MONDAY SESSION
+📋 Program: PUSH / PULL / LEGS (Freq 2 • 6 Days)
+🎯 Focus: CHEST, SHOULDERS & TRICEPS (PUSH A)
+⏱️ Estimated Duration: 58 min
+
+1️⃣ Incline Dumbbell Press (30°)
+   • Sets: 4 x 8-10 reps | Rest: 120s between sets
+2️⃣ Flat Barbell Bench Press
+   • Sets: 4 x 6-8 reps | Rest: 150s between sets
+3️⃣ Cable Lateral Raises
+   • Sets: 4 x 12-15 reps | Rest: 60s between sets
+4️⃣ High-to-Low Cable Flyes
+   • Sets: 3 x 12-15 reps | Rest: 75s between sets
+5️⃣ Overhead Cable Triceps Extension
+   • Sets: 4 x 10-12 reps | Rest: 75s between sets
+
+💊 Daily Creatine (${(weight * 0.1).toFixed(1)}g) + Whey Isolate
+🛒 Gear & Supplements: dazpremiumfit.com`;
+    } else {
+      preview.textContent =
+`🔥 DAZ PREMIUM FIT PERFORMANCE — SESIÓN DE LUNES
+📋 Programa: PUSH / PULL / LEGS (Frecuencia 2 • 6 Días)
+🎯 Enfoque: PECHO, HOMBRO Y TRÍCEPS (EMPUJE A)
+⏱️ Duración Estimada: 58 min
+
+1️⃣ Press Inclinado con Mancuernas (30°)
+   • Series: 4 x 8-10 reps | Descanso: 120s entre series
+2️⃣ Press Banca Plano con Barra
+   • Series: 4 x 6-8 reps | Descanso: 150s entre series
+3️⃣ Elevaciones Laterales en Polea
+   • Series: 4 x 12-15 reps | Descanso: 60s entre series
+4️⃣ Cruces en Polea Alta a Baja
+   • Series: 3 x 12-15 reps | Descanso: 75s entre series
+5️⃣ Extensión de Tríceps en Polea Alta
+   • Series: 4 x 10-12 reps | Descanso: 75s entre series
+
+💊 Dosis Creatina hoy (${(weight * 0.1).toFixed(1)}g) + Whey Isolate
+🛒 Equipamiento y Suplementos: dazpremiumfit.com`;
+    }
+  }
+
+  loadUserProfile();
+</script>
+</body>
+</html>
