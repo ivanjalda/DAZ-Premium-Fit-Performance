@@ -1,232 +1,350 @@
-import os
-import json
 import datetime
+import json
+import os
+import urllib.error
 import urllib.request
-import urllib.parse
 
-TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
-WORKER_URL = os.environ.get("CF_WORKER_URL", "").strip()
-ADMIN_SECRET = os.environ.get("CF_ADMIN_SECRET", "").strip()
-CHANNEL_ES = os.environ.get("TELEGRAM_CHANNEL_ES", "@DAZPerformance_ES").strip()
-CHANNEL_EN = os.environ.get("TELEGRAM_CHANNEL_EN", "@DAZPerformance_EN").strip()
 
-# Calendario semanal de sesiones por rutina (0=Lunes ... 6=Domingo)
-WORKOUT_SCHEDULES = {
-    "ppl6": {
-        0: {
-            "es": ("PUSH A: PECHO, HOMBRO Y TRÍCEPS", "58 min", [
-                ("Press Inclinado con Mancuernas (30°)", "4 x 8-10", "120s"),
-                ("Press Banca Plano con Barra", "4 x 6-8", "150s"),
-                ("Elevaciones Laterales en Polea", "4 x 12-15", "60s"),
-                ("Cruces en Polea Alta a Baja", "3 x 12-15", "75s"),
-                ("Extensión de Tríceps en Polea Alta", "4 x 10-12", "75s")
-            ]),
-            "en": ("PUSH A: CHEST, SHOULDERS & TRICEPS", "58 min", [
-                ("Incline Dumbbell Press (30°)", "4 x 8-10", "120s"),
-                ("Flat Barbell Bench Press", "4 x 6-8", "150s"),
-                ("Cable Lateral Raises", "4 x 12-15", "60s"),
-                ("High-to-Low Cable Flyes", "3 x 12-15", "75s"),
-                ("Overhead Cable Triceps Extension", "4 x 10-12", "75s")
-            ])
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
+TELEGRAM_CHANNEL_ES = os.environ.get("TELEGRAM_CHANNEL_ES", "").strip()
+TELEGRAM_CHANNEL_EN = os.environ.get("TELEGRAM_CHANNEL_EN", "").strip()
+CF_WORKER_URL = os.environ.get("CF_WORKER_URL", "").strip().rstrip("/")
+ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "").strip()
+
+BRAND_WEB_DPF = "https://dazpremiumfit.com"
+BRAND_WEB_DAZMOND = "https://dazmond.com"
+BRAND_WEB_VALMONT = "https://valmontco.com"
+
+
+ROUTINES = {
+    "chest_power_a": {
+        "es": {
+            "program": "ESPECIALIZACIÓN PECHO & EMPUJE — BLOQUE A (TENSIÓN MECÁNICA)",
+            "focus": "PECTORAL SUPERIOR, PECHO MEDIO Y TRÍCEPS",
+            "duration": "62 min",
+            "cue": "Escápulas retraídas y deprimidas en el banco; pausa de 1s en el punto más bajo sin rebotar.",
+            "exercises": [
+                ("Press Inclinado con Barra (30°)", "4 x 6-8 reps", "150s", "Énfasis en haz clavicular con control excéntrico de 3s."),
+                ("Press Banca Plano con Mancuernas", "4 x 8-10 reps", "120s", "Aducción completa de mancuernas al subir sin bloquear codos."),
+                ("Press en Máquina Convergente Inclinada", "3 x 10-12 reps", "90s", "Mantén tensión constante y bloquea 1s en contracción máxima."),
+                ("Cruces en Polea Alta a Baja", "3 x 12-15 reps", "75s", "Cruza ligeramente las manos frente al esternón para apurar fibras."),
+                ("Press Francés / Extensión Tríceps Polea", "4 x 10-12 reps", "75s", "Codos fijos a los costados; extiende por completo sin balanceo."),
+            ],
         },
-        1: {
-            "es": ("PULL A: ESPALDA, DELTOIDES POSTERIOR Y BÍCEPS", "55 min", [
-                ("Dominadas Lastradas o Jalón al Pecho", "4 x 6-8", "120s"),
-                ("Remo con Barra Inclinado", "4 x 8-10", "150s"),
-                ("Remo Unilateral en Polea Baja", "3 x 10-12", "90s"),
-                ("Face Pull en Polea Alta", "4 x 15", "60s"),
-                ("Curl Bíceps en Banco Inclinado 45°", "4 x 8-10", "75s")
-            ]),
-            "en": ("PULL A: BACK, REAR DELTS & BICEPS", "55 min", [
-                ("Weighted Pull-Ups or Lat Pulldown", "4 x 6-8", "120s"),
-                ("Bent-Over Barbell Row", "4 x 8-10", "150s"),
-                ("Single-Arm Seated Cable Row", "3 x 10-12", "90s"),
-                ("High Cable Face Pulls", "4 x 15", "60s"),
-                ("45° Incline Dumbbell Bicep Curl", "4 x 8-10", "75s")
-            ])
+        "en": {
+            "program": "CHEST & PUSH SPECIALIZATION — BLOCK A (MECHANICAL TENSION)",
+            "focus": "UPPER CHEST, MID PECTORALS & TRICEPS",
+            "duration": "62 min",
+            "cue": "Retract and depress shoulder blades on the bench; 1s pause at bottom stretch without bouncing.",
+            "exercises": [
+                ("Incline Barbell Bench Press (30°)", "4 x 6-8 reps", "150s", "Targets upper pecs with a controlled 3s eccentric lowering phase."),
+                ("Flat Dumbbell Bench Press", "4 x 8-10 reps", "120s", "Full adduction at top without locking elbows aggressively."),
+                ("Incline Converging Chest Press Machine", "3 x 10-12 reps", "90s", "Keep constant tension and squeeze peak contraction for 1s."),
+                ("High-to-Low Cable Flyes", "3 x 12-15 reps", "75s", "Cross wrists slightly across sternum to maximize inner-chest squeeze."),
+                ("Overhead Cable Triceps Extension", "4 x 10-12 reps", "75s", "Lock upper arms in place and extend fully without torso swing."),
+            ],
         },
-        2: {
-            "es": ("LEGS A: CUÁDRICEPS, ISQUIOS, GLÚTEO Y GEMELO", "65 min", [
-                ("Sentadilla Libre o Hack Squat", "4 x 6-8", "180s"),
-                ("Peso Muerto Rumano con Barra", "4 x 8-10", "150s"),
-                ("Prensa Inclinada 45°", "3 x 10-12", "120s"),
-                ("Curl Femoral Tumbado", "3 x 12", "75s"),
-                ("Elevación de Talones de Pie", "4 x 12-15", "60s")
-            ]),
-            "en": ("LEGS A: QUADS, HAMSTRINGS, GLUTES & CALVES", "65 min", [
-                ("Barbell Back Squat or Hack Squat", "4 x 6-8", "180s"),
-                ("Romanian Deadlift (RDL)", "4 x 8-10", "150s"),
-                ("45° Leg Press", "3 x 10-12", "120s"),
-                ("Lying Leg Curl", "3 x 12", "75s"),
-                ("Standing Calf Raises", "4 x 12-15", "60s")
-            ])
+    },
+    "chest_hypertrophy_b": {
+        "es": {
+            "program": "ESPECIALIZACIÓN PECHO & EMPUJE — BLOQUE B (ESTIRAMIENTO & METABÓLICO)",
+            "focus": "PECHO COMPLETO, DELTOIDE LATERAL Y TRÍCEPS",
+            "duration": "60 min",
+            "cue": "Prioriza el rango de estiramiento profundo y la calidad de contracción por encima del peso bruto.",
+            "exercises": [
+                ("Press Inclinado con Mancuernas (30°)", "4 x 8-10 reps", "120s", "Baja hasta sentir estiramiento seguro en pectoral superior."),
+                ("Aperturas en Contractora (Pec Deck)", "4 x 12-15 reps", "75s", "Pausa de 1s en el centro apretando el pecho con firmeza."),
+                ("Fondos en Paralelas Inclinados (Pecho)", "3 x 8-12 reps", "120s", "Inclina el torso hacia adelante; añade lastre si superas 12 reps."),
+                ("Elevaciones Laterales en Polea Baja", "4 x 12-15 reps", "60s", "Separa la muñeca hacia afuera en arco amplio sin encoger trapecio."),
+                ("Extensión de Tríceps con Cuerda en Polea", "3 x 12-15 reps", "75s", "Abre las puntas de la cuerda al final de cada repetición."),
+            ],
         },
-        3: {
-            "es": ("PUSH B: HIPERTROFIA DE HOMBRO 3D, PECHO Y TRÍCEPS", "55 min", [
-                ("Press Militar Sentado con Mancuernas", "4 x 8-10", "120s"),
-                ("Press Inclinado en Multipower", "3 x 10-12", "90s"),
-                ("Elevaciones Laterales Mancuernas", "4 x 15", "60s"),
-                ("Press Francés con Barra Z", "4 x 10-12", "90s"),
-                ("Fondos en Paralelas", "3 x al fallo controlado", "90s")
-            ]),
-            "en": ("PUSH B: 3D DELTS, CHEST & TRICEPS HYPERTROPHY", "55 min", [
-                ("Seated Dumbbell Overhead Press", "4 x 8-10", "120s"),
-                ("Smith Machine Incline Press", "3 x 10-12", "90s"),
-                ("Dumbbell Lateral Raises", "4 x 15", "60s"),
-                ("EZ-Bar Skullcrushers", "4 x 10-12", "90s"),
-                ("Parallel Bar Dips", "3 x controlled failure", "90s")
-            ])
+        "en": {
+            "program": "CHEST & PUSH SPECIALIZATION — BLOCK B (DEEP STRETCH & METABOLIC)",
+            "focus": "FULL PECTORALS, LATERAL DELTS & TRICEPS",
+            "duration": "60 min",
+            "cue": "Prioritize deep loaded stretch and peak contraction quality over ego loads.",
+            "exercises": [
+                ("Incline Dumbbell Press (30°)", "4 x 8-10 reps", "120s", "Lower under control into a deep, safe upper-chest stretch."),
+                ("Pec Deck Fly Machine", "4 x 12-15 reps", "75s", "Hold a hard 1s peak squeeze at midline on every rep."),
+                ("Forward-Leaning Chest Dips", "3 x 8-12 reps", "120s", "Lean torso forward to bias pecs; add weight once past 12 reps."),
+                ("Single-Arm Cable Lateral Raises", "4 x 12-15 reps", "60s", "Sweep hand outward in a wide arc while keeping traps relaxed."),
+                ("Cable Rope Triceps Pressdown", "3 x 12-15 reps", "75s", "Flare rope ends outward at full lockout without shoulder roll."),
+            ],
         },
-        4: {
-            "es": ("PULL B: AMPLITUD DORSAL Y GROSOR DE BRAZO", "55 min", [
-                ("Jalón Agarre Estrecho Neutro", "4 x 10-12", "90s"),
-                ("Remo en Punta (T-Bar)", "4 x 8-10", "120s"),
-                ("Pull-Over en Polea Alta con Cuerda", "3 x 12-15", "60s"),
-                ("Curl Martillo con Cuerda en Polea", "4 x 10-12", "75s"),
-                ("Pájaros en Máquina Inversa", "4 x 15", "60s")
-            ]),
-            "en": ("PULL B: LAT WIDTH & ARM THICKNESS", "55 min", [
-                ("Close-Grip Neutral Lat Pulldown", "4 x 10-12", "90s"),
-                ("Chest-Supported T-Bar Row", "4 x 8-10", "120s"),
-                ("Rope Cable Pullover", "3 x 12-15", "60s"),
-                ("Cable Rope Hammer Curl", "4 x 10-12", "75s"),
-                ("Reverse Pec Deck Rear Delt Fly", "4 x 15", "60s")
-            ])
+    },
+    "pull_back": {
+        "es": {
+            "program": "TIRÓN & ESPALDA — DENSIDAD Y AMPLITUD",
+            "focus": "DORSALES, ESPALDA ALTA Y BÍCEPS",
+            "duration": "64 min",
+            "cue": "Inicia cada repetición llevando los codos atrás y abajo, evitando tirar con el antebrazo.",
+            "exercises": [
+                ("Remo con Barra o en Máquina T-Bar", "4 x 6-8 reps", "150s", "Torso estable y tira hacia la cadera baja para grosor."),
+                ("Jalón al Pecho en Polea (Agarre Neutro/Ancho)", "4 x 8-12 reps", "105s", "Lleva el pecho hacia el agarre sin balancearte hacia atrás."),
+                ("Remo en Polea Baja / Máquina con Apoyo", "3 x 10-12 reps", "90s", "Aprieta escápulas 1s al final y controla el retorno."),
+                ("Pullover en Polea Alta con Cuerda", "3 x 12-15 reps", "75s", "Brazos casi extendidos para aislar el dorsal ancho."),
+                ("Curl de Bíceps con Barra / Mancuernas", "3 x 10-12 reps", "75s", "Evita adelantar los hombros al subir; excéntrica limpia."),
+            ],
         },
-        5: {
-            "es": ("LEGS B: GLÚTEO, FEMORAL Y CUÁDRICEPS METABÓLICO", "60 min", [
-                ("Hip Thrust con Barra Olímpica", "4 x 8-10", "150s"),
-                ("Sentadilla Búlgara con Mancuernas", "3 x 10 / lado", "90s"),
-                ("Extensión de Cuádriceps (Pausa 1s arriba)", "4 x 12-15", "75s"),
-                ("Curl Femoral Sentado", "4 x 12", "75s"),
-                ("Gemelo Sentado", "4 x 15", "60s")
-            ]),
-            "en": ("LEGS B: GLUTES, HAMSTRINGS & METABOLIC QUADS", "60 min", [
-                ("Barbell Hip Thrust", "4 x 8-10", "150s"),
-                ("Dumbbell Bulgarian Split Squat", "3 x 10 / leg", "90s"),
-                ("Leg Extensions (1s peak pause)", "4 x 12-15", "75s"),
-                ("Seated Leg Curl", "4 x 12", "75s"),
-                ("Seated Calf Raises", "4 x 15", "60s")
-            ])
+        "en": {
+            "program": "PULL & BACK — THICKNESS & WIDTH",
+            "focus": "LATS, UPPER BACK & BICEPS",
+            "duration": "64 min",
+            "cue": "Initiate every rep by driving elbows down and back rather than pulling with hands.",
+            "exercises": [
+                ("Barbell or Chest-Supported T-Bar Row", "4 x 6-8 reps", "150s", "Keep torso braced and pull toward lower hips for back density."),
+                ("Lat Pulldown (Wide or Neutral Grip)", "4 x 8-12 reps", "105s", "Pull bar to upper chest without excessive momentum."),
+                ("Seated Cable or Machine Row", "3 x 10-12 reps", "90s", "Squeeze shoulder blades for 1s and control the stretch."),
+                ("Straight-Arm Cable Pullover", "3 x 12-15 reps", "75s", "Keep arms nearly straight to isolate latissimus dorsi."),
+                ("Barbell or Dumbbell Biceps Curl", "3 x 10-12 reps", "75s", "Keep elbows pinned and avoid rolling shoulders forward."),
+            ],
         },
-        6: {
-            "es": ("DÍA DE DESCANSO Y RECUPERACIÓN ACTIVA", "0 min", []),
-            "en": ("FULL REST & ACTIVE RECOVERY DAY", "0 min", [])
-        }
-    }
+    },
+    "legs_lower": {
+        "es": {
+            "program": "PIERNA COMPLETA — FUERZA & CADENA POSTERIOR",
+            "focus": "CUÁDRICEPS, ISQUIOTIBIALES, GLÚTEO Y GEMELO",
+            "duration": "68 min",
+            "cue": "Mantén la planta del pie firme y la columna neutra; profundidad constante en cada serie.",
+            "exercises": [
+                ("Sentadilla Libre o Hack Squat", "4 x 6-8 reps", "180s", "Profundidad controlada y empuje uniforme con todo el pie."),
+                ("Peso Muerto Rumano con Barra o Mancuernas", "4 x 8-10 reps", "150s", "Cadera atrás hasta sentir tensión en isquios sin redondear zona lumbar."),
+                ("Prensa Inclinada 45°", "3 x 10-12 reps", "120s", "No despegues la zona lumbar del respaldo en el fondo."),
+                ("Curl Femoral Tumbado o Sentado", "3 x 12 reps", "75s", "Contracción máxima y bajada lenta en 3 segundos."),
+                ("Elevación de Talones de Pie", "4 x 12-15 reps", "60s", "Pausa de 1s abajo en estiramiento y 1s arriba."),
+            ],
+        },
+        "en": {
+            "program": "LOWER BODY — STRENGTH & POSTERIOR CHAIN",
+            "focus": "QUADS, HAMSTRINGS, GLUTES & CALVES",
+            "duration": "68 min",
+            "cue": "Keep tripod foot pressure and neutral spine; consistent depth on every working set.",
+            "exercises": [
+                ("Barbell Back Squat or Hack Squat", "4 x 6-8 reps", "180s", "Controlled descent and steady drive through full foot."),
+                ("Romanian Deadlift (RDL)", "4 x 8-10 reps", "150s", "Hinge hips back to hamstring stretch while keeping spine neutral."),
+                ("45° Leg Press", "3 x 10-12 reps", "120s", "Keep lower back glued to pad at bottom of travel."),
+                ("Lying or Seated Leg Curl", "3 x 12 reps", "75s", "Hard peak squeeze and 3s eccentric lowering."),
+                ("Standing Calf Raises", "4 x 12-15 reps", "60s", "1s pause in bottom stretch and 1s at top contraction."),
+            ],
+        },
+    },
+    "upper_conditioning": {
+        "es": {
+            "program": "TORSO & BOMBA METABÓLICA — CIERRE DE SEMANA",
+            "focus": "PECHO SUPERIOR, HOMBROS, BRAZOS Y CORE",
+            "duration": "55 min",
+            "cue": "Ritmo ágil con descansos medidos para acumular volumen efectivo sin perder técnica.",
+            "exercises": [
+                ("Press Inclinado en Smith o Multipower", "3 x 8-10 reps", "120s", "Alinea el banco justo bajo el punto de máximo estímulo pectoral."),
+                ("Press Militar / Hombro en Máquina", "3 x 8-12 reps", "105s", "Sube sin hiperextender la zona lumbar."),
+                ("Cruces en Polea Media / Aperturas", "3 x 12-15 reps", "75s", "Enfoque en cierre pectoral con tensión continua."),
+                ("Superserie Bíceps Polea + Tríceps Polea", "3 x 12-15 reps", "75s", "Ejecución limpia alternando ambos grupos."),
+                ("Elevación de Piernas o Crunch en Polea", "3 x 15 reps", "60s", "Flexión vertebral controlada, sin tirones de cadera."),
+            ],
+        },
+        "en": {
+            "program": "UPPER & METABOLIC PUMP — WEEKLY FINISHER",
+            "focus": "UPPER CHEST, SHOULDERS, ARMS & CORE",
+            "duration": "55 min",
+            "cue": "Crisp pacing with disciplined rest periods to build quality volume cleanly.",
+            "exercises": [
+                ("Smith Machine Incline Press", "3 x 8-10 reps", "120s", "Position bench cleanly under upper-chest line of drive."),
+                ("Shoulder Press (Machine or Dumbbell)", "3 x 8-12 reps", "105s", "Press overhead without arching lower back."),
+                ("Mid-Cable Flyes or Chest Press Finisher", "3 x 12-15 reps", "75s", "Focus on smooth arc and constant pec tension."),
+                ("Superset: Cable Curl + Cable Triceps", "3 x 12-15 reps", "75s", "Controlled tempo alternating biceps and triceps."),
+                ("Hanging Leg Raise or Cable Crunch", "3 x 15 reps", "60s", "Curl pelvis/ribcage smoothly without hip-flexor yank."),
+            ],
+        },
+    },
 }
 
 
-def send_tg(chat_id, text):
-    if not TOKEN or not chat_id:
-        return
-    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    data = urllib.parse.urlencode({
-        "chat_id": chat_id,
-        "text": text,
-        "parse_mode": "HTML",
-        "disable_web_page_preview": "true"
-    }).encode("utf-8")
-    req = urllib.request.Request(url, data=data)
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return resp.status
+WEEKLY_ROTATION = [
+    "chest_power_a",
+    "pull_back",
+    "legs_lower",
+    "chest_hypertrophy_b",
+    "upper_conditioning",
+    "chest_power_a",
+    "legs_lower",
+]
 
 
-def fetch_subscribers():
-    if not WORKER_URL or not ADMIN_SECRET:
-        return []
-    try:
-        req = urllib.request.Request(
-            f"{WORKER_URL.rstrip('/')}/subscribers",
-            headers={
-                "Authorization": f"Bearer {ADMIN_SECRET}",
-                "User-Agent": "Mozilla/5.0 (DAZ Engine Bot)",
-                "Accept": "application/json"
-            }
-        )
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except Exception as e:
-        print("[COACH WARN] No se pudo leer la lista de suscriptores:", e)
-        return []
-
-
-def format_workout_message(user, weekday):
-    lang = user.get("lang", "es")
-    split = user.get("split", "ppl6")
-    weight = float(user.get("weight", 85))
-    name = user.get("name", "Atleta")
-
-    schedule = WORKOUT_SCHEDULES.get(split, WORKOUT_SCHEDULES["ppl6"])
-    day_plan = schedule.get(weekday, schedule[0])[lang]
-    title, duration, exercises = day_plan
-
-    creatine_g = round(weight * 0.1, 1)
-
+def get_day_labels(lang: str, weekday_idx: int) -> tuple[str, str]:
+    days_es = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"]
+    days_en = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
     if lang == "en":
-        if not exercises:
-            return (
-                f"🔋 <b>DAZ PREMIUM FIT PERFORMANCE — SUNDAY RECOVERY</b>\n\n"
-                f"Good morning, <b>{name}</b>. Today is total nervous system and muscular recovery.\n"
-                f"• Take your daily <b>{creatine_g}g Creatine Monohydrate</b> + Omega-3.\n"
-                f"• Hit your protein target ({round(weight*2.1)}g) and sleep 8 hours.\n\n"
-                f"👉 Official Store: https://dazpremiumfit.com"
-            )
-        lines = [
-            f"🔥 <b>DAZ PREMIUM FIT PERFORMANCE • MORNING WORKOUT</b>",
-            f"Athlete: <b>{name}</b> | Duration: <b>{duration}</b>",
-            f"🎯 <b>{title}</b>\n"
-        ]
-        for idx, (ex_name, sets, rest) in enumerate(exercises, 1):
-            lines.append(f"{idx}️⃣ <b>{ex_name}</b>\n   • Sets: {sets} | Rest: <b>{rest}</b> between sets")
-        lines.append(f"\n💊 Today's Creatine: <b>{creatine_g}g</b> | Protein Goal: <b>{round(weight*2.1)}g</b>")
-        lines.append("🛒 Gear & Supplements: https://dazpremiumfit.com")
-        return "\n".join(lines)
+        return days_en[weekday_idx], "DAZ Athlete"
+    return days_es[weekday_idx], "Atleta DAZ"
+
+
+def build_workout_message(
+    lang: str = "es",
+    name: str = "",
+    weight_kg: float = 88.0,
+    goal: str = "volumen",
+    routine_key: str | None = None,
+) -> str:
+    lang = "en" if str(lang).lower().startswith("en") else "es"
+    now = datetime.datetime.now(datetime.timezone.utc)
+    weekday_idx = now.weekday()
+    selected_key = routine_key or WEEKLY_ROTATION[weekday_idx]
+    routine = ROUTINES.get(selected_key, ROUTINES["chest_power_a"])[lang]
+
+    day_label, default_name = get_day_labels(lang, weekday_idx)
+    athlete_name = (name or "").strip() or default_name
+    safe_weight = max(40.0, min(220.0, float(weight_kg or 88.0)))
+    creatine_g = round(safe_weight * 0.1, 1)
+    protein_g = int(round(safe_weight * 2.0))
+
+    lines = []
+    if lang == "en":
+        goal_map = {
+            "volumen": "Lean Bulk / Hypertrophy",
+            "definicion": "Fat Loss / Conditioning",
+            "recomposicion": "Body Recomposition",
+        }
+        goal_label = goal_map.get(str(goal).lower(), "Performance & Hypertrophy")
+        lines.append(f"🔥 DAZ PREMIUM FIT PERFORMANCE — {day_label} PROTOCOL")
+        lines.append(f"👤 Athlete: {athlete_name} | 🎯 Goal: {goal_label} | ⏱️ {routine['duration']}")
+        lines.append(f"📋 {routine['program']}")
+        lines.append(f"🎯 Target: {routine['focus']}")
+        lines.append(f"💡 Execution Cue: {routine['cue']}")
+        lines.append("")
+        for idx, (ex_name, sets_reps, rest, note) in enumerate(routine["exercises"], start=1):
+            lines.append(f"{idx}️⃣ {ex_name}")
+            lines.append(f"   • {sets_reps} | Rest: {rest}")
+            lines.append(f"   • Note: {note}")
+        lines.append("")
+        lines.append(f"💊 Daily Targets: Creatine ~{creatine_g}g | Protein ~{protein_g}g")
+        lines.append(f"🛒 Gear & Supplements: {BRAND_WEB_DPF}")
+        lines.append(f"🖤 DAZMOND®: {BRAND_WEB_DAZMOND} | 📈 Valmont & Co.: {BRAND_WEB_VALMONT}")
     else:
-        if not exercises:
-            return (
-                f"🔋 <b>DAZ PREMIUM FIT PERFORMANCE — DESCANSO Y CRECIMIENTO</b>\n\n"
-                f"Buenos días, <b>{name}</b>. Hoy toca recuperación completa del sistema nervioso y tejido muscular.\n"
-                f"• Toma tus <b>{creatine_g}g de Creatina Monohidrato</b> + Omega-3.\n"
-                f"• Cumple tu objetivo de proteína ({round(weight*2.1)}g) y prioriza el sueño profundo.\n\n"
-                f"👉 Tienda Oficial: https://dazpremiumfit.com"
-            )
-        lines = [
-            f"🔥 <b>DAZ PREMIUM FIT PERFORMANCE • ENTRENAMIENTO DE HOY</b>",
-            f"Atleta: <b>{name}</b> | Duración estimada: <b>{duration}</b>",
-            f"🎯 <b>{title}</b>\n"
-        ]
-        for idx, (ex_name, sets, rest) in enumerate(exercises, 1):
-            lines.append(f"{idx}️⃣ <b>{ex_name}</b>\n   • Series: {sets} | Descanso: <b>{rest}</b> entre series")
-        lines.append(f"\n💊 Dosis Creatina hoy: <b>{creatine_g}g</b> | Objetivo Proteína: <b>{round(weight*2.1)}g</b>")
-        lines.append("🛒 Ropa Deportiva y Suplementos: https://dazpremiumfit.com")
-        return "\n".join(lines)
+        goal_map = {
+            "volumen": "Volumen Limpio / Hipertrofia",
+            "definicion": "Definición / Pérdida de Grasa",
+            "recomposicion": "Recomposición Corporal",
+        }
+        goal_label = goal_map.get(str(goal).lower(), "Rendimiento e Hipertrofia")
+        lines.append(f"🔥 DAZ PREMIUM FIT PERFORMANCE — PROTOCOLO DEL {day_label}")
+        lines.append(f"👤 Atleta: {athlete_name} | 🎯 Objetivo: {goal_label} | ⏱️ {routine['duration']}")
+        lines.append(f"📋 {routine['program']}")
+        lines.append(f"🎯 Enfoque: {routine['focus']}")
+        lines.append(f"💡 Clave técnica: {routine['cue']}")
+        lines.append("")
+        for idx, (ex_name, sets_reps, rest, note) in enumerate(routine["exercises"], start=1):
+            lines.append(f"{idx}️⃣ {ex_name}")
+            lines.append(f"   • {sets_reps} | Descanso: {rest}")
+            lines.append(f"   • Técnica: {note}")
+        lines.append("")
+        lines.append(f"💊 Pauta diaria: Creatina ~{creatine_g}g | Proteína ~{protein_g}g")
+        lines.append(f"🛒 Ropa y Suplementos: {BRAND_WEB_DPF}")
+        lines.append(f"🖤 DAZMOND®: {BRAND_WEB_DAZMOND} | 📈 Valmont & Co.: {BRAND_WEB_VALMONT}")
+
+    return "\n".join(lines)
 
 
-def main():
-    weekday = datetime.datetime.utcnow().weekday()  # 0 = Lunes ... 6 = Domingo
-    subscribers = fetch_subscribers()
-    print(f"[COACH] Suscriptores activos encontrados: {len(subscribers)}")
-
-    for user in subscribers:
-        try:
-            msg = format_workout_message(user, weekday)
-            send_tg(user["chat_id"], msg)
-            print(f"[COACH OK] Enviado a {user.get('name')} ({user.get('lang')})")
-        except Exception as e:
-            print(f"[COACH ERR] Error enviando a {user.get('chat_id')}: {e}")
-
-    # Publicación diaria automática en ambos canales oficiales (ES y EN)
+def send_telegram_message(chat_id: str, text: str) -> bool:
+    if not TELEGRAM_TOKEN or not chat_id:
+        return False
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = json.dumps(
+        {
+            "chat_id": str(chat_id),
+            "text": text,
+            "disable_web_page_preview": True,
+        }
+    ).encode("utf-8")
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
     try:
-        msg_es = format_workout_message({"name": "Comunidad DAZ", "lang": "es", "split": "ppl6", "weight": 85}, weekday)
-        msg_en = format_workout_message({"name": "DAZ Athletes", "lang": "en", "split": "ppl6", "weight": 85}, weekday)
-        if CHANNEL_ES:
-            send_tg(CHANNEL_ES, msg_es)
-        if CHANNEL_EN:
-            send_tg(CHANNEL_EN, msg_en)
-    except Exception as e:
-        print("[CHANNELS ERR]", e)
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return bool(data.get("ok"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        print(f"[ERROR] Telegram sendMessage failed for {chat_id}: {exc}")
+        return False
+
+
+def fetch_registered_users() -> list[dict]:
+    if not CF_WORKER_URL or not ADMIN_SECRET:
+        return []
+    url = f"{CF_WORKER_URL}/admin/users"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"Bearer {ADMIN_SECRET}",
+            "X-Admin-Secret": ADMIN_SECRET,
+            "Accept": "application/json",
+        },
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            raw = json.loads(resp.read().decode("utf-8"))
+            if isinstance(raw, list):
+                return raw
+            if isinstance(raw, dict) and isinstance(raw.get("users"), list):
+                return raw["users"]
+            return []
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        print(f"[INFO] Could not fetch users from worker ({url}): {exc}")
+        return []
+
+
+def run() -> None:
+    if not TELEGRAM_TOKEN:
+        raise RuntimeError("Missing TELEGRAM_TOKEN environment variable.")
+
+    # 1. Envío a canales oficiales ES y EN
+    if TELEGRAM_CHANNEL_ES:
+        msg_es_channel = build_workout_message(
+            lang="es",
+            name="Comunidad DAZ",
+            weight_kg=88.0,
+            goal="volumen",
+        )
+        ok_es = send_telegram_message(TELEGRAM_CHANNEL_ES, msg_es_channel)
+        print(f"[CHANNEL_ES] sent={ok_es}")
+
+    if TELEGRAM_CHANNEL_EN:
+        msg_en_channel = build_workout_message(
+            lang="en",
+            name="DAZ Athlete",
+            weight_kg=88.0,
+            goal="volumen",
+        )
+        ok_en = send_telegram_message(TELEGRAM_CHANNEL_EN, msg_en_channel)
+        print(f"[CHANNEL_EN] sent={ok_en}")
+
+    # 2. Envío personalizado a usuarios registrados en Cloudflare KV vía Worker
+    users = fetch_registered_users()
+    print(f"[USERS] loaded={len(users)}")
+    for user in users:
+        chat_id = user.get("chat_id") or user.get("telegram_id") or user.get("id")
+        if not chat_id:
+            continue
+        u_lang = user.get("lang", "es")
+        u_name = user.get("name", "")
+        u_weight = user.get("weight", 88.0)
+        u_goal = user.get("goal", "volumen")
+        u_routine = user.get("routine") or user.get("split_routine")
+
+        personal_msg = build_workout_message(
+            lang=u_lang,
+            name=u_name,
+            weight_kg=u_weight,
+            goal=u_goal,
+            routine_key=u_routine,
+        )
+        ok_user = send_telegram_message(str(chat_id), personal_msg)
+        print(f"[USER {chat_id}] lang={u_lang} sent={ok_user}")
 
 
 if __name__ == "__main__":
-    main()
+    run()
