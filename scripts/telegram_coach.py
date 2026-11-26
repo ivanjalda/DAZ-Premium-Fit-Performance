@@ -323,6 +323,16 @@ def run() -> None:
         ok_en = send_telegram_message(TELEGRAM_CHANNEL_EN, msg_en_channel)
         print(f"[CHANNEL_EN] sent={ok_en}")
 
+    # Marca para el Guardián: el envío de hoy ya ha salido
+    if locals().get("ok_es") or locals().get("ok_en"):
+        try:
+            os.makedirs("data", exist_ok=True)
+            with open("data/coach_status.json", "w", encoding="utf-8") as f:
+                json.dump({"date": datetime.datetime.utcnow().date().isoformat(),
+                           "time_utc": datetime.datetime.utcnow().strftime("%H:%M")}, f)
+        except OSError as exc:
+            print(f"[WARN] No se pudo guardar el estado del envío: {exc}")
+
     # 2. Envío personalizado a usuarios registrados en Cloudflare KV vía Worker
     users = fetch_registered_users()
     print(f"[USERS] loaded={len(users)}")
