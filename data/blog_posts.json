@@ -1,19 +1,10 @@
 {
-  "updated_at": "2026-11-25 17:51 UTC",
+  "updated_at": "2026-11-26 17:36 UTC",
   "posts": [
-    {
-      "id": "keto-vs-carbohidratos-rendimiento",
-      "category": "METABOLISMO",
-      "date": "25/11/2026",
-      "read_time": "5 min",
-      "title": "Dieta Cetogénica vs. Alta en Carbohidratos: Cuándo usar cada estrategia según tu fisiología",
-      "summary": "Mientras la glucosa domina en esfuerzos glucolíticos de alta intensidad, la cetosis ofrece una herramienta superior para flexibilidad metabólica y control insulínico.",
-      "content": "No existe una dieta única para todo el año. Utilizar bloques cetogénicos controlados mejora la sensibilidad a la insulina y reduce la inflamación sistémica, preparando el terreno hormonal para que, al reintroducir carbohidratos en fase de volumen, la partición calórica se dirija hacia el músculo y no al tejido adiposo."
-    },
     {
       "id": "salud-capilar-atleta",
       "category": "LONGEVIDAD Y ESTÉTICA",
-      "date": "25/11/2026",
+      "date": "26/11/2026",
       "read_time": "4 min",
       "title": "Cómo proteger la salud capilar y articular bajo entrenamiento de alta intensidad",
       "summary": "El estrés oxidativo, los déficits de zinc/hierro y la inflamación crónica impactan directamente en el folículo piloso y los tendones.",
@@ -22,7 +13,7 @@
     {
       "id": "hipertrofia-tension-mecanica",
       "category": "BIOMECÁNICA E HIPERTROFIA",
-      "date": "25/11/2026",
+      "date": "26/11/2026",
       "read_time": "4 min",
       "title": "Tensión Mecánica vs. Estrés Metabólico: Qué construye tejido contráctil real",
       "summary": "Las últimas 5 repeticiones efectivas cerca del fallo muscular reclutan las unidades motoras de alto umbral responsables de la hipertrofia miofibrilar.",
@@ -31,7 +22,7 @@
     {
       "id": "creatina-dosis-real",
       "category": "NUTRICIÓN CLÍNICA",
-      "date": "25/11/2026",
+      "date": "26/11/2026",
       "read_time": "3 min",
       "title": "Por qué la dosis estándar de 5g de Creatina se queda corta en atletas de +85 kg",
       "summary": "El cálculo científico basado en peso corporal (0.1g/kg) optimiza la saturación muscular y cognitiva frente a la recomendación genérica.",
@@ -40,11 +31,20 @@
     {
       "id": "frecuencia-entrenamiento-natural",
       "category": "PROGRAMACIÓN",
-      "date": "25/11/2026",
+      "date": "26/11/2026",
       "read_time": "5 min",
       "title": "Frecuencia 2 vs. Weider Clásica: Cómo gestionar la síntesis proteica en atletas naturales",
       "summary": "La síntesis de proteínas musculares regresa a niveles basales entre 36 y 48 horas después de entrenar. Dividir el volumen semanal duplica las ventanas de crecimiento.",
       "content": "Hacer 20 series de pecho el lunes provoca daño muscular excesivo cuya recuperación consume recursos sin aportar hipertrofia extra. Dividir ese trabajo en 10 series el lunes y 10 series el jueves permite entrenar con cargas más altas y mayor calidad técnica en cada sesión."
+    },
+    {
+      "id": "keto-vs-carbohidratos-rendimiento",
+      "category": "METABOLISMO",
+      "date": "26/11/2026",
+      "read_time": "5 min",
+      "title": "Dieta Cetogénica vs. Alta en Carbohidratos: Cuándo usar cada estrategia según tu fisiología",
+      "summary": "Mientras la glucosa domina en esfuerzos glucolíticos de alta intensidad, la cetosis ofrece una herramienta superior para flexibilidad metabólica y control insulínico.",
+      "content": "No existe una dieta única para todo el año. Utilizar bloques cetogénicos controlados mejora la sensibilidad a la insulina y reduce la inflamación sistémica, preparando el terreno hormonal para que, al reintroducir carbohidratos en fase de volumen, la partición calórica se dirija hacia el músculo y no al tejido adiposo."
     }
   ]
 }
