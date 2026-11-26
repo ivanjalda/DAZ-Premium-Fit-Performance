@@ -354,8 +354,7 @@
     </div>
     <header class="daz-header">
       <a href="index.html" class="daz-brand"><img class="daz-brand-logo" src="assets/logo-192.png" alt="DAZ Premium Fit" width="38" height="38" />
-        <span>DAZ <span class="gold">PREMIUM FIT</span></span>
-        <span class="badge-perf">PERFORMANCE</span>
+        <span>DAZ <span class="gold">PERFORMANCE</span></span>
       </a>
       <nav class="daz-nav">
         ${pages.map(p => `<a href="${p.href}" class="nav-link ${path === p.href ? 'active' : ''}">${p.label}</a>`).join("")}
