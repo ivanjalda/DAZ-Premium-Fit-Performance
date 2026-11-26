@@ -160,6 +160,61 @@ ROUTINES = {
 }
 
 
+# Calendario semanal por programa (lunes=0 ... domingo=6). None = día de descanso.
+SPLIT_SCHEDULES = {
+    "ppl6": ["chest_power_a", "pull_back", "legs_lower", "chest_hypertrophy_b", "pull_back", "legs_lower", None],
+    "ul4": ["upper_conditioning", "legs_lower", None, "chest_hypertrophy_b", "legs_lower", None, None],
+    "fb3": ["upper_conditioning", None, "legs_lower", None, "chest_power_a", None, None],
+    "spec_arms": ["upper_conditioning", "legs_lower", "chest_hypertrophy_b", "pull_back", "upper_conditioning", None, None],
+    "spec_legs": ["legs_lower", "upper_conditioning", "legs_lower", "pull_back", "legs_lower", None, None],
+}
+
+GOAL_KCAL_PER_KG = {"volumen": 35, "definicion": 26, "recomposicion": 30}
+
+
+def daily_macros(weight_kg: float, goal: str) -> tuple[int, int, int, int]:
+    """Devuelve kcal, proteína, carbohidratos y grasas (g) orientativos."""
+    w = max(40.0, min(220.0, float(weight_kg or 80)))
+    kcal = int(round(w * GOAL_KCAL_PER_KG.get(str(goal).lower(), 32) / 50.0) * 50)
+    protein = int(round(w * 2.0))
+    fat = int(round(w * 0.9))
+    carbs = max(50, int(round((kcal - protein * 4 - fat * 9) / 4)))
+    return kcal, protein, carbs, fat
+
+
+def build_rest_message(lang: str, name: str, weight_kg: float, goal: str) -> str:
+    lang = "en" if str(lang).lower().startswith("en") else "es"
+    idx = datetime.datetime.now(datetime.timezone.utc).weekday()
+    day_label, default_name = get_day_labels(lang, idx)
+    who = (name or "").strip() or default_name
+    kcal, p, c, f = daily_macros(weight_kg, goal)
+    if lang == "en":
+        return "\n".join([
+            f"🧘 DAZ PERFORMANCE — {day_label} · RECOVERY DAY",
+            f"👤 {who}: muscles grow while you rest. Today:",
+            "1️⃣ 8,000–10,000 steps or 30 min easy walk",
+            "2️⃣ 10 min mobility: hips, thoracic spine, shoulders",
+            "3️⃣ 7–9 h of sleep tonight",
+            "",
+            f"🍽️ Today's target: ~{kcal} kcal · P {p} g · C {c} g · F {f} g",
+            f"💊 Creatine {5 if float(weight_kg or 80) >= 60 else 3} g (also on rest days)",
+            "",
+            "⭐ Premium 4.99 €/month: meal plan in grams + every routine → https://dazperformance.com/premium.html",
+        ])
+    return "\n".join([
+        f"🧘 DAZ PERFORMANCE — {day_label} · DÍA DE RECUPERACIÓN",
+        f"👤 {who}: el músculo crece mientras descansas. Hoy:",
+        "1️⃣ 8.000–10.000 pasos o 30 min de paseo suave",
+        "2️⃣ 10 min de movilidad: cadera, espalda alta y hombros",
+        "3️⃣ Dormir 7–9 horas esta noche",
+        "",
+        f"🍽️ Objetivo de hoy: ~{kcal} kcal · P {p} g · H {c} g · G {f} g",
+        f"💊 Creatina {5 if float(weight_kg or 80) >= 60 else 3} g (también en descanso)",
+        "",
+        "⭐ Premium 4,99 €/mes: menú en gramos + todas las rutinas → https://dazperformance.com/premium.html",
+    ])
+
+
 WEEKLY_ROTATION = [
     "chest_power_a",
     "pull_back",
@@ -195,7 +250,7 @@ def build_workout_message(
     day_label, default_name = get_day_labels(lang, weekday_idx)
     athlete_name = (name or "").strip() or default_name
     safe_weight = max(40.0, min(220.0, float(weight_kg or 88.0)))
-    creatine_g = round(safe_weight * 0.1, 1)
+    creatine_g = 5 if safe_weight >= 60 else 3  # dosis estándar 3-5 g/día (ISSN)
     protein_g = int(round(safe_weight * 2.0))
 
     lines = []
@@ -206,7 +261,7 @@ def build_workout_message(
             "recomposicion": "Body Recomposition",
         }
         goal_label = goal_map.get(str(goal).lower(), "Performance & Hypertrophy")
-        lines.append(f"🔥 DAZ PREMIUM FIT PERFORMANCE — {day_label} PROTOCOL")
+        lines.append(f"🔥 DAZ PERFORMANCE — {day_label} PROTOCOL")
         lines.append(f"👤 Athlete: {athlete_name} | 🎯 Goal: {goal_label} | ⏱️ {routine['duration']}")
         lines.append(f"📋 {routine['program']}")
         lines.append(f"🎯 Target: {routine['focus']}")
@@ -217,7 +272,9 @@ def build_workout_message(
             lines.append(f"   • {sets_reps} | Rest: {rest}")
             lines.append(f"   • Note: {note}")
         lines.append("")
-        lines.append(f"💊 Daily Targets: Creatine ~{creatine_g}g | Protein ~{protein_g}g")
+        kcal, _p, carbs_g, fat_g = daily_macros(safe_weight, goal)
+        lines.append(f"🍽️ Today: ~{kcal} kcal · P {protein_g} g · C {carbs_g} g · F {fat_g} g")
+        lines.append(f"💊 Creatine ~{creatine_g}g")
         lines.append(f"🛒 Gear & Supplements: {BRAND_WEB_DPF}")
         lines.append(f"🖤 DAZMOND®: {BRAND_WEB_DAZMOND} | 📈 Valmont & Co.: {BRAND_WEB_VALMONT}")
     else:
@@ -227,7 +284,7 @@ def build_workout_message(
             "recomposicion": "Recomposición Corporal",
         }
         goal_label = goal_map.get(str(goal).lower(), "Rendimiento e Hipertrofia")
-        lines.append(f"🔥 DAZ PREMIUM FIT PERFORMANCE — PROTOCOLO DEL {day_label}")
+        lines.append(f"🔥 DAZ PERFORMANCE — PROTOCOLO DEL {day_label}")
         lines.append(f"👤 Atleta: {athlete_name} | 🎯 Objetivo: {goal_label} | ⏱️ {routine['duration']}")
         lines.append(f"📋 {routine['program']}")
         lines.append(f"🎯 Enfoque: {routine['focus']}")
@@ -238,7 +295,9 @@ def build_workout_message(
             lines.append(f"   • {sets_reps} | Descanso: {rest}")
             lines.append(f"   • Técnica: {note}")
         lines.append("")
-        lines.append(f"💊 Pauta diaria: Creatina ~{creatine_g}g | Proteína ~{protein_g}g")
+        kcal, _p, carbs_g, fat_g = daily_macros(safe_weight, goal)
+        lines.append(f"🍽️ Hoy: ~{kcal} kcal · P {protein_g} g · H {carbs_g} g · G {fat_g} g")
+        lines.append(f"💊 Creatina ~{creatine_g}g")
         lines.append(f"🛒 Ropa y Suplementos: {BRAND_WEB_DPF}")
         lines.append(f"🖤 DAZMOND®: {BRAND_WEB_DAZMOND} | 📈 Valmont & Co.: {BRAND_WEB_VALMONT}")
 
@@ -346,15 +405,28 @@ def run() -> None:
         u_name = user.get("name", "")
         u_weight = user.get("weight", 88.0)
         u_goal = user.get("goal", "volumen")
-        u_routine = user.get("routine") or user.get("split_routine")
+        u_split = str(user.get("split") or user.get("routine") or user.get("split_routine") or "ppl6")
+        schedule = SPLIT_SCHEDULES.get(u_split)
+        today_idx = datetime.datetime.now(datetime.timezone.utc).weekday()
+        if schedule is not None:
+            u_routine = schedule[today_idx]
+        else:
+            u_routine = u_split if u_split in ROUTINES else None
 
-        personal_msg = build_workout_message(
-            lang=u_lang,
-            name=u_name,
-            weight_kg=u_weight,
-            goal=u_goal,
-            routine_key=u_routine,
-        )
+        if schedule is not None and u_routine is None:
+            personal_msg = build_rest_message(u_lang, u_name, u_weight, u_goal)
+        else:
+            personal_msg = build_workout_message(
+                lang=u_lang,
+                name=u_name,
+                weight_kg=u_weight,
+                goal=u_goal,
+                routine_key=u_routine,
+            )
+            if str(u_lang).lower().startswith("en"):
+                personal_msg += "\n\n⭐ Premium 4.99 €/month: meal plan in grams + every routine → https://dazperformance.com/premium.html"
+            else:
+                personal_msg += "\n\n⭐ Premium 4,99 €/mes: menú en gramos + todas las rutinas → https://dazperformance.com/premium.html"
         ok_user = send_telegram_message(str(chat_id), personal_msg)
         print(f"[USER {chat_id}] lang={u_lang} sent={ok_user}")
 

@@ -42,6 +42,11 @@ def repair_pages() -> None:
         if "dazshopping.com" in content:
             content = content.replace("dazshopping.com", "dazpremiumfit.com")
             fixes.append(f"{path}: enlace de tienda corregido")
+        # Creatina con base científica: 3-5 g al día (no 0,1 g por kilo)
+        new_c = re.sub(r"\(\s*weight\s*\*\s*0\.1\s*\)\.toFixed\(1\)", "(weight >= 60 ? 5 : 3)", content)
+        if new_c != content:
+            content = new_c
+            fixes.append(f"{path}: dosis de creatina ajustada a 3-5 g/día")
         if "<head" in content.lower() and 'name="description"' not in content.lower():
             tag = ('  <meta name="description" content="DAZ Performance: entrenamientos por objetivos, '
                    'nutrición, macros y suplementación con base científica." />\n')
