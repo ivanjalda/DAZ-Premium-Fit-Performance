@@ -103,6 +103,7 @@ def head_block(page: str, title: str, description: str) -> str:
         f'  <meta name="twitter:title" content="{t}" />',
         f'  <meta name="twitter:description" content="{d}" />',
         f'  <meta name="twitter:image" content="{SITE}/assets/og-image.jpg" />',
+        '  <script src="/premium.js" defer></script>',
     ]
     if page == "index.html":
         data = {
@@ -167,7 +168,15 @@ def patch_nav_logo() -> None:
         return
     with open(path, encoding="utf-8") as f:
         js = f.read()
+    if '"premium.html"' not in js:
+        js = js.replace(
+            '{ href: "perfil.html", label: t.nav_profile }',
+            '{ href: "perfil.html", label: t.nav_profile },\n    { href: "premium.html", label: "⭐ Premium" }',
+            1,
+        )
     if "daz-brand-logo" in js:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(js)
         return
     js = js.replace(
         '<a href="index.html" class="daz-brand">',

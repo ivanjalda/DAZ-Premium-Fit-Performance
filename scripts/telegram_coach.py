@@ -310,6 +310,7 @@ def run() -> None:
             weight_kg=88.0,
             goal="volumen",
         )
+        msg_es_channel += "\n\n⭐ DAZ Performance Premium · 4,99 €/mes\nTu entrenamiento personal cada mañana, todas las rutinas, menú en gramos y suplementos a tu medida 👉 https://dazperformance.com/premium.html"
         ok_es = send_telegram_message(TELEGRAM_CHANNEL_ES, msg_es_channel)
         print(f"[CHANNEL_ES] sent={ok_es}")
 
@@ -320,6 +321,7 @@ def run() -> None:
             weight_kg=88.0,
             goal="volumen",
         )
+        msg_en_channel += "\n\n⭐ DAZ Performance Premium · 4.99 €/month\nYour personal workout every morning, every routine, meal plan in grams and custom supplements 👉 https://dazperformance.com/premium.html"
         ok_en = send_telegram_message(TELEGRAM_CHANNEL_EN, msg_en_channel)
         print(f"[CHANNEL_EN] sent={ok_en}")
 
