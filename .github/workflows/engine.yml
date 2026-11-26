@@ -29,6 +29,7 @@ jobs:
       - name: Enviar Entrenamientos Personalizados y Canales ES/EN
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           CF_WORKER_URL: ${{ secrets.CF_WORKER_URL }}
           ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
           TELEGRAM_CHANNEL_ES: ${{ secrets.TELEGRAM_CHANNEL_ES }}
@@ -40,4 +41,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "DAZ Engine Bot"
           git add data/*.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualización diaria y envío matinal DAZ Performance" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualización diaria y envío matinal DAZ Performance" && git pull --rebase && git push)
