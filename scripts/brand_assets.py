@@ -90,6 +90,8 @@ def head_block(page: str, title: str, description: str) -> str:
         '  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
         '  <link rel="manifest" href="/site.webmanifest" />',
         '  <meta name="theme-color" content="#0b0b0b" />',
+        '  <meta name="p:domain_verify" content="100a472addbe74dfa86830be7b8fe4f6" />',
+        f'  <link rel="alternate" type="application/rss+xml" title="{NAME}" href="{SITE}/social/feed.xml" />',
         f'  <link rel="canonical" href="{url}" />',
         '  <meta property="og:type" content="website" />',
         f'  <meta property="og:site_name" content="{NAME}" />',
