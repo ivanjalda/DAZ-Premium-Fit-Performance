@@ -1,9 +1,13 @@
 // DAZ Performance · Bot de Telegram (Cloudflare Worker)
 // - GET  /subscribers  -> lista de clientes activos (solo con ADMIN_SECRET)
+// - POST /stripe       -> aviso de Stripe cuando alguien paga o cancela Premium
 // - POST /             -> webhook de Telegram (/start, /plan, /stop, /premium, /ayuda)
 const WEB = "https://dazperformance.com";
 const PREMIUM = "https://dazperformance.com/premium.html";
 const PERFIL = "https://dazperformance.com/perfil.html";
+const PAY_URL = "https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W";
+const TRIAL_DAYS = 7;
+const payLink = (chatId) => `${PAY_URL}?client_reference_id=${chatId}`;
 
 const SPLITS = {
   ppl6: { es: "Push / Pull / Legs · 6 días", en: "Push / Pull / Legs · 6 days" },
@@ -43,6 +47,14 @@ function send(env, chatId, text) {
   return tg(env, "sendMessage", { chat_id: chatId, text, disable_web_page_preview: true });
 }
 
+function status(u) {
+  const L = u.lang === "en" ? "en" : "es";
+  if (u.premium) return L === "en" ? "⭐ Premium active" : "⭐ Premium activo";
+  const left = Math.ceil(TRIAL_DAYS - (Date.now() - Date.parse(u.created || Date.now())) / 86400000);
+  if (left > 0) return L === "en" ? `🎁 Free trial: ${left} day(s) left` : `🎁 Prueba gratis: te quedan ${left} día(s)`;
+  return L === "en" ? "🔒 Trial ended — /premium to keep your daily plan" : "🔒 Prueba terminada — /premium para seguir con tu plan diario";
+}
+
 function summary(u) {
   const L = u.lang === "en" ? "en" : "es";
   const kcalF = { volumen: 35, definicion: 26, recomposicion: 30 }[u.goal] || 32;
@@ -50,23 +62,76 @@ function summary(u) {
   const kcal = Math.round((w * kcalF) / 50) * 50;
   const prot = Math.round(w * 2);
   if (L === "en") {
-    return `🔥 DAZ PERFORMANCE — ACCOUNT LINKED\n\nWelcome, ${u.name}.\n• Program: ${SPLITS[u.split].en}\n• Goal: ${GOALS[u.goal].en}\n• Weight: ${w} kg\n• Daily target: ~${kcal} kcal · ${prot} g protein\n\nEvery morning you'll get your exact session here (or a recovery plan on rest days).\n\nCommands: /plan your data · /stop pause · /premium go Premium\nChange your data: ${PERFIL}\n\n⭐ Premium 4.99 €/month: every routine, meal plan in grams and custom supplements → ${PREMIUM}`;
+    return `🔥 DAZ PERFORMANCE — ACCOUNT LINKED\n\nWelcome, ${u.name}.\n• Program: ${SPLITS[u.split].en}\n• Goal: ${GOALS[u.goal].en}\n• Weight: ${w} kg\n• Daily target: ~${kcal} kcal · ${prot} g protein\n• ${status(u)}\n\nEvery morning you'll get your exact session here (or a recovery plan on rest days).\n\nCommands: /plan your data · /stop pause · /premium go Premium\nChange your data: ${PERFIL}\n\n⭐ Premium 4.99 €/month: every routine, meal plan in grams and custom supplements → ${payLink(u.chat_id)}`;
   }
-  return `🔥 DAZ PERFORMANCE — CUENTA VINCULADA\n\nBienvenido, ${u.name}.\n• Programa: ${SPLITS[u.split].es}\n• Objetivo: ${GOALS[u.goal].es}\n• Peso: ${w} kg\n• Objetivo diario: ~${kcal} kcal · ${prot} g de proteína\n\nCada mañana recibirás aquí tu sesión exacta del día (o tu plan de recuperación en días de descanso).\n\nComandos: /plan tus datos · /stop pausar · /premium hazte Premium\nCambiar tus datos: ${PERFIL}\n\n⭐ Premium 4,99 €/mes: todas las rutinas, menú en gramos y suplementos a tu medida → ${PREMIUM}`;
+  return `🔥 DAZ PERFORMANCE — CUENTA VINCULADA\n\nBienvenido, ${u.name}.\n• Programa: ${SPLITS[u.split].es}\n• Objetivo: ${GOALS[u.goal].es}\n• Peso: ${w} kg\n• Objetivo diario: ~${kcal} kcal · ${prot} g de proteína\n• ${status(u)}\n\nCada mañana recibirás aquí tu sesión exacta del día (o tu plan de recuperación en días de descanso).\n\nComandos: /plan tus datos · /stop pausar · /premium hazte Premium\nCambiar tus datos: ${PERFIL}\n\n⭐ Premium 4,99 €/mes: todas las rutinas, menú en gramos y suplementos a tu medida → ${payLink(u.chat_id)}`;
+}
+
+async function verifyStripe(env, raw, header) {
+  if (!env.STRIPE_WEBHOOK_SECRET || !header) return false;
+  const parts = Object.fromEntries(header.split(",").map((kv) => kv.split("=")));
+  if (!parts.t || !parts.v1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 600) return false;
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(env.STRIPE_WEBHOOK_SECRET),
+    { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${parts.t}.${raw}`));
+  const hex = [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const sigs = header.split(",").filter((x) => x.startsWith("v1=")).map((x) => x.slice(3));
+  return sigs.includes(hex);
+}
+
+async function handleStripe(request, env) {
+  const raw = await request.text();
+  if (!(await verifyStripe(env, raw, request.headers.get("Stripe-Signature")))) {
+    return new Response("Bad signature", { status: 400 });
+  }
+  const event = JSON.parse(raw);
+  const obj = event.data && event.data.object ? event.data.object : {};
+  if (event.type === "checkout.session.completed") {
+    const chatId = obj.client_reference_id;
+    if (chatId && /^-?\d+$/.test(chatId)) {
+      const key = `user_${chatId}`;
+      const user = (await env.DAZ_USERS.get(key, "json")) || { chat_id: Number(chatId), name: "Atleta", lang: "es", split: "ppl6", weight: "80", goal: "volumen", created: new Date().toISOString() };
+      user.premium = true; user.active = true;
+      user.subscription = obj.subscription || user.subscription || null;
+      user.premium_since = new Date().toISOString();
+      await env.DAZ_USERS.put(key, JSON.stringify(user));
+      if (user.subscription) await env.DAZ_USERS.put(`sub_${user.subscription}`, String(chatId));
+      await send(env, chatId, user.lang === "en"
+        ? "⭐ Welcome to DAZ Performance Premium! Your full daily plan is unlocked. Thank you 💪"
+        : "⭐ ¡Bienvenido a DAZ Performance Premium! Tu plan diario completo ya está desbloqueado. Gracias 💪");
+    }
+  } else if (event.type === "customer.subscription.deleted") {
+    const chatId = await env.DAZ_USERS.get(`sub_${obj.id}`);
+    if (chatId) {
+      const key = `user_${chatId}`;
+      const user = await env.DAZ_USERS.get(key, "json");
+      if (user) {
+        user.premium = false;
+        await env.DAZ_USERS.put(key, JSON.stringify(user));
+        await send(env, chatId, user.lang === "en"
+          ? `Your Premium has ended. You can come back anytime: ${payLink(chatId)}`
+          : `Tu Premium ha terminado. Puedes volver cuando quieras: ${payLink(chatId)}`);
+      }
+    }
+  }
+  return new Response("OK");
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // 1. GitHub Actions lee los clientes cada mañana
+    if (url.pathname === "/stripe" && request.method === "POST") return handleStripe(request, env);
+
+    // 1. GitHub Actions lee los clientes cada mañana (solo claves user_)
     if (url.pathname === "/subscribers" && request.method === "GET") {
       const auth = request.headers.get("Authorization");
       if (auth !== `Bearer ${env.ADMIN_SECRET}`) return new Response("Unauthorized", { status: 401 });
       const users = [];
       let cursor;
       do {
-        const list = await env.DAZ_USERS.list({ cursor });
+        const list = await env.DAZ_USERS.list({ prefix: "user_", cursor });
         for (const key of list.keys) {
           const val = await env.DAZ_USERS.get(key.name, "json");
           if (val && val.active) users.push(val);
@@ -92,7 +157,7 @@ export default {
       if (text.startsWith("/start")) {
         const data = parseStart(text.split(" ")[1]);
         if (data) {
-          const user = { chat_id: chatId, name, ...data, active: true,
+          const user = { ...(saved || {}), chat_id: chatId, name, ...data, active: true,
             created: saved && saved.created ? saved.created : new Date().toISOString(),
             updated: new Date().toISOString() };
           await env.DAZ_USERS.put(key, JSON.stringify(user));
@@ -116,8 +181,8 @@ export default {
           : (lang === "en" ? `Set up your profile first: ${PERFIL}` : `Primero configura tu perfil: ${PERFIL}`));
       } else if (text.startsWith("/premium")) {
         await send(env, chatId, lang === "en"
-          ? `⭐ DAZ Performance Premium · 4.99 €/month\n• Every routine unlocked\n• Meal plan in grams for your goal\n• Supplement stack calculator\n• Personal workout every morning\n\n👉 ${PREMIUM}`
-          : `⭐ DAZ Performance Premium · 4,99 €/mes\n• Todas las rutinas desbloqueadas\n• Menú en gramos para tu objetivo\n• Calculadora de suplementos\n• Tu entrenamiento personal cada mañana\n\n👉 ${PREMIUM}`);
+          ? `⭐ DAZ Performance Premium · 4.99 €/month\n• Every routine unlocked\n• Meal plan in grams for your goal\n• Supplement stack calculator\n• Personal workout every morning\n\n👉 ${payLink(chatId)}`
+          : `⭐ DAZ Performance Premium · 4,99 €/mes\n• Todas las rutinas desbloqueadas\n• Menú en gramos para tu objetivo\n• Calculadora de suplementos\n• Tu entrenamiento personal cada mañana\n\n👉 ${payLink(chatId)}`);
       } else {
         await send(env, chatId, lang === "en"
           ? `🤖 Commands:\n/plan your data\n/premium go Premium\n/stop pause messages\n\n🌐 ${WEB}`
