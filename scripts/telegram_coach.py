@@ -12,6 +12,9 @@ CF_WORKER_URL = os.environ.get("CF_WORKER_URL", "").strip().rstrip("/")
 ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "").strip()
 
 BRAND_WEB_DPF = "https://dazpremiumfit.com"
+PAY_URL = "https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W"
+TRIAL_DAYS = 7
+OWNER_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
 BRAND_WEB_DAZMOND = "https://dazmond.com"
 BRAND_WEB_VALMONT = "https://valmontco.com"
 
@@ -198,8 +201,6 @@ def build_rest_message(lang: str, name: str, weight_kg: float, goal: str) -> str
             "",
             f"🍽️ Today's target: ~{kcal} kcal · P {p} g · C {c} g · F {f} g",
             f"💊 Creatine {5 if float(weight_kg or 80) >= 60 else 3} g (also on rest days)",
-            "",
-            "⭐ Premium 4.99 €/month: meal plan in grams + every routine → https://dazperformance.com/premium.html",
         ])
     return "\n".join([
         f"🧘 DAZ PERFORMANCE — {day_label} · DÍA DE RECUPERACIÓN",
@@ -210,8 +211,6 @@ def build_rest_message(lang: str, name: str, weight_kg: float, goal: str) -> str
         "",
         f"🍽️ Objetivo de hoy: ~{kcal} kcal · P {p} g · H {c} g · G {f} g",
         f"💊 Creatina {5 if float(weight_kg or 80) >= 60 else 3} g (también en descanso)",
-        "",
-        "⭐ Premium 4,99 €/mes: menú en gramos + todas las rutinas → https://dazperformance.com/premium.html",
     ])
 
 
@@ -413,6 +412,37 @@ def run() -> None:
         else:
             u_routine = u_split if u_split in ROUTINES else None
 
+        # Acceso: Premium, dueño o prueba gratis de TRIAL_DAYS días
+        pay = f"{PAY_URL}?client_reference_id={chat_id}"
+        is_en = str(u_lang).lower().startswith("en")
+        days_used = 0
+        try:
+            created = datetime.datetime.fromisoformat(str(user.get("created", "")).replace("Z", "+00:00"))
+            days_used = (datetime.datetime.now(datetime.timezone.utc) - created).days
+        except ValueError:
+            days_used = 0
+        is_owner = OWNER_CHAT_ID and str(chat_id) == OWNER_CHAT_ID
+        has_access = bool(user.get("premium")) or is_owner or days_used < TRIAL_DAYS
+
+        if not has_access:
+            if today_idx not in (0, 3):  # lunes y jueves: recordatorio corto
+                print(f"[USER {chat_id}] trial ended, no message today")
+                continue
+            focus = ""
+            if u_routine and u_routine in ROUTINES:
+                focus = ROUTINES[u_routine]["en" if is_en else "es"]["focus"]
+            if is_en:
+                teaser = (f"🔒 DAZ PERFORMANCE · Your free trial has ended.\n\n"
+                          + (f"Today's session was ready for you: {focus}.\n\n" if focus else "")
+                          + f"Keep getting your exact workout, macros and recovery plan every morning for 4.99 €/month.\n👉 {pay}")
+            else:
+                teaser = (f"🔒 DAZ PERFORMANCE · Tu prueba gratis ha terminado.\n\n"
+                          + (f"Hoy tenías lista tu sesión: {focus}.\n\n" if focus else "")
+                          + f"Sigue recibiendo cada mañana tu entrenamiento exacto, tus macros y tu plan de recuperación por 4,99 €/mes.\n👉 {pay}")
+            ok_user = send_telegram_message(str(chat_id), teaser)
+            print(f"[USER {chat_id}] teaser sent={ok_user}")
+            continue
+
         if schedule is not None and u_routine is None:
             personal_msg = build_rest_message(u_lang, u_name, u_weight, u_goal)
         else:
@@ -423,10 +453,14 @@ def run() -> None:
                 goal=u_goal,
                 routine_key=u_routine,
             )
-            if str(u_lang).lower().startswith("en"):
-                personal_msg += "\n\n⭐ Premium 4.99 €/month: meal plan in grams + every routine → https://dazperformance.com/premium.html"
+        if not user.get("premium") and not is_owner:
+            left = TRIAL_DAYS - days_used
+            if is_en:
+                personal_msg += (f"\n\n🎁 Free trial: {left} day(s) left." if left > 1 else "\n\n⏳ Your free trial ends tomorrow.")
+                personal_msg += f"\n⭐ Keep your daily plan with Premium · 4.99 €/month → {pay}"
             else:
-                personal_msg += "\n\n⭐ Premium 4,99 €/mes: menú en gramos + todas las rutinas → https://dazperformance.com/premium.html"
+                personal_msg += (f"\n\n🎁 Prueba gratis: te quedan {left} día(s)." if left > 1 else "\n\n⏳ Tu prueba gratis termina mañana.")
+                personal_msg += f"\n⭐ Sigue con tu plan diario con Premium · 4,99 €/mes → {pay}"
         ok_user = send_telegram_message(str(chat_id), personal_msg)
         print(f"[USER {chat_id}] lang={u_lang} sent={ok_user}")
 
