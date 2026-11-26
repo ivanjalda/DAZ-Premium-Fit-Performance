@@ -139,8 +139,15 @@
     if (page === "nutricion.html") lockByHeading(["configura tu plan", "tu plan diario", "set up your plan", "your daily plan"]);
     if (page === "suplementacion.html") lockByHeading(["calcula tu stack", "calculate your stack"]);
     if (page === "entrenamiento.html") guardFunction("chooseRoutine", (idx) => Number(idx) === 0);
-    if (page === "index.html" || page === "") guardFunction("runPlanner", () => false);
-    if (page === "perfil.html") lockByHeading(["ejemplo de sesión", "sample session"]);
+    // Planificador de inicio: 1 uso gratis al día para que prueben la herramienta
+    if (page === "index.html" || page === "") guardFunction("runPlanner", () => {
+      const today = new Date().toISOString().slice(0, 10);
+      let used = null;
+      try { used = localStorage.getItem("daz_free_planner"); } catch (e) {}
+      if (used === today) return false;
+      try { localStorage.setItem("daz_free_planner", today); } catch (e) {}
+      return true;
+    });
   }
 
   function init() {
