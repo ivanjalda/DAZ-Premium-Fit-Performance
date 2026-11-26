@@ -16,7 +16,7 @@ from PIL import Image
 
 SITE = "https://dazperformance.com"
 LOGO_URL = "https://dazpremiumfit.com/cdn/shop/files/Gemini_Generated_Image_8w4gk78w4gk78w4g.png"
-NAME = "DAZ Premium Fit Performance"
+NAME = "DAZ Performance"
 MARK_START = "<!-- DAZ-BRAND:START -->"
 MARK_END = "<!-- DAZ-BRAND:END -->"
 SAME_AS = [
@@ -140,6 +140,7 @@ def patch_pages() -> list[str]:
         with open(page, encoding="utf-8") as f:
             content = f.read()
         content = re.sub(re.escape(MARK_START) + r".*?" + re.escape(MARK_END) + r"\n?", "", content, flags=re.S)
+        content = re.sub(r"(<title>.*?)DAZ Premium Fit Performance(.*?</title>)", r"\1DAZ Performance\2", content, flags=re.S)
         title_m = re.search(r"<title>(.*?)</title>", content, re.S | re.I)
         title = html.unescape(title_m.group(1).strip()) if title_m else NAME
         desc_m = re.search(r'<meta\s+name="description"\s+content="([^"]*)"', content, re.I)
@@ -174,6 +175,10 @@ def patch_nav_logo() -> None:
             '{ href: "perfil.html", label: t.nav_profile },\n    { href: "premium.html", label: "⭐ Premium" }',
             1,
         )
+    js = js.replace(
+        '<span>DAZ <span class="gold">PREMIUM FIT</span></span>\n        <span class="badge-perf">PERFORMANCE</span>',
+        '<span>DAZ <span class="gold">PERFORMANCE</span></span>',
+    )
     if "daz-brand-logo" in js:
         with open(path, "w", encoding="utf-8") as f:
             f.write(js)
