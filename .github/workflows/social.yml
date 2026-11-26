@@ -1,0 +1,32 @@
+name: DAZ Redes · Publicación diaria
+
+on:
+  schedule:
+    - cron: "23 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daz-social
+  cancel-in-progress: false
+
+jobs:
+  social:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Crear la publicación del día con el logo
+        run: |
+          pip install pillow
+          python scripts/social_daily.py
+      - name: Guardar en la web
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "DAZ Social Bot"
+          git add -A social
+          git diff --staged --quiet || (git commit -m "Publicación diaria para redes" && git pull --rebase && git push)
