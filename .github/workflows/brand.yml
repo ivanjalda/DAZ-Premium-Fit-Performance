@@ -11,6 +11,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: daz-brand
+  cancel-in-progress: false
+
 jobs:
   brand:
     runs-on: ubuntu-latest
@@ -36,4 +40,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "DAZ Brand Bot"
           git add -A
-          git diff --staged --quiet || (git commit -m "Logo DAZ en la web, iconos, sitemap y datos para Google" && git push)
+          git diff --staged --quiet || (git commit -m "Logo DAZ en la web, iconos, sitemap y datos para Google" && git pull --rebase && git push)
