@@ -339,7 +339,8 @@
     { href: "nutricion.html", label: t.nav_nutrition },
     { href: "suplementacion.html", label: t.nav_supps },
     { href: "ciencia.html", label: t.nav_blog },
-    { href: "perfil.html", label: t.nav_profile }
+    { href: "perfil.html", label: t.nav_profile },
+    { href: "premium.html", label: "⭐ Premium" }
   ];
 
   const topHTML = `
