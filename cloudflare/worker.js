@@ -8,6 +8,31 @@ const PERFIL = "https://dazperformance.com/perfil.html";
 const PAY_URL = "https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W";
 const TRIAL_DAYS = 7;
 const payLink = (chatId) => `${PAY_URL}?client_reference_id=${chatId}`;
+// Packs: enlace de pago de Stripe -> pack
+const PACK_URLS = {
+  full: PAY_URL,
+  entreno: "https://buy.stripe.com/cNi3cw87acKU8ay22a1gZ0X",
+  nutricion: "https://buy.stripe.com/4gM8wQ7365is9eC5em1gZ0Y",
+  suplementos: "https://buy.stripe.com/9B614oafibGQbmKgX41gZ0Z",
+};
+const PACK_BY_PLINK = {
+  plink_1UgRmjLJVU4oTPuXB9gN3N71: "entreno",
+  plink_1UgRoJLJVU4oTPuXNy5YWwMI: "nutricion",
+  plink_1UgRpiLJVU4oTPuXBHIyytKy: "suplementos",
+};
+const PACK_NAMES = {
+  full: { es: "⭐ Pack Completo", en: "⭐ Complete Pack" },
+  entreno: { es: "🏋️ Pack Entrenamiento", en: "🏋️ Training Pack" },
+  nutricion: { es: "🍽️ Pack Nutrición", en: "🍽️ Nutrition Pack" },
+  suplementos: { es: "💊 Pack Suplementos", en: "💊 Supplements Pack" },
+};
+const packLink = (p, chatId) => `${PACK_URLS[p]}?client_reference_id=${chatId}`;
+const userPacks = (u) => { const s = new Set(u.packs || []); if (u.premium) s.add("full"); return [...s]; };
+function packsMenu(L, chatId) {
+  return L === "en"
+    ? `⭐ DAZ Performance packs (cancel anytime):\n\n🏋️ Training · 2.99 €/mo\nEvery routine + your daily session\n👉 ${packLink("entreno", chatId)}\n\n🍽️ Nutrition · 2.99 €/mo\nDaily meal plan in grams + macros\n👉 ${packLink("nutricion", chatId)}\n\n💊 Supplements · 1.99 €/mo\nYour stack with doses and timing\n👉 ${packLink("suplementos", chatId)}\n\n⭐ COMPLETE · 4.99 €/mo (all 3, save 2.98 €)\n👉 ${packLink("full", chatId)}`
+    : `⭐ Packs DAZ Performance (cancela cuando quieras):\n\n🏋️ Entrenamiento · 2,99 €/mes\nTodas las rutinas + tu sesión diaria\n👉 ${packLink("entreno", chatId)}\n\n🍽️ Nutrición · 2,99 €/mes\nTu menú diario en gramos + macros\n👉 ${packLink("nutricion", chatId)}\n\n💊 Suplementos · 1,99 €/mes\nTu stack con dosis y horario\n👉 ${packLink("suplementos", chatId)}\n\n⭐ COMPLETO · 4,99 €/mes (los 3, ahorras 2,98 €)\n👉 ${packLink("full", chatId)}`;
+}
 
 const SPLITS = {
   ppl6: { es: "Push / Pull / Legs · 6 días", en: "Push / Pull / Legs · 6 days" },
@@ -49,10 +74,11 @@ function send(env, chatId, text) {
 
 function status(u) {
   const L = u.lang === "en" ? "en" : "es";
-  if (u.premium) return L === "en" ? "⭐ Premium active" : "⭐ Premium activo";
+  const ps = userPacks(u);
+  if (ps.length) return ps.map((p) => PACK_NAMES[p][L]).join(" + ") + (L === "en" ? " active" : " activo");
   const left = Math.ceil(TRIAL_DAYS - (Date.now() - Date.parse(u.created || Date.now())) / 86400000);
   if (left > 0) return L === "en" ? `🎁 Free trial: ${left} day(s) left` : `🎁 Prueba gratis: te quedan ${left} día(s)`;
-  return L === "en" ? "🔒 Trial ended — /premium to keep your daily plan" : "🔒 Prueba terminada — /premium para seguir con tu plan diario";
+  return L === "en" ? "🔒 Trial ended — /premium to choose your pack" : "🔒 Prueba terminada — /premium para elegir tu pack";
 }
 
 function summary(u) {
@@ -62,9 +88,9 @@ function summary(u) {
   const kcal = Math.round((w * kcalF) / 50) * 50;
   const prot = Math.round(w * 2);
   if (L === "en") {
-    return `🔥 DAZ PERFORMANCE — ACCOUNT LINKED\n\nWelcome, ${u.name}.\n• Program: ${SPLITS[u.split].en}\n• Goal: ${GOALS[u.goal].en}\n• Weight: ${w} kg\n• Daily target: ~${kcal} kcal · ${prot} g protein\n• ${status(u)}\n\nEvery morning you'll get your exact session here (or a recovery plan on rest days).\n\nCommands: /plan your data · /stop pause · /premium go Premium\nChange your data: ${PERFIL}\n\n⭐ Premium 4.99 €/month: every routine, meal plan in grams and custom supplements → ${payLink(u.chat_id)}`;
+    return `🔥 DAZ PERFORMANCE — ACCOUNT LINKED\n\nWelcome, ${u.name}.\n• Program: ${SPLITS[u.split].en}\n• Goal: ${GOALS[u.goal].en}\n• Weight: ${w} kg\n• Daily target: ~${kcal} kcal · ${prot} g protein\n• ${status(u)}\n\nEvery morning you'll get your exact session here (or a recovery plan on rest days).\n\nCommands: /plan your data · /stop pause · /premium go Premium\nChange your data: ${PERFIL}\n\n⭐ Packs from 1.99 €/month — send /premium · Complete Pack 4.99 € → ${payLink(u.chat_id)}`;
   }
-  return `🔥 DAZ PERFORMANCE — CUENTA VINCULADA\n\nBienvenido, ${u.name}.\n• Programa: ${SPLITS[u.split].es}\n• Objetivo: ${GOALS[u.goal].es}\n• Peso: ${w} kg\n• Objetivo diario: ~${kcal} kcal · ${prot} g de proteína\n• ${status(u)}\n\nCada mañana recibirás aquí tu sesión exacta del día (o tu plan de recuperación en días de descanso).\n\nComandos: /plan tus datos · /stop pausar · /premium hazte Premium\nCambiar tus datos: ${PERFIL}\n\n⭐ Premium 4,99 €/mes: todas las rutinas, menú en gramos y suplementos a tu medida → ${payLink(u.chat_id)}`;
+  return `🔥 DAZ PERFORMANCE — CUENTA VINCULADA\n\nBienvenido, ${u.name}.\n• Programa: ${SPLITS[u.split].es}\n• Objetivo: ${GOALS[u.goal].es}\n• Peso: ${w} kg\n• Objetivo diario: ~${kcal} kcal · ${prot} g de proteína\n• ${status(u)}\n\nCada mañana recibirás aquí tu sesión exacta del día (o tu plan de recuperación en días de descanso).\n\nComandos: /plan tus datos · /stop pausar · /premium hazte Premium\nCambiar tus datos: ${PERFIL}\n\n⭐ Packs desde 1,99 €/mes — escribe /premium · Pack Completo 4,99 € → ${payLink(u.chat_id)}`;
 }
 
 async function verifyStripe(env, raw, header) {
@@ -89,29 +115,39 @@ async function handleStripe(request, env) {
   const obj = event.data && event.data.object ? event.data.object : {};
   if (event.type === "checkout.session.completed") {
     const chatId = obj.client_reference_id;
+    const pack = PACK_BY_PLINK[obj.payment_link] || "full";
     if (chatId && /^-?\d+$/.test(chatId)) {
       const key = `user_${chatId}`;
       const user = (await env.DAZ_USERS.get(key, "json")) || { chat_id: Number(chatId), name: "Atleta", lang: "es", split: "ppl6", weight: "80", goal: "volumen", created: new Date().toISOString() };
-      user.premium = true; user.active = true;
-      user.subscription = obj.subscription || user.subscription || null;
-      user.premium_since = new Date().toISOString();
+      const ps = new Set(user.packs || []);
+      ps.add(pack);
+      user.packs = [...ps];
+      if (pack === "full") user.premium = true;
+      user.active = true;
+      user.premium_since = user.premium_since || new Date().toISOString();
       await env.DAZ_USERS.put(key, JSON.stringify(user));
-      if (user.subscription) await env.DAZ_USERS.put(`sub_${user.subscription}`, String(chatId));
-      await send(env, chatId, user.lang === "en"
-        ? "⭐ Welcome to DAZ Performance Premium! Your full daily plan is unlocked. Thank you 💪"
-        : "⭐ ¡Bienvenido a DAZ Performance Premium! Tu plan diario completo ya está desbloqueado. Gracias 💪");
+      if (obj.subscription) await env.DAZ_USERS.put(`sub_${obj.subscription}`, JSON.stringify({ chatId: String(chatId), pack }));
+      const L = user.lang === "en" ? "en" : "es";
+      await send(env, chatId, L === "en"
+        ? `✅ ${PACK_NAMES[pack].en} activated! You'll get it every morning here. Thank you 💪`
+        : `✅ ¡${PACK_NAMES[pack].es} activado! Lo recibirás aquí cada mañana. Gracias 💪`);
     }
   } else if (event.type === "customer.subscription.deleted") {
-    const chatId = await env.DAZ_USERS.get(`sub_${obj.id}`);
-    if (chatId) {
-      const key = `user_${chatId}`;
+    const raw = await env.DAZ_USERS.get(`sub_${obj.id}`);
+    if (raw) {
+      let info;
+      try { info = JSON.parse(raw); } catch (e) { info = { chatId: raw, pack: "full" }; }
+      if (typeof info !== "object" || info === null) info = { chatId: String(raw), pack: "full" };
+      const key = `user_${info.chatId}`;
       const user = await env.DAZ_USERS.get(key, "json");
       if (user) {
-        user.premium = false;
+        user.packs = (user.packs || []).filter((p) => p !== info.pack);
+        if (info.pack === "full") user.premium = false;
         await env.DAZ_USERS.put(key, JSON.stringify(user));
-        await send(env, chatId, user.lang === "en"
-          ? `Your Premium has ended. You can come back anytime: ${payLink(chatId)}`
-          : `Tu Premium ha terminado. Puedes volver cuando quieras: ${payLink(chatId)}`);
+        const L = user.lang === "en" ? "en" : "es";
+        await send(env, info.chatId, L === "en"
+          ? `Your ${PACK_NAMES[info.pack].en} has ended. Come back anytime: /premium`
+          : `Tu ${PACK_NAMES[info.pack].es} ha terminado. Puedes volver cuando quieras: /premium`);
       }
     }
   }
@@ -180,9 +216,7 @@ export default {
         await send(env, chatId, saved ? summary(saved)
           : (lang === "en" ? `Set up your profile first: ${PERFIL}` : `Primero configura tu perfil: ${PERFIL}`));
       } else if (text.startsWith("/premium")) {
-        await send(env, chatId, lang === "en"
-          ? `⭐ DAZ Performance Premium · 4.99 €/month\n• Every routine unlocked\n• Meal plan in grams for your goal\n• Supplement stack calculator\n• Personal workout every morning\n\n👉 ${payLink(chatId)}`
-          : `⭐ DAZ Performance Premium · 4,99 €/mes\n• Todas las rutinas desbloqueadas\n• Menú en gramos para tu objetivo\n• Calculadora de suplementos\n• Tu entrenamiento personal cada mañana\n\n👉 ${payLink(chatId)}`);
+        await send(env, chatId, packsMenu(lang, chatId));
       } else {
         await send(env, chatId, lang === "en"
           ? `🤖 Commands:\n/plan your data\n/premium go Premium\n/stop pause messages\n\n🌐 ${WEB}`
