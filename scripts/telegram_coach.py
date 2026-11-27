@@ -191,6 +191,15 @@ def daily_macros(weight_kg: float, goal: str) -> tuple[int, int, int, int]:
     return kcal, protein, carbs, fat
 
 
+def supplements_live() -> bool:
+    """True cuando DAZ Premium Fit ya ha publicado sus suplementos (lo marca guardian.py)."""
+    try:
+        with open("data/store_status.json", encoding="utf-8") as f:
+            return bool(json.load(f).get("supplements_live"))
+    except (OSError, ValueError):
+        return False
+
+
 def supplement_lines(lang: str, weight_kg: float, goal: str, training_day: bool) -> list[str]:
     """Stack con evidencia científica (ISSN): creatina, proteína, cafeína y vitamina D."""
     w = max(40.0, min(220.0, float(weight_kg or 80)))
@@ -300,7 +309,8 @@ def build_workout_message(
         kcal, _p, carbs_g, fat_g = daily_macros(safe_weight, goal)
         lines.append(f"🍽️ Today: ~{kcal} kcal · P {protein_g} g · C {carbs_g} g · F {fat_g} g")
         lines.append(f"💊 Creatine ~{creatine_g}g")
-        lines.append(f"🛒 Gear & Supplements: {BRAND_WEB_DPF}")
+        lines.append(f"🛒 Sportswear & supplements (coming soon): {BRAND_WEB_DPF}" if not supplements_live()
+                     else f"🛒 Gear & Supplements: {BRAND_WEB_DPF}")
         lines.append(f"🖤 DAZMOND®: {BRAND_WEB_DAZMOND} | 📈 Valmont & Co.: {BRAND_WEB_VALMONT}")
     else:
         goal_map = {
@@ -323,7 +333,8 @@ def build_workout_message(
         kcal, _p, carbs_g, fat_g = daily_macros(safe_weight, goal)
         lines.append(f"🍽️ Hoy: ~{kcal} kcal · P {protein_g} g · H {carbs_g} g · G {fat_g} g")
         lines.append(f"💊 Creatina ~{creatine_g}g")
-        lines.append(f"🛒 Ropa y Suplementos: {BRAND_WEB_DPF}")
+        lines.append(f"🛒 Ropa deportiva y suplementos (próximamente): {BRAND_WEB_DPF}" if not supplements_live()
+                     else f"🛒 Ropa y Suplementos: {BRAND_WEB_DPF}")
         lines.append(f"🖤 DAZMOND®: {BRAND_WEB_DAZMOND} | 📈 Valmont & Co.: {BRAND_WEB_VALMONT}")
 
     return "\n".join(lines)

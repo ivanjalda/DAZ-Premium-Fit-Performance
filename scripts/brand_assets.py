@@ -105,7 +105,7 @@ def head_block(page: str, title: str, description: str) -> str:
         f'  <meta name="twitter:title" content="{t}" />',
         f'  <meta name="twitter:description" content="{d}" />',
         f'  <meta name="twitter:image" content="{SITE}/assets/og-image.jpg" />',
-        '  <script src="/premium.js" defer></script>',
+        '  <script src="/premium.js" defer></script><script src="/store-links.js" defer></script>',
     ]
     if page == "index.html":
         data = {

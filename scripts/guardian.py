@@ -109,6 +109,32 @@ def ensure_daily_post() -> None:
         problems.append("No se pudo enviar el entrenamiento diario a los canales")
 
 
+SUPP_URL = "https://dazpremiumfit.com/collections/supplements"
+STATUS_FILE = "data/store_status.json"
+
+
+def check_supplements_store() -> None:
+    """Activa los enlaces de suplementos cuando DAZ Premium Fit ya los ha publicado."""
+    try:
+        status = json.load(open(STATUS_FILE, encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        status = {"supplements_live": False}
+    live = False
+    try:
+        with urllib.request.urlopen(urllib.request.Request(SUPP_URL, headers=UA), timeout=20) as r:
+            html = r.read().decode("utf-8", "ignore")
+            live = 200 <= r.status < 300 and "/products/" in html
+    except Exception:
+        live = False
+    if live and not status.get("supplements_live"):
+        fixes.append("¡DAZ Premium Fit ya tiene los suplementos publicados! Enlaces de suplementos activados en la web")
+    if bool(status.get("supplements_live")) != live:
+        status["supplements_live"] = live
+        status["checked"] = datetime.date.today().isoformat()
+        with open(STATUS_FILE, "w", encoding="utf-8") as f:
+            json.dump(status, f, ensure_ascii=False)
+
+
 def notify() -> None:
     if not (fixes or problems) or not TOKEN or not OWNER_CHAT:
         return
@@ -133,6 +159,7 @@ if __name__ == "__main__":
     check_online()
     check_bot()
     ensure_daily_post()
+    check_supplements_store()
     notify()
     print("[GUARDIAN] Reparado:", fixes or "nada")
     print("[GUARDIAN] Revisar:", problems or "nada")
