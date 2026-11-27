@@ -1,25 +1,25 @@
 {
-  "badge": "ALTO RENDIMIENTO • MARCA REGISTRADA EN EE. UU.",
-  "headline": "DEL LABORATORIO A LA TARIMA Y AL HIERRO",
-  "subheadline": "Sin rellenos ocultos ni fórmulas infradosificadas. Equipamiento deportivo y protocolos diseñados para atletas que exigen resultados medibles.",
-  "cta_text": "ACCEDER AL CATÁLOGO OFICIAL",
+  "badge": "DIVISIÓN CIENTÍFICA • DAZ PREMIUM FIT PERFORMANCE",
+  "headline": "INGENIERÍA TEXTIL Y CIENCIA PARA EL FÍSICO DE ÉLITE",
+  "subheadline": "Cortes anatómicos diseñados para resaltar la proporción hombro-cintura, tejidos de alto gramaje y suplementación clínica respaldada por datos reales.",
+  "cta_text": "EXPLORAR TIENDA OFICIAL DAZ PREMIUM FIT",
   "cta_url": "https://dazpremiumfit.com",
   "featured_items": [
     {
-      "title": "The Prestige Protocol: Biometric Mastery®",
-      "tag": "Suplementación de Precisión",
-      "url": "https://dazpremiumfit.com/collections/supplements"
-    },
-    {
-      "title": "Performance Tapered Joggers",
-      "tag": "Flexibilidad Total en Sentadilla",
+      "title": "Oversized Heavyweight Pump Tee",
+      "tag": "Corte Culturismo • Algodón 280 GSM",
       "url": "https://dazpremiumfit.com"
     },
     {
-      "title": "DAZMOND® Urban Luxury Footwear",
-      "tag": "Colección Exclusiva Fuera del Gym",
-      "url": "https://dazmond.com"
+      "title": "Compression Pro Stringer & Tank",
+      "tag": "Ajuste Anatómico • Secado Rápido",
+      "url": "https://dazpremiumfit.com"
+    },
+    {
+      "title": "The Blueprint Series: Pack Rendimiento",
+      "tag": "Whey Isolate + Creatina 200 Mesh",
+      "url": "https://dazpremiumfit.com/collections/supplements"
     }
   ],
-  "updated_at": "2026-11-26 17:36 UTC"
+  "updated_at": "2026-11-27 17:18 UTC"
 }
