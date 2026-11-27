@@ -244,13 +244,13 @@
 
     let bmr = (10 * weight) + (6.25 * height) - (5 * age) + (sex === "male" ? 5 : -161);
     let tdee = bmr * act;
-    let pMult = 2.1, fMult = 0.85, split = "Push Pull Legs (5-6 días)", stack = `Creatina ${(weight*0.1).toFixed(1)}g + Whey Isolate + Pre-Entreno`;
+    let pMult = 2.1, fMult = 0.85, split = "Push Pull Legs (5-6 días)", stack = `Creatina ${(weight >= 60 ? 5 : 3)}g + Whey Isolate + Pre-Entreno`;
 
     if (goal === "volumen") { tdee += 350; }
     else if (goal === "definicion") {
       tdee -= 450; pMult = 2.4; fMult = 0.75;
       split = "Torso / Pierna 4 Días (Cargas pesadas)";
-      stack = `Whey Isolate + Creatina ${(weight*0.1).toFixed(1)}g + Omega-3 + Berberina`;
+      stack = `Whey Isolate + Creatina ${(weight >= 60 ? 5 : 3)}g + Omega-3 + Berberina`;
     }
 
     const kcal = Math.round(tdee);

@@ -160,7 +160,7 @@
     const weight = parseFloat(document.getElementById("s-weight").value) || 92;
     const goal = document.getElementById("s-goal").value;
 
-    const creat = (weight * 0.1).toFixed(1);
+    const creat = (weight >= 60 ? 5 : 3);
     const omega = age >= 35 ? "3,000 mg (EPA+DHA)" : "2,000 mg (EPA+DHA)";
 
     const list = [
