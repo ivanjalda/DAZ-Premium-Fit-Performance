@@ -13,6 +13,12 @@ ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "").strip()
 
 BRAND_WEB_DPF = "https://dazpremiumfit.com"
 PAY_URL = "https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W"
+PACK_LINKS = {
+    "full": PAY_URL,
+    "entreno": "https://buy.stripe.com/cNi3cw87acKU8ay22a1gZ0X",
+    "nutricion": "https://buy.stripe.com/4gM8wQ7365is9eC5em1gZ0Y",
+    "suplementos": "https://buy.stripe.com/9B614oafibGQbmKgX41gZ0Z",
+}
 TRIAL_DAYS = 7
 OWNER_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
 BRAND_WEB_DAZMOND = "https://dazmond.com"
@@ -183,6 +189,26 @@ def daily_macros(weight_kg: float, goal: str) -> tuple[int, int, int, int]:
     fat = int(round(w * 0.9))
     carbs = max(50, int(round((kcal - protein * 4 - fat * 9) / 4)))
     return kcal, protein, carbs, fat
+
+
+def supplement_lines(lang: str, weight_kg: float, goal: str, training_day: bool) -> list[str]:
+    """Stack con evidencia científica (ISSN): creatina, proteína, cafeína y vitamina D."""
+    w = max(40.0, min(220.0, float(weight_kg or 80)))
+    creat = 5 if w >= 60 else 3
+    caf = min(400, int(round(w * 3 / 10.0) * 10))
+    _, prot, _, _ = daily_macros(w, goal)
+    whey = 30 if prot - 120 < 40 else 40
+    en = str(lang).lower().startswith("en")
+    out = [f"💊 Creatine monohydrate {creat} g (any time, every day)" if en
+           else f"💊 Creatina monohidrato {creat} g (a cualquier hora, todos los días)"]
+    out.append(f"💊 Whey {whey} g if you don't reach {prot} g of protein with food" if en
+               else f"💊 Proteína whey {whey} g si no llegas a {prot} g de proteína con la comida")
+    if training_day:
+        out.append(f"💊 Caffeine {caf} mg 30-60 min before training (not after 16:00)" if en
+                   else f"💊 Cafeína {caf} mg 30-60 min antes de entrenar (no después de las 16:00)")
+    out.append("💊 Vitamin D 1000-2000 IU with a meal if you get little sun" if en
+               else "💊 Vitamina D 1000-2000 UI con una comida si te da poco el sol")
+    return out
 
 
 def build_rest_message(lang: str, name: str, weight_kg: float, goal: str) -> str:
@@ -412,8 +438,7 @@ def run() -> None:
         else:
             u_routine = u_split if u_split in ROUTINES else None
 
-        # Acceso: Premium, dueño o prueba gratis de TRIAL_DAYS días
-        pay = f"{PAY_URL}?client_reference_id={chat_id}"
+        # Acceso por packs: dueño, prueba gratis de TRIAL_DAYS días o packs comprados
         is_en = str(u_lang).lower().startswith("en")
         days_used = 0
         try:
@@ -421,24 +446,43 @@ def run() -> None:
             days_used = (datetime.datetime.now(datetime.timezone.utc) - created).days
         except ValueError:
             days_used = 0
-        is_owner = OWNER_CHAT_ID and str(chat_id) == OWNER_CHAT_ID
-        has_access = bool(user.get("premium")) or is_owner or days_used < TRIAL_DAYS
+        is_owner = bool(OWNER_CHAT_ID) and str(chat_id) == OWNER_CHAT_ID
+        in_trial = days_used < TRIAL_DAYS
+        packs = set(user.get("packs") or [])
+        if user.get("premium"):
+            packs.add("full")
+        all_access = is_owner or in_trial or "full" in packs
 
-        if not has_access:
+        def has(p: str) -> bool:
+            return all_access or p in packs
+
+        def link(p: str) -> str:
+            return f"{PACK_LINKS[p]}?client_reference_id={chat_id}"
+
+        focus = ""
+        if u_routine and u_routine in ROUTINES:
+            focus = ROUTINES[u_routine]["en" if is_en else "es"]["focus"]
+
+        if not all_access and not packs:
             if today_idx not in (0, 3):  # lunes y jueves: recordatorio corto
                 print(f"[USER {chat_id}] trial ended, no message today")
                 continue
-            focus = ""
-            if u_routine and u_routine in ROUTINES:
-                focus = ROUTINES[u_routine]["en" if is_en else "es"]["focus"]
             if is_en:
                 teaser = (f"🔒 DAZ PERFORMANCE · Your free trial has ended.\n\n"
                           + (f"Today's session was ready for you: {focus}.\n\n" if focus else "")
-                          + f"Keep getting your exact workout, macros and recovery plan every morning for 4.99 €/month.\n👉 {pay}")
+                          + "Choose your pack and keep your plan every morning:\n"
+                          + f"🏋️ Training 2.99 €/mo → {link('entreno')}\n"
+                          + f"🍽️ Nutrition 2.99 €/mo → {link('nutricion')}\n"
+                          + f"💊 Supplements 1.99 €/mo → {link('suplementos')}\n"
+                          + f"⭐ Complete 4.99 €/mo (all 3) → {link('full')}")
             else:
                 teaser = (f"🔒 DAZ PERFORMANCE · Tu prueba gratis ha terminado.\n\n"
                           + (f"Hoy tenías lista tu sesión: {focus}.\n\n" if focus else "")
-                          + f"Sigue recibiendo cada mañana tu entrenamiento exacto, tus macros y tu plan de recuperación por 4,99 €/mes.\n👉 {pay}")
+                          + "Elige tu pack y sigue recibiendo tu plan cada mañana:\n"
+                          + f"🏋️ Entrenamiento 2,99 €/mes → {link('entreno')}\n"
+                          + f"🍽️ Nutrición 2,99 €/mes → {link('nutricion')}\n"
+                          + f"💊 Suplementos 1,99 €/mes → {link('suplementos')}\n"
+                          + f"⭐ Completo 4,99 €/mes (los 3) → {link('full')}")
             ok_user = send_telegram_message(str(chat_id), teaser)
             print(f"[USER {chat_id}] teaser sent={ok_user}")
             continue
@@ -453,14 +497,41 @@ def run() -> None:
                 goal=u_goal,
                 routine_key=u_routine,
             )
-        if not user.get("premium") and not is_owner:
+
+        # Suplementación completa en lugar de la línea simple de creatina
+        stack = supplement_lines(u_lang, u_weight, u_goal, training_day=not (schedule is not None and u_routine is None))
+        base_lines = personal_msg.split("\n")
+        idx = next((i for i, l in enumerate(base_lines) if l.startswith("💊")), None)
+        if idx is not None:
+            base_lines = base_lines[:idx] + stack + [l for l in base_lines[idx + 1:] if not l.startswith("💊")]
+            personal_msg = "\n".join(base_lines)
+
+        if not all_access:
+            lines = personal_msg.split("\n")
+            if not has("nutricion"):
+                lines = [l for l in lines if not l.startswith("🍽️")]
+            if not has("suplementos"):
+                lines = [l for l in lines if not l.startswith("💊")]
+            if not has("entreno"):
+                head = lines[0] if lines else "DAZ PERFORMANCE"
+                keep = [l for l in lines if l.startswith("🍽️") or l.startswith("💊")]
+                locked = (f"🔒 Today's session ({focus or 'training'}) is in the Training Pack · 2.99 €/mo → {link('entreno')}"
+                          if is_en else
+                          f"🔒 Tu sesión de hoy ({focus or 'entrenamiento'}) está en el Pack Entrenamiento · 2,99 €/mes → {link('entreno')}")
+                lines = [head, ""] + keep + ["", locked]
+            personal_msg = "\n".join(lines)
+            missing = [p for p in ("entreno", "nutricion", "suplementos") if p not in packs]
+            if missing:
+                personal_msg += ("\n\n⭐ Get everything with the Complete Pack · 4.99 €/mo → " if is_en
+                                 else "\n\n⭐ Tenlo todo con el Pack Completo · 4,99 €/mes → ") + link("full")
+        elif in_trial and not is_owner and "full" not in packs:
             left = TRIAL_DAYS - days_used
             if is_en:
                 personal_msg += (f"\n\n🎁 Free trial: {left} day(s) left." if left > 1 else "\n\n⏳ Your free trial ends tomorrow.")
-                personal_msg += f"\n⭐ Keep your daily plan with Premium · 4.99 €/month → {pay}"
+                personal_msg += f"\n⭐ Keep it with a pack from 1.99 €/mo (send /premium) or the Complete Pack 4.99 € → {link('full')}"
             else:
                 personal_msg += (f"\n\n🎁 Prueba gratis: te quedan {left} día(s)." if left > 1 else "\n\n⏳ Tu prueba gratis termina mañana.")
-                personal_msg += f"\n⭐ Sigue con tu plan diario con Premium · 4,99 €/mes → {pay}"
+                personal_msg += f"\n⭐ Sigue con un pack desde 1,99 €/mes (escribe /premium) o el Pack Completo 4,99 € → {link('full')}"
         ok_user = send_telegram_message(str(chat_id), personal_msg)
         print(f"[USER {chat_id}] lang={u_lang} sent={ok_user}")
 

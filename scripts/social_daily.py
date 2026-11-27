@@ -25,6 +25,21 @@ RED, GOLD, WHITE, GREY = (230, 30, 30), (214, 175, 60), (245, 245, 247), (175, 1
 
 # Biblioteca de publicaciones (rota cada día). kicker · título · texto o lista · pie de foto.
 POSTS = [
+    ("NUEVO · PACKS DAZ PERFORMANCE", "ELIGE TU PACK", None,
+     ["Entrenamiento · 2,99 €/mes", "Nutrición · 2,99 €/mes", "Suplementos · 1,99 €/mes", "Completo (los 3) · 4,99 €/mes"],
+     "Paga solo por lo que necesitas o llévate los 3 con el Pack Completo y ahorra 2,98 € al mes 👉"),
+    ("PACK ENTRENAMIENTO · 2,99 €/MES", "TODAS LAS RUTINAS + TU SESIÓN DIARIA", None,
+     ["Volumen, fuerza y definición", "Tu sesión exacta cada mañana", "Plan de recuperación en descanso", "7 días gratis para probar"],
+     "Tu entrenador en Telegram por 2,99 €/mes. Pruébalo 7 días gratis 👉"),
+    ("PACK NUTRICIÓN · 2,99 €/MES", "TU MENÚ EN GRAMOS CADA DÍA", None,
+     ["Calorías calculadas con tu peso", "Proteína, hidratos y grasas", "Volumen, definición o recomposición", "Cada mañana en Telegram"],
+     "Deja de adivinar qué comer: tu menú y tus macros en gramos por 2,99 €/mes 👉"),
+    ("PACK SUPLEMENTOS · 1,99 €/MES", "SOLO LO QUE FUNCIONA, BIEN DOSIFICADO", None,
+     ["Creatina, proteína, cafeína y vitamina D", "Dosis según tu peso", "Horario exacto cada día", "Con base científica"],
+     "Ni humo ni gasto inútil: tu stack de suplementos con dosis y horario por 1,99 €/mes 👉"),
+    ("PACK COMPLETO · 4,99 €/MES", "LOS 3 PACKS POR MENOS", None,
+     ["Entrenamiento + Nutrición + Suplementos", "Planificador total sin límites", "Todo tu plan cada mañana", "Ahorras 2,98 € al mes"],
+     "El pack más elegido: entrenamiento, nutrición y suplementos por 4,99 €/mes 👉"),
     ("NUEVO · DAZ PERFORMANCE", "TU ENTRENADOR PERSONAL EN TELEGRAM",
      "Dinos tu peso, tu objetivo y tus días de entreno. Cada mañana recibes tu sesión exacta.", None,
      "Tu entrenador personal, en tu móvil, cada mañana. Configura tu perfil en 1 minuto 👉"),
@@ -145,7 +160,7 @@ def render(path, kicker, title, body, bullets, W, H):
     by = H - bh - int(H * 0.045)
     d.rounded_rectangle((W * 0.08, by, W * 0.92, by + bh), radius=bh // 2, fill=RED)
     cf = font(40, 900)
-    t = "PREMIUM 4,99 €/MES  ·  dazperformance.com"
+    t = "PACKS DESDE 1,99 €/MES  ·  dazperformance.com"
     if d.textlength(t, font=cf) > W * 0.8:
         cf = font(32, 900)
     bb = cf.getbbox(t)
@@ -192,7 +207,7 @@ def run():
     render(sq, kicker, title, body, bullets, 1080, 1080)
     render(pin, kicker, title, body, bullets, 1000, 1500)
     link = f"{PREMIUM}?utm_source=social&utm_medium=post&utm_campaign={day}"
-    caption = f"{title.capitalize()}\n\n{lead}\n\n⭐ Premium 4,99 €/mes · {PREMIUM}\n\n{HASHTAGS}"
+    caption = f"{title.capitalize()}\n\n{lead}\n\n⭐ Packs desde 1,99 €/mes · 7 días gratis · {PREMIUM}\n\n{HASHTAGS}"
 
     path = f"{OUT}/posts.json"
     posts = []
