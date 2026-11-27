@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DAZ Performance Premium | Tu entrenador personal por 4,99 €/mes</title>
-  <meta name="description" content="DAZ Performance Premium: entrenamiento personal cada mañana en Telegram, todas las rutinas, plan de comidas en gramos y suplementación personalizada por 4,99 €/mes. Cancela cuando quieras." />
+  <title>DAZ Performance Packs | Entrenamiento, Nutrición y Suplementos desde 1,99 €/mes</title>
+  <meta name="description" content="Packs DAZ Performance: Entrenamiento 2,99 €, Nutrición 2,99 €, Suplementos 1,99 € o Pack Completo 4,99 €/mes. Tu plan personal cada mañana en Telegram. 7 días gratis. Cancela cuando quieras." />
   <style>
     .prem-hero{text-align:center;padding:48px 20px 24px}
     .prem-hero img{width:150px;height:150px;border-radius:24px;box-shadow:0 10px 40px rgba(239,68,68,.35)}
@@ -25,32 +25,22 @@
     .prem-faq{max-width:980px;margin:0 auto 60px}
     .prem-faq details{background:var(--bg-card,#101319);border:1px solid var(--border,#222733);border-radius:12px;padding:14px 18px;margin:10px 0}
     .prem-faq summary{cursor:pointer;font-weight:700}
-    @media(max-width:760px){.prem-grid{grid-template-columns:1fr}}
+    .packs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:0 auto 34px}
+    .pack{background:var(--bg-card,#101319);border:1px solid var(--border,#222733);border-radius:16px;padding:22px 18px;text-align:center;display:flex;flex-direction:column;position:relative}
+    .pack.full{border:2px solid var(--gold,#d4af37);background:linear-gradient(160deg,rgba(239,68,68,.14),rgba(212,175,55,.10));transform:scale(1.03)}
+    .pack .ic{font-size:2.4rem}
+    .pack h3{margin:8px 0 4px;font-size:1.15rem}
+    .pack .pp{font-size:2rem;font-weight:900;color:var(--gold,#d4af37);margin:6px 0}
+    .pack .pp small{font-size:.85rem;color:var(--text-muted,#9ca3af)}
+    .pack ul{list-style:none;padding:0;margin:8px 0 16px;text-align:left;flex:1}
+    .pack li{margin:8px 0;line-height:1.4;font-size:.93rem}
+    .pack li:before{content:"✔ ";color:#10b981;font-weight:900}
+    .pack .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold,#d4af37);color:#000;font-weight:900;font-size:.72rem;border-radius:8px;padding:3px 10px;white-space:nowrap}
+    .pack .buy{display:block;background:linear-gradient(135deg,#ef4444,#991b1b);color:#fff;border:1px solid #d4af37;border-radius:12px;padding:13px;font-weight:900;text-decoration:none}
+    .pack .save{color:#10b981;font-weight:800;font-size:.85rem;margin-top:8px}
+    @media(max-width:980px){.packs{grid-template-columns:1fr 1fr}.pack.full{transform:none}}
+    @media(max-width:760px){.prem-grid{grid-template-columns:1fr}.packs{grid-template-columns:1fr}}
   </style>
-<!-- DAZ-BRAND:START -->
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/logo-192.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#0b0b0b" />
-  <meta name="p:domain_verify" content="100a472addbe74dfa86830be7b8fe4f6" />
-  <link rel="alternate" type="application/rss+xml" title="DAZ Performance" href="https://dazperformance.com/social/feed.xml" />
-  <link rel="canonical" href="https://dazperformance.com/premium.html" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="DAZ Performance" />
-  <meta property="og:title" content="DAZ Performance Premium | Tu entrenador personal por 4,99 €/mes" />
-  <meta property="og:description" content="DAZ Performance Premium: entrenamiento personal cada mañana en Telegram, todas las rutinas, plan de comidas en gramos y suplementación personalizada por 4,99 €/mes. Cancela cuando quieras." />
-  <meta property="og:url" content="https://dazperformance.com/premium.html" />
-  <meta property="og:image" content="https://dazperformance.com/assets/og-image.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DAZ Performance Premium | Tu entrenador personal por 4,99 €/mes" />
-  <meta name="twitter:description" content="DAZ Performance Premium: entrenamiento personal cada mañana en Telegram, todas las rutinas, plan de comidas en gramos y suplementación personalizada por 4,99 €/mes. Cancela cuando quieras." />
-  <meta name="twitter:image" content="https://dazperformance.com/assets/og-image.jpg" />
-  <script src="/premium.js" defer></script>
-<!-- DAZ-BRAND:END -->
 </head>
 <body>
 
@@ -58,10 +48,59 @@
   <section class="prem-hero">
     <img src="assets/logo-512.png" alt="DAZ Performance" />
     <h1 data-es="Tu entrenador personal en el bolsillo" data-en="Your personal coach in your pocket">Tu entrenador personal en el bolsillo</h1>
-    <div class="price">4,99 € <small data-es="/ mes" data-en="/ month">/ mes</small></div>
-    <a class="prem-buy" href="https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W" data-es="⭐ Hazte Premium ahora" data-en="⭐ Go Premium now">⭐ Hazte Premium ahora</a>
+    <div class="price"><small data-es="desde" data-en="from">desde</small> 1,99 € <small data-es="/ mes" data-en="/ month">/ mes</small></div>
+    <a class="prem-buy" href="#packs" data-es="⭐ Elige tu pack" data-en="⭐ Choose your pack">⭐ Elige tu pack</a>
     <p class="prem-note" data-es="Pago seguro con Stripe · Cancela cuando quieras" data-en="Secure payment with Stripe · Cancel anytime">Pago seguro con Stripe · Cancela cuando quieras</p>
     <p style="margin-top:14px"><a href="perfil.html" style="color:var(--gold,#d4af37);font-weight:700" data-es="🎁 O empieza gratis: 7 días de plan personal en Telegram →" data-en="🎁 Or start free: 7 days of personal plan on Telegram →">🎁 O empieza gratis: 7 días de plan personal en Telegram →</a></p>
+  </section>
+
+  <section class="packs" id="packs">
+    <div class="pack">
+      <div class="ic">🏋️</div>
+      <h3 data-es="Pack Entrenamiento" data-en="Training Pack">Pack Entrenamiento</h3>
+      <div class="pp">2,99 € <small data-es="/ mes" data-en="/ month">/ mes</small></div>
+      <ul>
+        <li data-es="Todas las rutinas: volumen, fuerza, definición, brazos y piernas" data-en="Every routine: bulk, strength, cut, arms and legs">Todas las rutinas: volumen, fuerza, definición, brazos y piernas</li>
+        <li data-es="Tu sesión exacta cada mañana en Telegram" data-en="Your exact session every morning on Telegram">Tu sesión exacta cada mañana en Telegram</li>
+        <li data-es="Plan de recuperación en días de descanso" data-en="Recovery plan on rest days">Plan de recuperación en días de descanso</li>
+      </ul>
+      <a class="buy" href="https://buy.stripe.com/cNi3cw87acKU8ay22a1gZ0X" data-es="Quiero este pack" data-en="Get this pack">Quiero este pack</a>
+    </div>
+    <div class="pack">
+      <div class="ic">🍽️</div>
+      <h3 data-es="Pack Nutrición" data-en="Nutrition Pack">Pack Nutrición</h3>
+      <div class="pp">2,99 € <small data-es="/ mes" data-en="/ month">/ mes</small></div>
+      <ul>
+        <li data-es="Tu menú diario en gramos para tu objetivo" data-en="Your daily meal plan in grams for your goal">Tu menú diario en gramos para tu objetivo</li>
+        <li data-es="Calorías y macros calculados con tu peso" data-en="Calories and macros calculated with your weight">Calorías y macros calculados con tu peso</li>
+        <li data-es="Tus macros del día cada mañana en Telegram" data-en="Your daily macros every morning on Telegram">Tus macros del día cada mañana en Telegram</li>
+      </ul>
+      <a class="buy" href="https://buy.stripe.com/4gM8wQ7365is9eC5em1gZ0Y" data-es="Quiero este pack" data-en="Get this pack">Quiero este pack</a>
+    </div>
+    <div class="pack">
+      <div class="ic">💊</div>
+      <h3 data-es="Pack Suplementos" data-en="Supplements Pack">Pack Suplementos</h3>
+      <div class="pp">1,99 € <small data-es="/ mes" data-en="/ month">/ mes</small></div>
+      <ul>
+        <li data-es="Tu combinación de suplementos a medida" data-en="Your custom supplement stack">Tu combinación de suplementos a medida</li>
+        <li data-es="Dosis y horario según tu peso y objetivo" data-en="Doses and timing for your weight and goal">Dosis y horario según tu peso y objetivo</li>
+        <li data-es="Solo lo que tiene evidencia científica" data-en="Only what is backed by science">Solo lo que tiene evidencia científica</li>
+      </ul>
+      <a class="buy" href="https://buy.stripe.com/9B614oafibGQbmKgX41gZ0Z" data-es="Quiero este pack" data-en="Get this pack">Quiero este pack</a>
+    </div>
+    <div class="pack full">
+      <span class="tag" data-es="⭐ MÁS ELEGIDO" data-en="⭐ MOST POPULAR">⭐ MÁS ELEGIDO</span>
+      <div class="ic">⭐</div>
+      <h3 data-es="Pack Completo" data-en="Complete Pack">Pack Completo</h3>
+      <div class="pp">4,99 € <small data-es="/ mes" data-en="/ month">/ mes</small></div>
+      <ul>
+        <li data-es="Entrenamiento + Nutrición + Suplementos" data-en="Training + Nutrition + Supplements">Entrenamiento + Nutrición + Suplementos</li>
+        <li data-es="Planificador total sin límites" data-en="Unlimited full planner">Planificador total sin límites</li>
+        <li data-es="Todo tu plan cada mañana en Telegram" data-en="Your whole plan every morning on Telegram">Todo tu plan cada mañana en Telegram</li>
+      </ul>
+      <a class="buy" href="https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W" data-es="Quiero el Pack Completo" data-en="Get the Complete Pack">Quiero el Pack Completo</a>
+      <div class="save" data-es="Ahorras 2,98 € al mes" data-en="Save 2.98 € a month">Ahorras 2,98 € al mes</div>
+    </div>
   </section>
 
   <section class="prem-grid">
@@ -78,7 +117,7 @@
       </ul>
     </div>
     <div class="prem-col pro">
-      <h3 style="color:var(--gold,#d4af37)">⭐ Premium</h3>
+      <h3 style="color:var(--gold,#d4af37)" data-es="⭐ Con tus packs" data-en="⭐ With your packs">⭐ Con tus packs</h3>
       <ul>
         <li class="on" data-es="Entrenamiento personal cada mañana en tu Telegram, según tu peso y objetivo" data-en="Personal workout every morning on your Telegram, based on your weight and goal">Entrenamiento personal cada mañana en tu Telegram, según tu peso y objetivo</li>
         <li class="on" data-es="Todas las rutinas de cada objetivo (volumen, definición, brazos, piernas)" data-en="Every routine for each goal (bulk, cut, arms, legs)">Todas las rutinas de cada objetivo (volumen, definición, brazos, piernas)</li>
@@ -87,7 +126,7 @@
         <li class="on" data-es="Planificador total: calorías, macros y rutina juntos" data-en="Full planner: calories, macros and routine together">Planificador total: calorías, macros y rutina juntos</li>
         <li class="on" data-es="Sin permanencia: cancela cuando quieras" data-en="No commitment: cancel anytime">Sin permanencia: cancela cuando quieras</li>
       </ul>
-      <a class="prem-buy" href="https://buy.stripe.com/fZueVefzC9yI0I66iq1gY2W" data-es="Empezar por 4,99 €/mes" data-en="Start for 4.99 €/month">Empezar por 4,99 €/mes</a>
+      <a class="prem-buy" href="#packs" data-es="Elegir mi pack" data-en="Choose my pack">Elegir mi pack</a>
     </div>
   </section>
 
@@ -109,6 +148,5 @@
     document.querySelectorAll("[data-es]").forEach(function (el) { el.textContent = el.getAttribute("data-" + lang); });
   })();
 </script>
-  <script src="self-heal.js"></script>
 </body>
 </html>
