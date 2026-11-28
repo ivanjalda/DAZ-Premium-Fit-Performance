@@ -1,14 +1,14 @@
 {
-  "fecha_utc": "2026-11-27 18:54 UTC",
+  "fecha_utc": "2026-11-28 01:50 UTC",
   "estado": "OK",
   "archivos_verificados": 5,
   "paginas_verificadas": 6,
   "cambios_detectados": [
-    "data/nutrition_matrix.json",
-    "data/fitness_plans.json",
-    "data/supplement_analysis.json",
-    "data/marketing_showcase.json",
-    "data/blog_posts.json"
+    "index.html",
+    "entrenamiento.html",
+    "nutricion.html",
+    "suplementacion.html",
+    "ciencia.html"
   ],
   "errores": []
 }
